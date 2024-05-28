@@ -50,4 +50,8 @@ public class Venta {
 	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}	
+
+	public void ReservarProductos() {	
+		
+	}
 }
