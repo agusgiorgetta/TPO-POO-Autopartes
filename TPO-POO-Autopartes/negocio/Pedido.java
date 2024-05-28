@@ -45,17 +45,4 @@ public class Pedido {
 	public void setDetalles(String detalles) {
 		this.detalles = detalles;
 	}
-	
-	//lo mismo, creo q las pondria en admin
-	public void CargarPedido(Pedido p) { //le pondria mejor este parametroy pediria los datos en el ejecutable
-		
-	}
-	
-	public void CancelarPedido(int codigo) { //mejor pedir el cod y buscarlo en los pedidos
-		
-	}
-	
-	public void ReservarProductos(Autoparte a) { //esta creo q seria una de los metodos q agrega pedido si es extend de venta
-		
-	}
 }
