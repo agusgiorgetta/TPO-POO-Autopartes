@@ -1,6 +1,6 @@
 package negocio;
 
-public class Pedido {
+public class Pedido extends Venta {
 	
 	private int codigo;
 	private String fecha;
@@ -44,5 +44,8 @@ public class Pedido {
 	}
 	public void setDetalles(String detalles) {
 		this.detalles = detalles;
+	}
+	public void ReservarProductos() {
+
 	}
 }
