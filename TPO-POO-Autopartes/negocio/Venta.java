@@ -1,6 +1,6 @@
 package negocio;
 
-public class Venta {
+public abstract class Venta {
 	
 	private int codigo;
 	private String cliente;
@@ -51,7 +51,7 @@ public class Venta {
 		this.telefono = telefono;
 	}	
 
-	public void ReservarProductos() {	
+	public abstract void ReservarProductos() {	
 		
 	}
 }
