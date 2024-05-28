@@ -49,36 +49,5 @@ public class Venta {
 
 	public void setTelefono(int telefono) {
 		this.telefono = telefono;
-	}
-
-	
-	//estasson las funcionalidades q creo q no van aca
-	public void RegistrarVentaConPedido(Pedido p) {
-		
-	}
-	
-	public void RegistrarVentaSinPedido(Autoparte a) {
-		
-	}
-	
-	public void DisponibilidadStock(Autoparte a) {
-		
-	}
-	
-	public void ModificarStock(Autoparte a, int nuevoStock) {
-		
-	}
-	
-	public void GenerarFactura(Venta v) {	//para mi cliente se incluye en venta
-		
-	}
-	
-	public void RegistrarMedioDePago(String medio) {
-		
-	}
-	
-	public void ReservarProductos(Cliente c) {	//no iria en pedido(?
-		
-	}
-	
+	}	
 }
