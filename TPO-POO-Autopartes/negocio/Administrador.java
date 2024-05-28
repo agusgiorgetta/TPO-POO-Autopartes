@@ -66,9 +66,6 @@ public class Administrador {
 	public void ListarCatalogo() {
 		
 	}
-	public void EliminarDelCatalogo(Autoparte a) {
-		
-	}
 
 	public void ModificarCatalogo(Autoparte a) {
 		
@@ -78,7 +75,39 @@ public class Administrador {
 		
 	}
 	
+	public void EliminarDelCatalogo(Autoparte a) {
+		
+	}
+
 	public void ModificarStock(Autoparte a, int nuevoStock) {
 		//tenemos q decidir donde meter esta q esta REPETIDA en venta
+	}
+
+	public void CargarPedido(Pedido p) { //le pondria mejor este parametroy pediria los datos en el ejecutable
+		
+	}
+	
+	public void CancelarPedido(int codigo) { //mejor pedir el cod y buscarlo en los pedidos
+		
+	}
+
+	public void RegistrarVentaConPedido(Pedido p) {
+		
+	}
+	
+	public void RegistrarVentaSinPedido(Autoparte a) {
+		
+	}
+	
+	public void DisponibilidadStock(Autoparte a) {
+		
+	}
+
+	public void RegistrarMedioDePago(String medio) {
+		
+	}
+	
+	public void GenerarFactura(Venta v) {
+
 	}
 }
