@@ -1,5 +1,7 @@
 package negocio;
 
+import java.util.ArrayList;
+
 public class Autoparte {	//creo q hay q convertir el catalogo en una lista con elementos Autoparte
 	
 	private int codigo;
@@ -12,6 +14,12 @@ public class Autoparte {	//creo q hay q convertir el catalogo en una lista con e
 	private int cantStock;
 	private String enlace;
 	private double precio;	//tantos detalles iba a tener q pesada la consigna
+	
+	private ArrayList<Autoparte> autoparte;
+	
+	public Autoparte() {
+		autoparte = new ArrayList<Autoparte>();
+	}
 	
 	public int getCodigo() {
 		return codigo;

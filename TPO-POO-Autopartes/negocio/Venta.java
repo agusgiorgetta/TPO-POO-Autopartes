@@ -7,9 +7,6 @@ public abstract class Venta {
 	private String provincia;
 	private String localidad;
 	private int telefono;
-	//pedido(? creo q no es una variable de aca, ya esta la clase
-	//hay q relacionarlas nomas, mismo capaz pedido puede ser un extend xq es un
-	//agregado 'opcional' de ciertos casos
 	
 	public int getCodigo() {
 		return codigo;
@@ -51,7 +48,5 @@ public abstract class Venta {
 		this.telefono = telefono;
 	}	
 
-	public abstract void ReservarProductos() {	
-		
-	}
+	public abstract void ReservarProductos(); 	
 }
