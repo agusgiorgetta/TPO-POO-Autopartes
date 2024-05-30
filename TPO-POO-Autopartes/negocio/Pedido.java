@@ -1,8 +1,11 @@
 package negocio;
 
+import java.util.ArrayList;
+
 public class Pedido extends Venta {
 	
 	private int codigo;
+	private int id;
 	private String fecha;
 	private double montoTotal;
 	private String usuario;
@@ -14,6 +17,12 @@ public class Pedido extends Venta {
 	}
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getFecha() {
 		return fecha;

@@ -110,47 +110,47 @@ public class Administrador {
 					System.out.print("Introduzca el nuevo código: ");
 					int codigoNuevo = leer.nextInt();
 					catalogo.get(i).setCodigo(codigoNuevo);
-					System.out.print("Se ha modificado exitosamente el código del autoparte!");
+					System.out.println("Se ha modificado exitosamente el código del autoparte!");
 				}else if(opcion == 2) {
 					System.out.print("Introduzca la nueva denominación: ");
 					String denominacion = leer.next();
 					catalogo.get(i).setDenominacion(denominacion);
-					System.out.print("Se ha modificado exitosamente la denominacion del autoparte!");
+					System.out.println("Se ha modificado exitosamente la denominacion del autoparte!");
 				}else if(opcion == 3) {
 					System.out.print("Introduzca la nueva descripción: ");
 					String descripcion = leer.next();
 					catalogo.get(i).setDescripcion(descripcion);
-					System.out.print("Se ha modificado exitosamente la descripción del autoparte!");
+					System.out.println("Se ha modificado exitosamente la descripción del autoparte!");
 				}else if(opcion == 4) {
 					System.out.print("Introduzca la nueva categoría: ");
 					String categoria = leer.next();
 					catalogo.get(i).setCategoria(categoria);
-					System.out.print("Se ha modificado exitosamente la categoría del autoparte!");
+					System.out.println("Se ha modificado exitosamente la categoría del autoparte!");
 				}else if(opcion == 5) {
 					System.out.print("Introduzca la marca: ");
 					String marca = leer.next();
 					catalogo.get(i).setMarca(marca);
-					System.out.print("Se ha modificado exitosamente la marca del autoparte!");
+					System.out.println("Se ha modificado exitosamente la marca del autoparte!");
 				}else if(opcion == 6) {
 					System.out.print("Introduzca el modelo: ");
 					String modelo = leer.next();
 					catalogo.get(i).setModelo(modelo);
-					System.out.print("Se ha modificado exitosamente el modelo del autoparte!");
+					System.out.println("Se ha modificado exitosamente el modelo del autoparte!");
 				}else if(opcion == 7) {
 					System.out.print("Introduzca el nuevo precio: ");
 					double precio = leer.nextDouble();
 					catalogo.get(i).setPrecio(precio);
-					System.out.print("Se ha modificado exitosamente el precio del autoparte!");
+					System.out.println("Se ha modificado exitosamente el precio del autoparte!");
 				}else if(opcion == 8) {
 					System.out.print("Introduzca el nuevo stock mínimo: ");
 					int stockMinimo = leer.nextInt();
 					catalogo.get(i).setCantStock(stockMinimo);
-					System.out.print("Se ha modificado exitosamente el stock mínimo del autoparte!");
+					System.out.println("Se ha modificado exitosamente el stock mínimo del autoparte!");
 				}else if(opcion == 9) {
-					System.out.print("Introduzca el nuevo enlace: ");
+					System.out.println("Introduzca el nuevo enlace: ");
 					String enlace = leer.next();
 					catalogo.get(i).setEnlace(enlace);
-					System.out.print("Se ha modificado exitosamente el enlace del autoparte!");
+					System.out.println("Se ha modificado exitosamente el enlace del autoparte!");
 				}else {
 					return;
 				}
@@ -169,24 +169,36 @@ public class Administrador {
 					catalogo.remove(i);
 				}
 			}
-			System.out.print("Autoparte eliminada exitosamente!");
+			System.out.println("Autoparte eliminada exitosamente!");
 		}else {
 			return;
 		}
 	}
 	//modifica el stock de una autoparte mediante su codigo y se lo guarda en el catalogo
 	public void ModificarStock(int codigo, int nuevoStock) {
+		int stockAntiguo = 0; 
+		int stockMinimo = 0; //stock mínimo permitido
+		
 		if(catalogoVacio() == false) {
 			for(int i = 0; i < catalogo.size(); i++) {
 				if(catalogo.get(i).getCodigo() == codigo) {
-					catalogo.get(i).setCantStock(nuevoStock);
+					stockAntiguo = catalogo.get(i).getCantStock();
+					stockMinimo = catalogo.get(i).getStockMinimo();
+					if(stockMinimo == 0 && nuevoStock == 0) {
+						catalogo.get(i).setCantStock(0);
+					}else if(((nuevoStock + stockAntiguo) >= stockMinimo) && nuevoStock != 0) {
+						catalogo.get(i).setCantStock(nuevoStock + stockAntiguo);
+					}else if(((nuevoStock + stockAntiguo) < stockMinimo) || (nuevoStock != stockMinimo) && nuevoStock < stockMinimo) {
+						System.out.println("El stock mínimo es de " + stockMinimo + " , no se permiten números inferiores. Intente nuevamente!");
+						return;
+					}
 				}
 				else {
 					existeAutoparte(codigo);
 					return;
 				}
 			}
-			System.out.print("Stock modificado exitosamente!");
+			System.out.println("Stock modificado exitosamente!");
 		}else {
 			return;
 		}
@@ -207,28 +219,28 @@ public class Administrador {
 	public void RegistrarVentaSinPedido(Autoparte a) {
 		
 	}
-	// Verifica la disponibilidad y la cantidad de stock de un autoparte
-	public void DisponibilidadStock(int codigo) {
+	// Verifica la disponibilidad y la cantidad de stock de un autoparte y devuelve el stock disponible
+	public int DisponibilidadStock(int codigo) {
 		int stock;
 		if(catalogoVacio() == false) {
 			for(int i = 0; i < catalogo.size(); i++) {
 				if(catalogo.get(i).getCodigo() == codigo) {
 					stock = catalogo.get(i).getCantStock();
 					if(stock == 1) {
-						System.out.print("La autoparte " + codigo + " dispone de un stock de " + stock + " unidad");
+						System.out.println("La autoparte " + codigo + " dispone de un stock de " + stock + " unidad");
+						return stock;
 					}else if(stock > 1) {
-						System.out.print("La autoparte " + codigo + " dispone de un stock de " + stock + " unidades");
+						System.out.println("La autoparte " + codigo + " dispone de un stock de " + stock + " unidades");
+						return stock;
 					}else {
-						System.out.print("La autoparte " + codigo + "no dispone de stock disponible");
+						System.out.println("La autoparte " + codigo + "no dispone de stock disponible");
 					}
 				}else {
 					existeAutoparte(codigo);
-					return;
 				}	
 			}
-		}else {
-			return;
 		}
+		return 0;
 	}
 	// Verifica la opcion y los datos introducidos por el administrador
 	public void RegistrarMedioDePago(int medio) {
