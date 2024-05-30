@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Ejecutable {
 	
 	private static Administrador admin = new Administrador();
-	private static Autoparte autoparte = new Autoparte();
 	private static Pedido pedido = new Pedido();
 	private static Cliente cliente = new Cliente();
 
@@ -49,9 +48,9 @@ public class Ejecutable {
 					}else if(opcion == 6) {
 						stockDisponible();
 					}else if(opcion == 7) {
-						//cargarPedido();
+						cargarPedido();
 					}else if(opcion == 8) {
-						//cancelarPedido();
+						cancelarPedido();
 					}else if(opcion == 9) {
 						//registrarVentaConPedido();
 					}else if(opcion == 10) {
@@ -60,7 +59,8 @@ public class Ejecutable {
 						//generarFactura();
 					}else if(opcion == 0) {
 						if(admin.CerrarSesion() == true) {
-							System.out.print("Se ha finalizado la sesión exitosamente!");
+							System.out.println("Se ha finalizado la sesión exitosamente!");
+							System.out.println("-------------------- TUTTA LA MACCHINA ----------------------");
 							validar = false;
 							leer.close();
 							break;
@@ -85,6 +85,7 @@ public class Ejecutable {
 		System.out.print("Introduzca el código: ");
 		int codigo = leer.nextInt();
 		autoparte.setCodigo(codigo);
+
 		
 		System.out.print("Introduzca la denominación: ");
 		String denominacion = leer.next();
@@ -92,7 +93,7 @@ public class Ejecutable {
 		
 		leer.nextLine();
 		
-		System.out.println("Introduzca la descripción: ");
+		System.out.print("Introduzca la descripción: ");
 		String descripcion = leer.nextLine();
 		autoparte.setDescripcion(descripcion);
 		
@@ -100,12 +101,16 @@ public class Ejecutable {
 		String categoria = leer.next();
 		autoparte.setCategoria(categoria);
 		
+		leer.nextLine();
+		
 		System.out.print("Introduzca la marca: ");
 		String marca = leer.next();
 		autoparte.setMarca(marca);
 		
+		leer.nextLine();
+		
 		System.out.print("Introduzca el modelo: ");
-		String modelo = leer.next();
+		String modelo = leer.nextLine();
 		autoparte.setModelo(modelo);
 		
 		System.out.print("Introduzca el precio: ");
@@ -154,7 +159,6 @@ public class Ejecutable {
 		if(admin.existeAutoparte(codigo) == true) {
 			System.out.print("Introduzca el nuevo stock: ");
 			int stock = leer.nextInt();
-			
 			admin.ModificarStock(codigo, stock);
 		}
 	}
@@ -186,4 +190,65 @@ public class Ejecutable {
 			admin.DisponibilidadStock(codigo);
 		}
 	}
-}
+	
+	public static void cargarPedido() {
+		
+		Pedido pedido = new Pedido();
+		boolean verificar = true;
+		int stock = 0;
+		Scanner leer = new Scanner(System.in);
+		
+		System.out.print("Introduzca el número del pedido: ");
+		int numero = leer.nextInt();
+		pedido.setCodigo(numero);
+		
+		System.out.print("Introduzca la fecha del pedido: ");
+		String fecha = leer.next();
+		pedido.setFecha(fecha);
+		
+		leer.nextLine();
+		
+		System.out.print("Introduzca el nombre del usuario: ");
+		String usuario = leer.nextLine();
+		pedido.setCliente(usuario);
+		
+		System.out.print("Introduzca el ID de la autoparte: ");
+		int id = leer.nextInt();
+		pedido.setId(id);
+		
+		stock = admin.DisponibilidadStock(id);
+		
+		while(verificar) {
+			System.out.print("Introduzca la cantidad necesitada: ");
+			int cantidad = leer.nextInt();
+				if(cantidad < stock) {
+					pedido.setCantidad(cantidad);
+					verificar = false;
+					
+					// reduce el stock
+					admin.ModificarStock(id, -cantidad);
+					
+					//Faltan los detalles de la autoparte
+					//No entiendo como funciona getDetalles
+					//Teoricamente para obtener los detalles debe recorrer
+					//catálogo en búsqueda de una autoparte y automaticamente
+					//incluir el detalle en el pedido
+					
+					admin.CargarPedido(pedido);
+				}else {
+					System.out.println("Solo hay " + stock + " unidades en stock, intente nuevamente");
+				}
+			}
+		}
+	
+	public static void cancelarPedido() {
+		
+		Scanner leer = new Scanner(System.in);
+		
+		System.out.print("Introduzca el número de pedido a cancelar: ");
+		int numero = leer.nextInt();
+		
+	}
+		
+	}
+
