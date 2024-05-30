@@ -32,7 +32,7 @@ public class Ejecutable {
 				while(verificador) {
 					
 					System.out.println("\n--------------------------- MENÚ ---------------------------");
-					System.out.print("[1] Agregar autoparte \n[2] Mostrar autopartes \n[3] Eliminar autoparte del catálogo \n[4] Modificar stock autoparte \n[5] Modificar catálogo \n[0] Cerrar Sesión \nOPCION: ");
+					System.out.print("[1] Agregar autoparte \n[2] Mostrar autopartes \n[3] Eliminar autoparte del catálogo \n[4] Modificar stock autoparte \n[5] Modificar catálogo \n[6] Disponibilidad stock de una autoparte \n[7] Cargar pedido \n[8] Cancelar pedido \n[9] Registrar venta con pedido \n[10] Registrar venta sin pedido \n[11] Generar factura \n[0] Cerrar Sesión \n\nOPCION: ");
 					
 					int opcion = leer.nextInt();
 		
@@ -46,10 +46,23 @@ public class Ejecutable {
 						modificarStock();
 					}else if(opcion == 5) {
 						modificarCatalogo();
+					}else if(opcion == 6) {
+						stockDisponible();
+					}else if(opcion == 7) {
+						//cargarPedido();
+					}else if(opcion == 8) {
+						//cancelarPedido();
+					}else if(opcion == 9) {
+						//registrarVentaConPedido();
+					}else if(opcion == 10) {
+						//registrarVentaSinPedido();
+					}else if(opcion == 11) {
+						//generarFactura();
 					}else if(opcion == 0) {
 						if(admin.CerrarSesion() == true) {
 							System.out.print("Se ha finalizado la sesión exitosamente!");
 							validar = false;
+							leer.close();
 							break;
 						}
 					}
@@ -66,62 +79,53 @@ public class Ejecutable {
 	
 	public static void agregarAutoparte() {
 		
+		Autoparte autoparte = new Autoparte();
 		Scanner leer = new Scanner(System.in);
+			
+		System.out.print("Introduzca el código: ");
+		int codigo = leer.nextInt();
+		autoparte.setCodigo(codigo);
 		
-		boolean confirmar = true;
+		System.out.print("Introduzca la denominación: ");
+		String denominacion = leer.next();
+		autoparte.setDenominacion(denominacion);
 		
-		while(confirmar) {
-			
-			System.out.print("Introduzca el código: ");
-			int codigo = leer.nextInt();
-			autoparte.setCodigo(codigo);
-			
-			System.out.print("Introduzca la denominación: ");
-			String denominacion = leer.next();
-			autoparte.setDenominacion(denominacion);
-			
-			leer.nextLine();
-			
-			System.out.println("Introduzca la descripción: ");
-			String descripcion = leer.nextLine();
-			autoparte.setDescripcion(descripcion);
-			
-			System.out.print("Introduzca la categoria: ");
-			String categoria = leer.next();
-			autoparte.setCategoria(categoria);
-			
-			System.out.print("Introduzca la marca: ");
-			String marca = leer.next();
-			autoparte.setMarca(marca);
-			
-			System.out.print("Introduzca el modelo: ");
-			String modelo = leer.next();
-			autoparte.setModelo(modelo);
-			
-			System.out.print("Introduzca el precio: ");
-			double precio = leer.nextDouble();
-			autoparte.setPrecio(precio);
-			
-			System.out.print("Introduzca el stock: ");
-			int stock = leer.nextInt();
-			autoparte.setCantStock(stock);
-			
-			System.out.print("Introduzca el stock minimo: ");
-			int stockMinimo = leer.nextInt();
-			autoparte.setStockMinimo(stockMinimo);
-			
-			System.out.print("Introduzca el enlace: ");
-			String enlace = leer.next();
-			autoparte.setEnlace(enlace);
-			
-			System.out.println("Desea cargar otra autoparte? [1] = Si | [2] = No: ");
-			int opcion = leer.nextInt();
-			
-			if(opcion == 2) {
-				admin.CargarAutoparte(autoparte);
-				confirmar = false;
-			}
-		}
+		leer.nextLine();
+		
+		System.out.println("Introduzca la descripción: ");
+		String descripcion = leer.nextLine();
+		autoparte.setDescripcion(descripcion);
+		
+		System.out.print("Introduzca la categoria: ");
+		String categoria = leer.next();
+		autoparte.setCategoria(categoria);
+		
+		System.out.print("Introduzca la marca: ");
+		String marca = leer.next();
+		autoparte.setMarca(marca);
+		
+		System.out.print("Introduzca el modelo: ");
+		String modelo = leer.next();
+		autoparte.setModelo(modelo);
+		
+		System.out.print("Introduzca el precio: ");
+		double precio = leer.nextDouble();
+		autoparte.setPrecio(precio);
+		
+		System.out.print("Introduzca el stock: ");
+		int stock = leer.nextInt();
+		autoparte.setCantStock(stock);
+		
+		System.out.print("Introduzca el stock minimo: ");
+		int stockMinimo = leer.nextInt();
+		autoparte.setStockMinimo(stockMinimo);
+		
+		System.out.print("Introduzca el enlace: ");
+		String enlace = leer.next();
+		autoparte.setEnlace(enlace);
+		
+		admin.CargarAutoparte(autoparte);
+		System.out.println("Autoparte cargada exitosamente!");
 	}
 	
 	public static void mostrarCatalogo() {
@@ -169,5 +173,17 @@ public class Ejecutable {
 			
 			admin.ModificarCatalogo(codigo, opcion);
 		}	
+	}
+	
+	public static void stockDisponible() {
+		
+		Scanner leer = new Scanner(System.in);
+		
+		System.out.print("Introduzca el código del autoparte para averiguar su stock disponible: ");
+		int codigo = leer.nextInt();
+		
+		if(admin.existeAutoparte(codigo) == true) {
+			admin.DisponibilidadStock(codigo);
+		}
 	}
 }
