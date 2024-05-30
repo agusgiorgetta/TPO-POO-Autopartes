@@ -218,6 +218,9 @@ public class Ejecutable {
 		
 		stock = admin.DisponibilidadStock(id);
 		
+		//en caso de ingresar una cantidad superior al stock
+		//permite pedir nuevamente el dato sin la necesidad de 
+		//realizar nuevamente el proceso
 		while(verificar) {
 			System.out.print("Introduzca la cantidad necesitada: ");
 			int cantidad = leer.nextInt();
@@ -247,8 +250,9 @@ public class Ejecutable {
 		
 		System.out.print("Introduzca el número de pedido a cancelar: ");
 		int numero = leer.nextInt();
+		admin.CancelarPedido(numero);
 		
-	}
-		
-	}
+		System.out.println("Pedido cancelado exitosamente!");
+	}	
+}
 
