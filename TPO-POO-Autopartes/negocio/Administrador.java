@@ -207,7 +207,7 @@ public class Administrador {
 	public void CargarPedido(Pedido p) { 
 		pedidos.add(p);
 	}
-	// Verifica que exista el pedido y lo cancela en base al numero de pedido
+	// Verifica que exista el pedido, lo cancela en base al numero de pedido y devuelve el stock
 	public void CancelarPedido(int codigo) { 
 		
 	}
