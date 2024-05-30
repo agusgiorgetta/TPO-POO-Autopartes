@@ -2,18 +2,18 @@ package negocio;
 
 import java.util.ArrayList;
 
-public class Autoparte {	//creo q hay q convertir el catalogo en una lista con elementos Autoparte
+public class Autoparte {
 	
 	private int codigo;
 	private String denominacion;
 	private String descripcion;
 	private String categoria; 
-	private String modelo; //en el dicc dedatos aclara q modelo == vehiculo
+	private String modelo; 
 	private String marca;
 	private int stockMinimo;
 	private int cantStock;
 	private String enlace;
-	private double precio;	//tantos detalles iba a tener q pesada la consigna
+	private double precio;	
 	
 	private ArrayList<Autoparte> autoparte;
 	
@@ -85,7 +85,7 @@ public class Autoparte {	//creo q hay q convertir el catalogo en una lista con e
 	public void StockMinimo(Autoparte a) {//esto se pregunta no? no iria en admin tmb?
 		
 	}
-	
+	// Avisa luego de realizar una venta en caso de que quede poco stock
 	public void StockInsuficiente(Autoparte a) { 
 		//este puede ser q se invoque aca cuando se modifica elstock y queda en nada
 		//pero no se, capaz se puede poner en un if y obviarlo de java, convengamos q 

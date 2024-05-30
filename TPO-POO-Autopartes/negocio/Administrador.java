@@ -191,35 +191,54 @@ public class Administrador {
 			return;
 		}
 	}
-
-	public void CargarPedido(Pedido p) { //le pondria mejor este parametroy pediria los datos en el ejecutable
+	// Carga un pedido al contenedor de pedidos
+	public void CargarPedido(Pedido p) { 
+		pedidos.add(p);
+	}
+	// Verifica que exista el pedido y lo cancela en base al numero de pedido
+	public void CancelarPedido(int codigo) { 
 		
 	}
-	
-	public void CancelarPedido(int codigo) { //mejor pedir el cod y buscarlo en los pedidos
-		
-	}
-
+	// Realiza una venta de un autoparte CON pedido para un cliente
 	public void RegistrarVentaConPedido(Pedido p) {
 		
 	}
-	
+	// Realiza una venta de un autoparte para un cliente SIN un pedido previo
 	public void RegistrarVentaSinPedido(Autoparte a) {
 		
 	}
-	
-	public void DisponibilidadStock(Autoparte a) {
+	// Verifica la disponibilidad y la cantidad de stock de un autoparte
+	public void DisponibilidadStock(int codigo) {
+		int stock;
+		if(catalogoVacio() == false) {
+			for(int i = 0; i < catalogo.size(); i++) {
+				if(catalogo.get(i).getCodigo() == codigo) {
+					stock = catalogo.get(i).getCantStock();
+					if(stock == 1) {
+						System.out.print("La autoparte " + codigo + " dispone de un stock de " + stock + " unidad");
+					}else if(stock > 1) {
+						System.out.print("La autoparte " + codigo + " dispone de un stock de " + stock + " unidades");
+					}else {
+						System.out.print("La autoparte " + codigo + "no dispone de stock disponible");
+					}
+				}else {
+					existeAutoparte(codigo);
+					return;
+				}	
+			}
+		}else {
+			return;
+		}
+	}
+	// Verifica la opcion y los datos introducidos por el administrador
+	public void RegistrarMedioDePago(int medio) {
 		
 	}
-
-	public void RegistrarMedioDePago(String medio) {
-		
-	}
-	
+	// Genera la factura de la venta de un autoparte relacionada con un cliente
 	public void GenerarFactura(Venta v) {
 
 	}
-	
+	// Verifica si existe "x" autoparte dentro del catálogo. Si no existe devuelve false, caso contrario true
 	public boolean existeAutoparte(int codigo) {
 		if(catalogoVacio() == false) {
 			for(int i = 0; i < catalogo.size(); i++) {
@@ -233,6 +252,7 @@ public class Administrador {
 		}
 		return true;
 	}
+	//Verifica si el catálogo no dispone de autopartes y devuelve true en caso de serlo. Caso contrario devuelve false
 	public boolean catalogoVacio() {
 		if(catalogo.isEmpty()) {
 			System.out.println("El catálogo está vacío, se necesita al menos 1 autoparte");
