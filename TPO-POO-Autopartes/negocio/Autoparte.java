@@ -1,7 +1,5 @@
 package negocio;
 
-import java.util.ArrayList;
-
 public class Autoparte {
 	
 	private int codigo;
@@ -13,13 +11,7 @@ public class Autoparte {
 	private int stockMinimo;
 	private int cantStock;
 	private String enlace;
-	private double precio;	
-	
-	private ArrayList<Autoparte> autoparte;
-	
-	public Autoparte() {
-		autoparte = new ArrayList<Autoparte>();
-	}
+	private double precio;
 	
 	public int getCodigo() {
 		return codigo;
@@ -82,9 +74,6 @@ public class Autoparte {
 		this.precio = precio;
 	}
 	
-	public void StockMinimo(Autoparte a) {//esto se pregunta no? no iria en admin tmb?
-		
-	}
 	// Avisa luego de realizar una venta en caso de que quede poco stock
 	public void StockInsuficiente(Autoparte a) { 
 		//este puede ser q se invoque aca cuando se modifica elstock y queda en nada

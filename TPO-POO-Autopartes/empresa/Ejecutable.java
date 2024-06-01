@@ -7,15 +7,15 @@ public class Ejecutable {
 	private static Administrador admin = new Administrador();
 	private static Pedido pedido = new Pedido();
 	private static Cliente cliente = new Cliente();
-
+	
+	static Scanner leer = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		
 		boolean verificador = true;
 		boolean validar = true;
 		int contador = 3;
-		
-		Scanner leer = new Scanner(System.in);
-		
+			
 		System.out.println("-------------- BIENVENIDO A TUTTA LA MACCHINA --------------");
 		System.out.println("Ingrese por favor sus datos");
 		
@@ -52,7 +52,7 @@ public class Ejecutable {
 					}else if(opcion == 8) {
 						cancelarPedido();
 					}else if(opcion == 9) {
-						//registrarVentaConPedido();
+						registrarVentaConPedido();
 					}else if(opcion == 10) {
 						//registrarVentaSinPedido();
 					}else if(opcion == 11) {
@@ -80,8 +80,7 @@ public class Ejecutable {
 	public static void agregarAutoparte() {
 		
 		Autoparte autoparte = new Autoparte();
-		Scanner leer = new Scanner(System.in);
-			
+		
 		System.out.print("Introduzca el código: ");
 		int codigo = leer.nextInt();
 		autoparte.setCodigo(codigo);
@@ -138,9 +137,7 @@ public class Ejecutable {
 	}
 	
 	public static void eliminarAutoparte() {
-		
-		Scanner leer = new Scanner(System.in);
-		
+				
 		System.out.print("Introduzca el código del autoparte: ");
 		int codigo = leer.nextInt();
 		
@@ -150,29 +147,28 @@ public class Ejecutable {
 	}
 	
 	public static void modificarStock() {
-		
-		Scanner leer = new Scanner(System.in);
-		
+			
 		System.out.print("Introduzca el código del autoparte para modificar su stock: ");
 		int codigo = leer.nextInt();
 		
 		if(admin.existeAutoparte(codigo) == true) {
+			System.out.print("OPCIONES: \n[1] Sumar unidades al stock actual \n[2] Reemplazar el valor del stock \nOPCION: ");
+			int opcion = leer.nextInt();
 			System.out.print("Introduzca el nuevo stock: ");
 			int stock = leer.nextInt();
-			admin.ModificarStock(codigo, stock);
+			admin.ModificarStock(codigo, stock, opcion);
 		}
+		System.out.println("Stock modificado exitosamente!");
 	}
 	
 	public static void modificarCatalogo() {
-		
-		Scanner leer = new Scanner(System.in);
 		
 		System.out.print("Introduzca el código del autoparte que desea modificar: ");
 		int codigo = leer.nextInt();
 		
 		if(admin.existeAutoparte(codigo) == true) {
 			System.out.println("Que desea modificar del autoparte?");
-			System.out.print("OPCIONES: \n[1] Código \n[2] Denominación \n[3] Descripción \n[4] Categoría \n[5] Marca \n[6] Modelo \n[7] Precio \n[8] Stock Mínimo \n[9] Enlace \n[0] Salir \nOPCION: ");
+			System.out.print("OPCIONES: \n[1] Código \n[2] Denominación \n[3] Descripción \n[4] Categoría \n[5] Marca \n[6] Modelo \n[7] Precio \n[8] Stock Mínimo \n[9] Enlace \n[10] Stock \n[0] Salir \nOPCION: ");
 			int opcion = leer.nextInt();
 			
 			admin.ModificarCatalogo(codigo, opcion);
@@ -180,9 +176,7 @@ public class Ejecutable {
 	}
 	
 	public static void stockDisponible() {
-		
-		Scanner leer = new Scanner(System.in);
-		
+				
 		System.out.print("Introduzca el código del autoparte para averiguar su stock disponible: ");
 		int codigo = leer.nextInt();
 		
@@ -196,8 +190,7 @@ public class Ejecutable {
 		Pedido pedido = new Pedido();
 		boolean verificar = true;
 		int stock = 0;
-		Scanner leer = new Scanner(System.in);
-		
+
 		System.out.print("Introduzca el número del pedido: ");
 		int numero = leer.nextInt();
 		pedido.setCodigo(numero);
@@ -210,17 +203,19 @@ public class Ejecutable {
 		
 		System.out.print("Introduzca el nombre del usuario: ");
 		String usuario = leer.nextLine();
-		pedido.setCliente(usuario);
+		pedido.setUsuario(usuario);
+		
 		
 		System.out.print("Introduzca el ID de la autoparte: ");
 		int id = leer.nextInt();
-		pedido.setId(id);
+		pedido.setId(id); 
 		
 		stock = admin.DisponibilidadStock(id);
-		
-		//en caso de ingresar una cantidad superior al stock
-		//permite pedir nuevamente el dato sin la necesidad de 
-		//realizar nuevamente el proceso
+		if (stock == 0) {
+			return;
+		}
+		//en caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
+		//necesidad de realizar nuevamente el proceso
 		while(verificar) {
 			System.out.print("Introduzca la cantidad necesitada: ");
 			int cantidad = leer.nextInt();
@@ -228,16 +223,13 @@ public class Ejecutable {
 					pedido.setCantidad(cantidad);
 					verificar = false;
 					
-					// reduce el stock
-					admin.ModificarStock(id, -cantidad);
-					
-					//Faltan los detalles de la autoparte
-					//No entiendo como funciona getDetalles
-					//Teoricamente para obtener los detalles debe recorrer
-					//catálogo en búsqueda de una autoparte y automaticamente
-					//incluir el detalle en el pedido
-					
+					// reduce el stock, reserva
+					admin.ModificarStock(id, cantidad, 0);
+					//envia a cargar pedido
 					admin.CargarPedido(pedido);
+					
+					System.out.println("Pedido cargado exitosamente!");
+					
 				}else {
 					System.out.println("Solo hay " + stock + " unidades en stock, intente nuevamente");
 				}
@@ -246,13 +238,35 @@ public class Ejecutable {
 	
 	public static void cancelarPedido() {
 		
-		Scanner leer = new Scanner(System.in);
-		
 		System.out.print("Introduzca el número de pedido a cancelar: ");
 		int numero = leer.nextInt();
 		admin.CancelarPedido(numero);
 		
-		System.out.println("Pedido cancelado exitosamente!");
 	}	
+	
+	public static void registrarVentaConPedido() {
+		Venta venta = new Venta();
+		
+		System.out.print("Introduzca el código de la venta: ");
+		int numero = leer.nextInt();
+		venta.setCodigo(numero);
+		
+		System.out.print("Introduzca el número del pedido a retirar: ");
+		
+		System.out.println("Datos del Cliente.");
+		System.out.print("Introduzca el ID del cliente: ");
+		System.out.print("Introduzca el nombre del cliente: ");
+		System.out.print("Introduzca la dirección del cliente: ");
+		System.out.print("Introduzca la localidad del cliente: ");
+		System.out.print("Introduzca la provincia del cliente: ");
+		System.out.print("Introduzca el correo del cliente: ");
+		System.out.print("Introduzca el teléfono del cliente (sin espacios ni guiones): ");
+		
+		venta.setProvincia("Buenos Aires");
+		venta.setLocalidad("Monserrat");
+		venta.setTelefono(1122334455);
+		
+		admin.RegistrarVentaConPedido();
+	}
 }
 

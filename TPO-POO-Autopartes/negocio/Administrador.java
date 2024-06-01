@@ -63,7 +63,6 @@ public class Administrador {
 		this.perfil = perfil;
 	}
 
-	
 	//Valida los datos introducidos por el Administrador
 	public boolean IniciarSesion(String correo, String contra) {
 		if(correo.equals("admin") && contra.equals("admin")) {
@@ -97,6 +96,7 @@ public class Administrador {
 			return;
 		}
 	}
+	
 	//Utilicé el scanner acá también ya que no puede recibir otro dato debido que hay opciones
 	//que son Strings y otras Int, por ende, recibe la opción elegida por el usuario y se recorre
 	//el catalogo y se modifica la autoparte de acuerdo a lo seleccionado
@@ -144,23 +144,31 @@ public class Administrador {
 				}else if(opcion == 8) {
 					System.out.print("Introduzca el nuevo stock mínimo: ");
 					int stockMinimo = leer.nextInt();
-					catalogo.get(i).setCantStock(stockMinimo);
+					catalogo.get(i).setStockMinimo(stockMinimo);
 					System.out.println("Se ha modificado exitosamente el stock mínimo del autoparte!");
 				}else if(opcion == 9) {
 					System.out.println("Introduzca el nuevo enlace: ");
 					String enlace = leer.next();
 					catalogo.get(i).setEnlace(enlace);
 					System.out.println("Se ha modificado exitosamente el enlace del autoparte!");
+				}else if(opcion == 10) {
+					System.out.println("Introduzca el nuevo stock: ");
+					int stock = leer.nextInt();
+					catalogo.get(i).setCantStock(stock);
+					System.out.println("Se ha modificado exitosamente el stock del autoparte!");
 				}else {
 					return;
 				}
 			}
 		}
+		leer.close();
 	}
+	
 	//carga la autoparte al catalogo
 	public void CargarAutoparte(Autoparte a) {
 		catalogo.add(a);
 	}
+	
 	//elimina la autoparte mediante el código de la misma
 	public void EliminarDelCatalogo(int codigo) {
 		if(catalogoVacio() == false) {
@@ -174,51 +182,103 @@ public class Administrador {
 			return;
 		}
 	}
+	
 	//modifica el stock de una autoparte mediante su codigo y se lo guarda en el catalogo
-	public void ModificarStock(int codigo, int nuevoStock) {
-		int stockAntiguo = 0; 
-		int stockMinimo = 0; //stock mínimo permitido
+	public void ModificarStock(int codigo, int nuevoStock, int opcion) {
+		//int stockAntiguo = 0; 
+		//int stockMinimo = 0; //stock mínimo permitido
 		
 		if(catalogoVacio() == false) {
 			for(int i = 0; i < catalogo.size(); i++) {
 				if(catalogo.get(i).getCodigo() == codigo) {
-					stockAntiguo = catalogo.get(i).getCantStock();
-					stockMinimo = catalogo.get(i).getStockMinimo();
-					if(stockMinimo == 0 && nuevoStock == 0) {
-						catalogo.get(i).setCantStock(0);
-					}else if(((nuevoStock + stockAntiguo) >= stockMinimo) && nuevoStock != 0) {
-						catalogo.get(i).setCantStock(nuevoStock + stockAntiguo);
-					}else if(((nuevoStock + stockAntiguo) < stockMinimo) || (nuevoStock != stockMinimo) && nuevoStock < stockMinimo) {
-						System.out.println("El stock mínimo es de " + stockMinimo + " , no se permiten números inferiores. Intente nuevamente!");
-						return;
+					
+					int stockAntiguo = catalogo.get(i).getCantStock();
+					int stockMinimo = catalogo.get(i).getStockMinimo();
+					int stockFinal = 0;
+					
+					if (opcion == 1) {			//sumar el stock
+						stockFinal = stockAntiguo + nuevoStock;
+						catalogo.get(i).setCantStock(stockFinal);
+						
+					}else if (opcion == 2) {	//modificar stock	
+						stockFinal = nuevoStock;
+						catalogo.get(i).setCantStock(stockFinal);
+						
+					}else {						//restar, en caso de reservas
+						stockFinal = stockAntiguo - nuevoStock;
+						catalogo.get(i).setCantStock(stockFinal);
 					}
+					
+					StockMinimo(stockFinal,stockMinimo);
+					
+					//if(nuevoStock < stockMinimo | (nuevoStock + stockAntiguo) < stockMinimo) {
+					//	System.out.println("Alerta! El stock de esta autoparte se encuentra por debajo el mínimo. Contacte con proveedores.");
+					//}
+					
+					//DEJO EN COMENTADO EL CODIGO Q ESTABA HECHO ANTES
+					//stockAntiguo = catalogo.get(i).getCantStock();
+					//stockMinimo = catalogo.get(i).getStockMinimo();
+					//if(stockMinimo == 0 && nuevoStock == 0) {
+					//	catalogo.get(i).setCantStock(0);
+					//}else if(((nuevoStock + stockAntiguo) >= stockMinimo) && nuevoStock != 0) {
+					//	catalogo.get(i).setCantStock(nuevoStock + stockAntiguo);
+					//}else if(((nuevoStock + stockAntiguo) < stockMinimo) || (nuevoStock != stockMinimo) && nuevoStock < stockMinimo) {
+					//	System.out.println("El stock mínimo es de " + stockMinimo + " , no se permiten números inferiores. Intente nuevamente!");
+					//	return;
+					//}
+					
 				}
 				else {
 					existeAutoparte(codigo);
 					return;
 				}
 			}
-			System.out.println("Stock modificado exitosamente!");
 		}else {
 			return;
 		}
 	}
+	
 	// Carga un pedido al contenedor de pedidos
 	public void CargarPedido(Pedido p) { 
+		
+		//buscamos la autoparte para definir el 'detalle' del pedido (denominacion + precio*cantidad)
+		if(!catalogoVacio()) {
+			for(int i = 0; i < catalogo.size(); i++) {
+				if(catalogo.get(i).getCodigo() == p.getCodigo()) {
+					Autoparte a = catalogo.get(i);
+					p.setDetalles("Artículo: " + a.getDenominacion());	//guarda en detalle el nombre de la autoparte
+					p.setMontoTotal(a.getPrecio()*p.getCantidad());		//guarda el monto total -> precio * cantidad pedida
+				}
+			}
+		}
 		pedidos.add(p);
 	}
+	
 	// Verifica que exista el pedido, lo cancela en base al numero de pedido y devuelve el stock
 	public void CancelarPedido(int codigo) { 
-		
+		boolean pedidoEncontrado = false;
+		for (int i = 0; i < pedidos.size(); i++) {
+			if (pedidos.get(i).getCodigo() == codigo) {
+				pedidos.remove(i);
+				pedidoEncontrado = true;
+				System.out.println("Pedido cancelado exitosamente!");
+			}
+		}
+		if (!pedidoEncontrado) {
+			System.out.println("No exite un pedido con ese código");
+		}
 	}
+	
 	// Realiza una venta de un autoparte CON pedido para un cliente
 	public void RegistrarVentaConPedido(Pedido p) {
 		
 	}
+	
 	// Realiza una venta de un autoparte para un cliente SIN un pedido previo
 	public void RegistrarVentaSinPedido(Autoparte a) {
 		
 	}
+	
 	// Verifica la disponibilidad y la cantidad de stock de un autoparte y devuelve el stock disponible
 	public int DisponibilidadStock(int codigo) {
 		int stock;
@@ -242,14 +302,27 @@ public class Administrador {
 		}
 		return 0;
 	}
+	
 	// Verifica la opcion y los datos introducidos por el administrador
 	public void RegistrarMedioDePago(int medio) {
 		
 	}
+	
 	// Genera la factura de la venta de un autoparte relacionada con un cliente
 	public void GenerarFactura(Venta v) {
 
 	}
+	
+	public void StockMinimo(int stock, int minimo) {
+		if (stock < minimo) {
+			System.out.println("\nAlerta! El stock de esta autoparte se encuentra por debajo el mínimo. Contacte con proveedores.\n");
+			return;
+		}
+		else {
+			return;
+		}
+	}
+	
 	// Verifica si existe "x" autoparte dentro del catálogo. Si no existe devuelve false, caso contrario true
 	public boolean existeAutoparte(int codigo) {
 		if(catalogoVacio() == false) {
@@ -264,6 +337,7 @@ public class Administrador {
 		}
 		return true;
 	}
+	
 	//Verifica si el catálogo no dispone de autopartes y devuelve true en caso de serlo. Caso contrario devuelve false
 	public boolean catalogoVacio() {
 		if(catalogo.isEmpty()) {

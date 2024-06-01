@@ -1,16 +1,14 @@
 package negocio;
 
-import java.util.ArrayList;
-
-public class Pedido extends Venta {
+public class Pedido{
 	
 	private int codigo;
-	private int id;
+	private int id;				//de la autoparte
 	private String fecha;
-	private double montoTotal;
+	private double montoTotal;	//precio*cantidad de la autoparte
 	private String usuario;
-	private int cantidad;
-	private String detalles;
+	private int cantidad;		//de la autoparte
+	private String detalles;	//denominacion
 	
 	public int getCodigo() {
 		return codigo;
@@ -54,7 +52,5 @@ public class Pedido extends Venta {
 	public void setDetalles(String detalles) {
 		this.detalles = detalles;
 	}
-	public void ReservarProductos() {
 
-	}
 }

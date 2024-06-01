@@ -1,12 +1,12 @@
 package negocio;
 
-public abstract class Venta {
+public class Venta {
 	
 	private int codigo;
-	private String cliente;
-	private String provincia;
-	private String localidad;
-	private int telefono;
+	private Cliente cliente;
+	private String provincia;		//como son datos de la sucursal los predefinimos
+	private String localidad;		//como son datos de la sucursal los predefinimos
+	private int telefono;			//como son datos de la sucursal los predefinimos
 	
 	public int getCodigo() {
 		return codigo;
@@ -16,11 +16,11 @@ public abstract class Venta {
 		this.codigo = codigo;
 	}
 
-	public String getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(String cliente) {
+	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
@@ -48,5 +48,4 @@ public abstract class Venta {
 		this.telefono = telefono;
 	}	
 
-	public abstract void ReservarProductos(); 	
 }
