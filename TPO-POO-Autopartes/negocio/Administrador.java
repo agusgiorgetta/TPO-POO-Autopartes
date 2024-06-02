@@ -13,14 +13,11 @@ public class Administrador {
 	private ArrayList<Autoparte> catalogo;
 	private ArrayList<Pedido> pedidos;
 	private ArrayList<Venta> cantVentas;
-	private ArrayList<Venta> detalleVentas;
-	
 	
 	public Administrador() {
 		catalogo = new ArrayList<Autoparte>(); //lista que contiene todas las autopartes
 		pedidos = new ArrayList<Pedido>(); //lista que contiene todos los pedidos
 		cantVentas = new ArrayList<Venta>(); //lista que contiene todas las ventas --> guarda numero factura
-		detalleVentas = new ArrayList<Venta>(); //lista que contiene el detalle de cada venta --> datos usuarios, productos, etc.
 	}
 	
 	public int getCodigo() {
@@ -159,9 +156,9 @@ public class Administrador {
 				}else {
 					return;
 				}
+				leer.close();
 			}
 		}
-		leer.close();
 	}
 	
 	//carga la autoparte al catalogo
@@ -215,7 +212,7 @@ public class Administrador {
 					//	System.out.println("Alerta! El stock de esta autoparte se encuentra por debajo el mínimo. Contacte con proveedores.");
 					//}
 					
-					//DEJO EN COMENTADO EL CODIGO Q ESTABA HECHO ANTES
+					//DEJO COMENTADO EL CODIGO Q ESTABA HECHO ANTES
 					//stockAntiguo = catalogo.get(i).getCantStock();
 					//stockMinimo = catalogo.get(i).getStockMinimo();
 					//if(stockMinimo == 0 && nuevoStock == 0) {
@@ -270,13 +267,57 @@ public class Administrador {
 	}
 	
 	// Realiza una venta de un autoparte CON pedido para un cliente
-	public void RegistrarVentaConPedido(Pedido p) {
+	public void RegistrarVentaConPedido(int numPedido, Venta v) {
+		Pedido p = null;
+		boolean pedidoEncontrado = false;
+		for (int i = 0; i < pedidos.size(); i++) {
+			if (pedidos.get(i).getCodigo() == numPedido) {
+				p = pedidos.get(i);
+				pedidoEncontrado = true;
+			}
+		}
+		if (!pedidoEncontrado) {
+			System.out.println("No exite un pedido con ese código");
+			return;
+		}
 		
+		//se añade el detalle del producto a la venta
+		v.setDetalleVenta(p);
+		
+		//se añaden los datos faltantes a la venta
+		v.setProvincia("Buenos Aires"); //autodefino xq son de la sucursal
+		v.setLocalidad("Monserrat");	//autodefino xq son de la sucursal
+		v.setTelefono(1122334455);		//autodefino xq son de la sucursal
+		
+		//se añade la venta al registro
+		cantVentas.add(v);
+		
+		System.out.println("Operación exitosa!");
 	}
 	
 	// Realiza una venta de un autoparte para un cliente SIN un pedido previo
-	public void RegistrarVentaSinPedido(Autoparte a) {
+	public void RegistrarVentaSinPedido(Pedido detalleVenta, Venta v) {
+		//buscamos la autoparte
+		if(!catalogoVacio()) {
+			for(int i = 0; i < catalogo.size(); i++) {
+				if(catalogo.get(i).getCodigo() == detalleVenta.getCodigo()) {
+					Autoparte a = catalogo.get(i);
+					detalleVenta.setDetalles("Artículo: " + a.getDenominacion());				//guarda en detalle el nombre de la autoparte
+					detalleVenta.setMontoTotal(a.getPrecio()*detalleVenta.getCantidad());		//guarda el monto total -> precio * cantidad pedida
+				}
+			}
+		}
 		
+		//se añaden los datos faltantes a la venta
+		v.setDetalleVenta(detalleVenta);
+		v.setProvincia("Buenos Aires"); //autodefino xq son de la sucursal
+		v.setLocalidad("Monserrat");	//autodefino xq son de la sucursal
+		v.setTelefono(1122334455);		//autodefino xq son de la sucursal
+				
+		//se añade la venta al registro
+		cantVentas.add(v);
+				
+		System.out.println("Operación exitosa!");
 	}
 	
 	// Verifica la disponibilidad y la cantidad de stock de un autoparte y devuelve el stock disponible

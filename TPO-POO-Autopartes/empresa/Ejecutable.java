@@ -5,8 +5,6 @@ import java.util.Scanner;
 public class Ejecutable {
 	
 	private static Administrador admin = new Administrador();
-	private static Pedido pedido = new Pedido();
-	private static Cliente cliente = new Cliente();
 	
 	static Scanner leer = new Scanner(System.in);
 	
@@ -54,7 +52,7 @@ public class Ejecutable {
 					}else if(opcion == 9) {
 						registrarVentaConPedido();
 					}else if(opcion == 10) {
-						//registrarVentaSinPedido();
+						registrarVentaSinPedido();
 					}else if(opcion == 11) {
 						//generarFactura();
 					}else if(opcion == 0) {
@@ -246,27 +244,107 @@ public class Ejecutable {
 	
 	public static void registrarVentaConPedido() {
 		Venta venta = new Venta();
+		Cliente cliente = new Cliente();
 		
 		System.out.print("Introduzca el código de la venta: ");
 		int numero = leer.nextInt();
 		venta.setCodigo(numero);
 		
 		System.out.print("Introduzca el número del pedido a retirar: ");
-		
-		System.out.println("Datos del Cliente.");
+		int numPedido = leer.nextInt();
+
 		System.out.print("Introduzca el ID del cliente: ");
+		cliente.setCodigo(leer.nextInt());
+		
+		leer.nextLine();
 		System.out.print("Introduzca el nombre del cliente: ");
+		cliente.setNombre(leer.nextLine());
+		
 		System.out.print("Introduzca la dirección del cliente: ");
+		cliente.setDireccion(leer.nextLine());
+		
 		System.out.print("Introduzca la localidad del cliente: ");
+		cliente.setLocalidad(leer.nextLine());
+		
 		System.out.print("Introduzca la provincia del cliente: ");
-		System.out.print("Introduzca el correo del cliente: ");
+		cliente.setProvincia(leer.nextLine());
+		
+		System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
+		cliente.setCorreo(leer.nextLine());
+		
 		System.out.print("Introduzca el teléfono del cliente (sin espacios ni guiones): ");
+		cliente.setTelefono(leer.nextInt());
 		
-		venta.setProvincia("Buenos Aires");
-		venta.setLocalidad("Monserrat");
-		venta.setTelefono(1122334455);
+		venta.setCliente(cliente);
 		
-		admin.RegistrarVentaConPedido();
+		admin.RegistrarVentaConPedido(numPedido, venta);
+	}
+	
+	public static void registrarVentaSinPedido() {
+		Venta venta = new Venta();
+		Cliente cliente = new Cliente();
+		Pedido detalleVenta = new Pedido();
+		
+		System.out.print("Introduzca el código de la venta: ");
+		int numero = leer.nextInt();
+		venta.setCodigo(numero);
+		
+		//datos del cliente
+		System.out.print("Introduzca el ID del cliente: ");
+		cliente.setCodigo(leer.nextInt());
+		
+		leer.nextLine();
+		System.out.print("Introduzca el nombre del cliente: ");
+		cliente.setNombre(leer.nextLine());
+		
+		System.out.print("Introduzca la dirección del cliente: ");
+		cliente.setDireccion(leer.nextLine());
+		
+		System.out.print("Introduzca la localidad del cliente: ");
+		cliente.setLocalidad(leer.nextLine());
+		
+		System.out.print("Introduzca la provincia del cliente: ");
+		cliente.setProvincia(leer.nextLine());
+		
+		System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
+		cliente.setCorreo(leer.nextLine());
+		
+		System.out.print("Introduzca el teléfono del cliente (sin espacios ni guiones): ");
+		cliente.setTelefono(leer.nextInt());
+		
+		venta.setCliente(cliente);
+		
+		
+		//datos del producto vendido
+		boolean verificar = true;
+
+		System.out.print("Introduzca la fecha de la venta: ");
+		String fecha = leer.next();
+		detalleVenta.setFecha(fecha);
+
+		System.out.print("Introduzca el ID de la autoparte deseada: ");
+		int id = leer.nextInt();
+		detalleVenta.setId(id); 
+		
+		int stock = admin.DisponibilidadStock(id);
+		if (stock == 0) {
+			System.out.println("Stock 0");
+			return;
+		}
+		while(verificar) {
+			System.out.print("Introduzca la cantidad necesitada: ");
+			int cantidad = leer.nextInt();
+				if(cantidad < stock) {
+					detalleVenta.setCantidad(cantidad);
+					verificar = false;					
+					// reduce el stock, reserva
+					admin.ModificarStock(id, cantidad, 0);					
+				}else {
+					System.out.println("Solo hay " + stock + " unidades en stock, intente nuevamente");
+				}
+			}
+		
+		admin.RegistrarVentaSinPedido(detalleVenta, venta);
 	}
 }
 
