@@ -156,7 +156,6 @@ public class Administrador {
 				}else {
 					return;
 				}
-				leer.close();
 			}
 		}
 	}
