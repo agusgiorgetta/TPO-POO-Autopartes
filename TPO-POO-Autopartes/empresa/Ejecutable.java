@@ -272,8 +272,8 @@ public class Ejecutable {
 		System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
 		cliente.setCorreo(leer.nextLine());
 		
-		System.out.print("Introduzca el teléfono del cliente (sin espacios ni guiones): ");
-		cliente.setTelefono(leer.nextInt());
+		System.out.print("Introduzca el teléfono del cliente: ");
+		cliente.setTelefono(leer.nextLine());
 		
 		venta.setCliente(cliente);
 		
@@ -309,8 +309,8 @@ public class Ejecutable {
 		System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
 		cliente.setCorreo(leer.nextLine());
 		
-		System.out.print("Introduzca el teléfono del cliente (sin espacios ni guiones): ");
-		cliente.setTelefono(leer.nextInt());
+		System.out.print("Introduzca el teléfono del cliente: ");
+		cliente.setTelefono(leer.nextLine());
 		
 		venta.setCliente(cliente);
 		
