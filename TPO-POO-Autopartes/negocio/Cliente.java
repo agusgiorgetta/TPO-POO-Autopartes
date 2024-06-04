@@ -8,7 +8,7 @@ public class Cliente {
 	private String localidad;
 	private String provincia;
 	private String correo;
-	private int telefono;
+	private String telefono;
 	
 	public int getCodigo() {
 		return codigo;
@@ -46,10 +46,10 @@ public class Cliente {
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 	
