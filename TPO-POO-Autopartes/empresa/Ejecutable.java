@@ -57,7 +57,7 @@ public class Ejecutable {
 						//generarFactura();
 					}else if(opcion == 0) {
 						if(admin.CerrarSesion() == true) {
-							System.out.println("Se ha finalizado la sesión exitosamente!");
+							System.out.println("Se ha finalizado la sesión exitosamente!\n");
 							System.out.println("-------------------- TUTTA LA MACCHINA ----------------------");
 							validar = false;
 							leer.close();
@@ -127,7 +127,7 @@ public class Ejecutable {
 		autoparte.setEnlace(enlace);
 		
 		admin.CargarAutoparte(autoparte);
-		System.out.println("Autoparte cargada exitosamente!");
+		System.out.println("\nAutoparte cargada exitosamente!");
 	}
 	
 	public static void mostrarCatalogo() {
@@ -187,6 +187,7 @@ public class Ejecutable {
 		
 		Pedido pedido = new Pedido();
 		boolean verificar = true;
+		boolean pedir = true;
 		int stock = 0;
 
 		System.out.print("Introduzca el número del pedido: ");
@@ -203,36 +204,50 @@ public class Ejecutable {
 		String usuario = leer.nextLine();
 		pedido.setUsuario(usuario);
 		
-		
-		System.out.print("Introduzca el ID de la autoparte: ");
-		int id = leer.nextInt();
-		pedido.setId(id); 
-		
-		stock = admin.DisponibilidadStock(id);
-		if (stock == 0) {
-			return;
-		}
-		//en caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
-		//necesidad de realizar nuevamente el proceso
-		while(verificar) {
-			System.out.print("Introduzca la cantidad necesitada: ");
-			int cantidad = leer.nextInt();
-				if(cantidad < stock) {
-					pedido.setCantidad(cantidad);
-					verificar = false;
-					
-					// reduce el stock, reserva
-					admin.ModificarStock(id, cantidad, 0);
-					//envia a cargar pedido
-					admin.CargarPedido(pedido);
-					
-					System.out.println("Pedido cargado exitosamente!");
-					
+		//Pide "x" veces la cantidad de autopartes que se necesitan en el pedido
+		while(pedir) {
+			System.out.print("Introduzca el ID de la autoparte: ");
+			int id = leer.nextInt();
+			verificar = true;
+			
+			if(admin.existeAutoparte(id) == true) { 
+				stock = admin.DisponibilidadStock(id);
+				
+				if(stock == 0) {
+					return;
 				}else {
-					System.out.println("Solo hay " + stock + " unidades en stock, intente nuevamente");
+					//en caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
+					//necesidad de realizar nuevamente el proceso
+					while(verificar) {
+						System.out.print("Introduzca la cantidad necesitada: ");
+						int cantidad = leer.nextInt();
+					
+						if(cantidad <= stock) {
+							pedido.setCantidad(cantidad);
+							verificar = false;
+							// reduce el stock, reserva
+							admin.ModificarStock(id, cantidad, 0);
+							//envia a cargar pedido
+							admin.CargarPedido(pedido);
+							
+							System.out.print("\nDesea cargar más autopartes al pedido? [1] Si | [2] No \nOPCION: ");
+							int elegir = leer.nextInt();
+							
+							if(elegir == 2) {
+								System.out.println("\nPedido cargado exitosamente!");
+								pedido.setId(id);
+								pedir = false;
+							}else if(elegir == 1){
+								pedido.setId(id);
+							}
+						}else {
+							System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
+						}
+					}
 				}
 			}
 		}
+	}
 	
 	public static void cancelarPedido() {
 		
@@ -252,32 +267,35 @@ public class Ejecutable {
 		
 		System.out.print("Introduzca el número del pedido a retirar: ");
 		int numPedido = leer.nextInt();
-
-		System.out.print("Introduzca el ID del cliente: ");
-		cliente.setCodigo(leer.nextInt());
 		
-		leer.nextLine();
-		System.out.print("Introduzca el nombre del cliente: ");
-		cliente.setNombre(leer.nextLine());
-		
-		System.out.print("Introduzca la dirección del cliente: ");
-		cliente.setDireccion(leer.nextLine());
-		
-		System.out.print("Introduzca la localidad del cliente: ");
-		cliente.setLocalidad(leer.nextLine());
-		
-		System.out.print("Introduzca la provincia del cliente: ");
-		cliente.setProvincia(leer.nextLine());
-		
-		System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
-		cliente.setCorreo(leer.nextLine());
-		
-		System.out.print("Introduzca el teléfono del cliente: ");
-		cliente.setTelefono(leer.nextLine());
-		
-		venta.setCliente(cliente);
-		
-		admin.RegistrarVentaConPedido(numPedido, venta);
+		if(admin.existePedido(numPedido) == true) {
+			
+			System.out.print("Introduzca el ID del cliente: ");
+			cliente.setCodigo(leer.nextInt());
+			
+			leer.nextLine();
+			System.out.print("Introduzca el nombre del cliente: ");
+			cliente.setNombre(leer.nextLine());
+			
+			System.out.print("Introduzca la dirección del cliente: ");
+			cliente.setDireccion(leer.nextLine());
+			
+			System.out.print("Introduzca la localidad del cliente: ");
+			cliente.setLocalidad(leer.nextLine());
+			
+			System.out.print("Introduzca la provincia del cliente: ");
+			cliente.setProvincia(leer.nextLine());
+			
+			System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
+			cliente.setCorreo(leer.nextLine());
+			
+			System.out.print("Introduzca el teléfono del cliente: ");
+			cliente.setTelefono(leer.nextLine());
+			
+			venta.setCliente(cliente);
+			
+			admin.RegistrarVentaConPedido(numPedido, venta);
+		}
 	}
 	
 	public static void registrarVentaSinPedido() {
@@ -314,7 +332,6 @@ public class Ejecutable {
 		
 		venta.setCliente(cliente);
 		
-		
 		//datos del producto vendido
 		boolean verificar = true;
 
@@ -326,25 +343,24 @@ public class Ejecutable {
 		int id = leer.nextInt();
 		detalleVenta.setId(id); 
 		
-		int stock = admin.DisponibilidadStock(id);
-		if (stock == 0) {
-			System.out.println("Stock 0");
-			return;
-		}
-		while(verificar) {
-			System.out.print("Introduzca la cantidad necesitada: ");
-			int cantidad = leer.nextInt();
-				if(cantidad < stock) {
-					detalleVenta.setCantidad(cantidad);
-					verificar = false;					
-					// reduce el stock, reserva
-					admin.ModificarStock(id, cantidad, 0);					
-				}else {
-					System.out.println("Solo hay " + stock + " unidades en stock, intente nuevamente");
+		if(!admin.catalogoVacio()) {
+			int stock = admin.DisponibilidadStock(id);
+
+			while(verificar) {
+				System.out.print("Introduzca la cantidad necesitada: ");
+				int cantidad = leer.nextInt();
+				
+					if(cantidad <= stock) {
+						detalleVenta.setCantidad(cantidad);
+						verificar = false;					
+						// reduce el stock, reserva
+						admin.ModificarStock(id, cantidad, 0);					
+					}else {
+						System.out.println("Solo hay " + stock + " unidades en stock, intente nuevamente");
+					}
 				}
-			}
-		
-		admin.RegistrarVentaSinPedido(detalleVenta, venta);
+			admin.RegistrarVentaSinPedido(detalleVenta, venta);
+		}
 	}
 }
 
