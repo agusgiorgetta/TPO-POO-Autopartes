@@ -306,6 +306,10 @@ public class Ejecutable {
 		System.out.print("Introduzca el código de la venta: ");
 		int numero = leer.nextInt();
 		venta.setCodigo(numero);
+
+		System.out.print("Introduzca la fecha de la venta: ");
+		String fecha = leer.next();
+		detalleVenta.setFecha(fecha);
 		
 		//datos del cliente
 		System.out.print("Introduzca el ID del cliente: ");
@@ -334,10 +338,6 @@ public class Ejecutable {
 		
 		//datos del producto vendido
 		boolean verificar = true;
-
-		System.out.print("Introduzca la fecha de la venta: ");
-		String fecha = leer.next();
-		detalleVenta.setFecha(fecha);
 
 		System.out.print("Introduzca el ID de la autoparte deseada: ");
 		int id = leer.nextInt();

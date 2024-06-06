@@ -73,11 +73,5 @@ public class Autoparte {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
-	
-	// Avisa luego de realizar una venta en caso de que quede poco stock
-	public void StockInsuficiente(Autoparte a) { 
-		//este puede ser q se invoque aca cuando se modifica elstock y queda en nada
-		//pero no se, capaz se puede poner en un if y obviarlo de java, convengamos q 
-		//mucho de lo de los cuadros es representativo y no necesariamente literal
-	}
+
 }
