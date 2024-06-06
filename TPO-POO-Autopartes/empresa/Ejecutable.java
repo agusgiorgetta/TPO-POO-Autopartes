@@ -209,26 +209,22 @@ public class Ejecutable {
 			System.out.print("Introduzca el ID de la autoparte: ");
 			int id = leer.nextInt();
 			verificar = true;
-			
+			//Verifica que existe la autoparte y que el catalogo no este vacio
 			if(admin.existeAutoparte(id) == true) { 
-				stock = admin.DisponibilidadStock(id);
-				
+				stock = admin.DisponibilidadStock(id); //devuelve el stock disponible de dicha autoparte
 				if(stock == 0) {
 					return;
 				}else {
-					//en caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
+					//En caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
 					//necesidad de realizar nuevamente el proceso
 					while(verificar) {
-						System.out.print("Introduzca la cantidad necesitada: ");
+						System.out.print("\nIntroduzca la cantidad necesitada: ");
 						int cantidad = leer.nextInt();
-					
+						//Verifica que la cantidad requerida sea igual o menor al stock existente
 						if(cantidad <= stock) {
-							pedido.setCantidad(cantidad);
+							pedido.setCantidad(cantidad); //carga la cantidad de "x" autoparte al pedido
 							verificar = false;
-							// reduce el stock, reserva
-							admin.ModificarStock(id, cantidad, 0);
-							//envia a cargar pedido
-							admin.CargarPedido(pedido);
+							admin.ModificarStock(id, cantidad, 0); //reduce el stock de la autoparte cargada al pedido
 							
 							System.out.print("\nDesea cargar más autopartes al pedido? [1] Si | [2] No \nOPCION: ");
 							int elegir = leer.nextInt();
@@ -236,15 +232,19 @@ public class Ejecutable {
 							if(elegir == 2) {
 								System.out.println("\nPedido cargado exitosamente!");
 								pedido.setId(id);
+								admin.CargarPedido(pedido); //carga al pedido todos los datos del cliente incluyendo los detalles de las autopartes
 								pedir = false;
 							}else if(elegir == 1){
 								pedido.setId(id);
+								admin.CargarPedido(pedido); //idem
 							}
 						}else {
 							System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
 						}
 					}
 				}
+			}else { //Si el catalogo esta vacio, corta
+				break;
 			}
 		}
 	}
@@ -302,14 +302,13 @@ public class Ejecutable {
 		Venta venta = new Venta();
 		Cliente cliente = new Cliente();
 		Pedido detalleVenta = new Pedido();
+		int stock = 0;
+		boolean pedir = true;
+		boolean verificar = true;
 		
 		System.out.print("Introduzca el código de la venta: ");
 		int numero = leer.nextInt();
 		venta.setCodigo(numero);
-
-		System.out.print("Introduzca la fecha de la venta: ");
-		String fecha = leer.next();
-		detalleVenta.setFecha(fecha);
 		
 		//datos del cliente
 		System.out.print("Introduzca el ID del cliente: ");
@@ -335,31 +334,53 @@ public class Ejecutable {
 		cliente.setTelefono(leer.nextLine());
 		
 		venta.setCliente(cliente);
-		
-		//datos del producto vendido
-		boolean verificar = true;
 
-		System.out.print("Introduzca el ID de la autoparte deseada: ");
-		int id = leer.nextInt();
-		detalleVenta.setId(id); 
+		System.out.print("Introduzca la fecha de la venta: ");
+		String fecha = leer.next();
+		detalleVenta.setFecha(fecha);
 		
-		if(!admin.catalogoVacio()) {
-			int stock = admin.DisponibilidadStock(id);
-
-			while(verificar) {
-				System.out.print("Introduzca la cantidad necesitada: ");
-				int cantidad = leer.nextInt();
-				
-					if(cantidad <= stock) {
-						detalleVenta.setCantidad(cantidad);
-						verificar = false;					
-						// reduce el stock, reserva
-						admin.ModificarStock(id, cantidad, 0);					
-					}else {
-						System.out.println("Solo hay " + stock + " unidades en stock, intente nuevamente");
+		//Pide "x" veces la cantidad de autopartes necesitadas
+		while(pedir) {
+			System.out.print("Introduzca el ID de la autoparte: ");
+			int codigo = leer.nextInt();
+			verificar = true;
+			//Verifica que existe la autoparte y que el catalogo no este vacio
+			if(admin.existeAutoparte(codigo) == true) { 
+				stock = admin.DisponibilidadStock(codigo); //devuelve el stock disponible de dicha autoparte
+				if(stock == 0) {
+					return;
+				}else {
+					//En caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
+					//necesidad de realizar nuevamente el proceso
+					while(verificar) {
+						System.out.print("\nIntroduzca la cantidad necesitada: ");
+						int cantidad = leer.nextInt();
+						//Verifica que la cantidad requerida sea igual o menor al stock existente
+						if(cantidad <= stock) {
+							detalleVenta.setCantidad(cantidad); //carga la cantidad de "x" autoparte
+							verificar = false;
+							admin.ModificarStock(codigo, cantidad, 0); //reduce el stock de la autoparte
+							
+							System.out.print("\nDesea cargar más autopartes? [1] Si | [2] No \nOPCION: ");
+							int elegir = leer.nextInt();
+							
+							if(elegir == 2) {
+								System.out.println("\nPedido cargado exitosamente!");
+								detalleVenta.setId(codigo);
+								admin.RegistrarVentaSinPedido(detalleVenta, venta); //carga todos los datos del cliente incluyendo los detalles de las autopartes
+								pedir = false;
+							}else if(elegir == 1){
+								detalleVenta.setId(codigo);
+								admin.RegistrarVentaSinPedido(detalleVenta, venta); //idem
+							}
+						}else {
+							System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
+						}
 					}
 				}
-			admin.RegistrarVentaSinPedido(detalleVenta, venta);
+			}else { //Si el catalogo esta vacio, corta
+				break;
+			}
 		}
 	}
 }
