@@ -2,8 +2,8 @@
 
 Integrantes: Giorgetta, Agustina; Bottinelli, Rocío; Mazzei, Gianfranco
 
-- Diagrama Caso de Uso (Realizado)
+- Diagrama Caso de Uso (Modificar...)
 - Diagrama de Clases (Realizado)
-- Diagrama de Secuencias (revisar)
-- Diagrama de Comunicaciones (revisar)
+- Diagrama de Secuencias (Modificar...)
+- Diagrama de Comunicaciones (Modificar...)
 - Programa (proceso...)(siguiente paso: realizar excepciones)
