@@ -8,6 +8,9 @@ public class Venta {
 	private String localidad;		//como son datos de la sucursal los predefinimos
 	private int telefono;			//como son datos de la sucursal los predefinimos
 	private Pedido detalleVenta;
+	private String medioDePago;
+	private double montoFinal;
+	private int cantCuotas;
 	//o bien almacena el pedido reservado o uno que se hace inmediatamente ante una venta
 	
 	public int getCodigo() {
@@ -56,6 +59,30 @@ public class Venta {
 
 	public void setDetalleVenta(Pedido detalleVenta) {
 		this.detalleVenta = detalleVenta;
+	}
+
+	public String getMedioDePago() {
+		return medioDePago;
+	}
+
+	public void setMedioDePago(String medioDePago) {
+		this.medioDePago = medioDePago;
+	}
+
+	public double getMontoFinal() {
+		return montoFinal;
+	}
+
+	public void setMontoFinal(double montoFinal) {
+		this.montoFinal = montoFinal;
+	}
+
+	public int getCantCuotas() {
+		return cantCuotas;
+	}
+
+	public void setCantCuotas(int cantCuotas) {
+		this.cantCuotas = cantCuotas;
 	}	
 	
 }

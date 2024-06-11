@@ -401,9 +401,12 @@ public class Ejecutable {
             case 1:
                 // Si el cliente paga con débito, se cobra el valor total de la venta
                 montoFinal = totalVenta;
+                venta.setMedioDePago("Tarjeta de débito");
+                venta.setCantCuotas(0);
                 break;
             case 2:
                 // Si el cliente paga con tarjeta de crédito, se solicita la cantidad de cuotas
+            	venta.setMedioDePago("Tarjeta de crédito");
                 System.out.println("Ingrese la cantidad de cuotas (2, 3 o 6):");
                 int cantidadCuotas = leer.nextInt();
                 leer.nextLine(); // Consumir la nueva línea
@@ -412,12 +415,15 @@ public class Ejecutable {
                 switch (cantidadCuotas) {
                     case 2:
                         montoFinal = totalVenta * 1.06;
+                        venta.setCantCuotas(2);
                         break;
                     case 3:
                         montoFinal = totalVenta * 1.12;
+                        venta.setCantCuotas(3);
                         break;
                     case 6:
                         montoFinal = totalVenta * 1.20;
+                        venta.setCantCuotas(6);
                         break;
                     default:
                         System.out.println("Cantidad de cuotas no válida. Solo se permiten 2, 3 o 6 cuotas.");
@@ -427,15 +433,73 @@ public class Ejecutable {
             case 3:
                 // Si el cliente paga en efectivo, recibe un descuento del 10% del valor total de la venta
                 montoFinal = totalVenta * 0.9;
+                venta.setMedioDePago("Efectivo");
+                venta.setCantCuotas(0);
                 break;
             default:
                 // Si se proporciona un medio de pago no válido, se informa al usuario
                 System.out.println("Medio de pago no válido. Seleccione una opción válida.");
                 return;
         }
-
+        venta.setMontoFinal(montoFinal);
+        
         System.out.println("Monto a abonar (según el medio de pago seleccionado): " + montoFinal);
+        System.out.println("");
+        System.out.println("");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("Generando factura de venta...");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("|");
+        GeneradorDeFacturas(venta);
     }
+	
+	 public static void GeneradorDeFacturas(Venta venta) {
+	        Cliente cliente = venta.getCliente();
+	        Pedido pedido = venta.getDetalleVenta();
+	        double totalVenta = venta.getMontoFinal();
+	        String medioPago = venta.getMedioDePago();
+	        int cantCuotas = venta.getCantCuotas();
+
+	        System.out.println("****************************");
+	        System.out.println("          FACTURA           ");
+	        System.out.println("****************************");
+	        System.out.println("Datos del Negocio:");
+	        System.out.println("Nombre: TUTTA LA MACCHINA");
+	        System.out.println("Dirección: Avenida Corrientes 123");
+	        System.out.println("Localidad: Monserrat");
+	        System.out.println("Provincia: Buenos Aires");
+	        System.out.println("Teléfono: 1122334455");
+	        System.out.println("****************************");
+	        System.out.println("Datos del Cliente:");
+	        System.out.println("ID: " + cliente.getCodigo());
+	        System.out.println("Nombre: " + cliente.getNombre());
+	        System.out.println("Dirección: " + cliente.getDireccion());
+	        System.out.println("Localidad: " + cliente.getLocalidad());
+	        System.out.println("Provincia: " + cliente.getProvincia());
+	        System.out.println("Correo: " + cliente.getCorreo());
+	        System.out.println("Teléfono: " + cliente.getTelefono());
+	        System.out.println("****************************");
+	        System.out.println("Detalles de la Venta:");
+	        for (Pedido.Detalle detalle : pedido.getDetalles()) {
+	            System.out.println("ID Autoparte: " + detalle.getArticulo());
+	            System.out.println("Cantidad: " + detalle.getCantidad());
+	            System.out.println("Precio Unitario: " + detalle.getPrecio());
+	            System.out.println("Subtotal: " + (detalle.getCantidad() * detalle.getPrecio()));
+	            System.out.println("----------------------------");
+	        }
+	        System.out.println("Total Venta: " + pedido.getMontoTotal());
+	        System.out.println("****************************");
+	        System.out.println("Medio de pago: " + medioPago);
+	        System.out.println("Cantidad de Cuotas: " + cantCuotas);
+	        System.out.println("Monto Total a Pagar: " + totalVenta);
+	        System.out.println("****************************");
+	        System.out.println("Gracias por su compra!");
+	    }
 }
 
 
