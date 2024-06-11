@@ -231,8 +231,6 @@ public class Ejecutable {
 	                    System.out.println("\nPedido cargado exitosamente!");
 	                    admin.CargarPedido(pedido); // Agregar el pedido completo a la lista de pedidos
 	                    pedir = false;
-
-	                    admin.listarPedidos();
 	                }
 	            } else {
 	                System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
@@ -368,7 +366,6 @@ public class Ejecutable {
 	                        if (elegir == 2) {
 	                            admin.RegistrarVentaSinPedido(detalleVenta, venta); // Carga todos los datos del cliente incluyendo los detalles de las autopartes
 	                            System.out.println("\nVenta cargada exitosamente!");
-	                            admin.listarVentas();
 	                            pedir = false;
 	                            RegistrarMedioDePago(venta);
 	                        }
@@ -458,48 +455,44 @@ public class Ejecutable {
         GeneradorDeFacturas(venta);
     }
 	
-	 public static void GeneradorDeFacturas(Venta venta) {
-	        Cliente cliente = venta.getCliente();
-	        Pedido pedido = venta.getDetalleVenta();
-	        double totalVenta = venta.getMontoFinal();
-	        String medioPago = venta.getMedioDePago();
-	        int cantCuotas = venta.getCantCuotas();
+	
+		 public static void GeneradorDeFacturas(Venta venta) {
+			    Cliente cliente = venta.getCliente();
+			    Pedido pedido = venta.getDetalleVenta();
+			    double totalVenta = venta.getMontoFinal();
+			    String medioPago = venta.getMedioDePago();
+			    int cantCuotas = venta.getCantCuotas();
 
-	        System.out.println("****************************");
-	        System.out.println("          FACTURA           ");
-	        System.out.println("****************************");
-	        System.out.println("Datos del Negocio:");
-	        System.out.println("Nombre: TUTTA LA MACCHINA");
-	        System.out.println("Dirección: Avenida Corrientes 123");
-	        System.out.println("Localidad: Monserrat");
-	        System.out.println("Provincia: Buenos Aires");
-	        System.out.println("Teléfono: 1122334455");
-	        System.out.println("****************************");
-	        System.out.println("Datos del Cliente:");
-	        System.out.println("ID: " + cliente.getCodigo());
-	        System.out.println("Nombre: " + cliente.getNombre());
-	        System.out.println("Dirección: " + cliente.getDireccion());
-	        System.out.println("Localidad: " + cliente.getLocalidad());
-	        System.out.println("Provincia: " + cliente.getProvincia());
-	        System.out.println("Correo: " + cliente.getCorreo());
-	        System.out.println("Teléfono: " + cliente.getTelefono());
-	        System.out.println("****************************");
-	        System.out.println("Detalles de la Venta:");
-	        for (Pedido.Detalle detalle : pedido.getDetalles()) {
-	            System.out.println("ID Autoparte: " + detalle.getArticulo());
-	            System.out.println("Cantidad: " + detalle.getCantidad());
-	            System.out.println("Precio Unitario: " + detalle.getPrecio());
-	            System.out.println("Subtotal: " + (detalle.getCantidad() * detalle.getPrecio()));
-	            System.out.println("----------------------------");
-	        }
-	        System.out.println("Total Venta: " + pedido.getMontoTotal());
-	        System.out.println("****************************");
-	        System.out.println("Medio de pago: " + medioPago);
-	        System.out.println("Cantidad de Cuotas: " + cantCuotas);
-	        System.out.println("Monto Total a Pagar: " + totalVenta);
-	        System.out.println("****************************");
-	        System.out.println("Gracias por su compra!");
-	    }
+			    System.out.println("**********************************************************");
+			    System.out.println("                         FACTURA                          ");
+			    System.out.println("**********************************************************");
+			    System.out.println("Fecha de venta:" + pedido.getFecha());
+			    System.out.println("DATOS DEL NEGOCIO                 DATOS DEL CLIENTE");
+			    System.out.println("Nombre: TUTTA LA MACCHINA         ID: " + cliente.getCodigo());
+			    System.out.println("Dirección: Avenida Corrientes 123 Nombre: " + cliente.getNombre());
+			    System.out.println("Localidad: Monserrat              Dirección: " + cliente.getDireccion());
+			    System.out.println("Provincia: Buenos Aires           Localidad: " + cliente.getLocalidad());
+			    System.out.println("Teléfono: 1122334455              Provincia: " + cliente.getProvincia());
+			    System.out.println("                                  Correo: " + cliente.getCorreo());
+			    System.out.println("                                  Teléfono: " + cliente.getTelefono());
+			    System.out.println("**********************************************************");
+			    System.out.println("Detalles de la Venta:");
+			    for (Pedido.Detalle detalle : pedido.getDetalles()) {
+			        System.out.println("Autoparte: ID " + detalle.getArticulo() + " - " + admin.getNombreAutoparte(detalle.getArticulo()));
+			        System.out.println("Cantidad: " + detalle.getCantidad());
+			        System.out.println("Precio Unitario: " + detalle.getPrecio());
+			        System.out.println("Subtotal: " + (detalle.getCantidad() * detalle.getPrecio()));
+			        System.out.println("----------------------------");
+			    }
+			    System.out.println("Total Venta: " + pedido.getMontoTotal());
+			    System.out.println("**********************************************************");
+			    System.out.println("Medio de pago: " + medioPago);
+			    System.out.println("Cantidad de Cuotas: " + cantCuotas);
+			    System.out.println("Monto Total a Pagar: " + totalVenta);
+			    System.out.println("**********************************************************");
+			    System.out.println("Gracias por su compra!");
+			}
+
 }
 
 

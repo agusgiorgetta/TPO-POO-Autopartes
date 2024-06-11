@@ -185,26 +185,25 @@ public class Administrador {
 	}
 
 	public double getPrecioAutoparte(int id) {
-	    // Inicializar con un valor predeterminado
-	    double precio = 0.0; 
-	    
-	    // Comprobar si el catálogo no está vacío
-	    if (!catalogoVacio()) {
-	        // Recorrer el catálogo
-	        for (int i = 0; i < catalogo.size(); i++) {
-	            // Comprobar si el código de la autoparte coincide con el ID buscado
-	            if (catalogo.get(i).getCodigo() == id) {
-	            	System.out.println("Precio: $" + catalogo.get(i).getPrecio());
-	                // Devolver el precio de la autoparte encontrada
-	                return catalogo.get(i).getPrecio();
-	            }
-	        }
-	    }
-	    
-	    // Devolver el valor predeterminado si no se encuentra la autoparte
-	    return precio;
-	}
+		// Inicializar con un valor predeterminado
+		double precio = 0.0;
 
+		// Comprobar si el catálogo no está vacío
+		if (!catalogoVacio()) {
+			// Recorrer el catálogo
+			for (int i = 0; i < catalogo.size(); i++) {
+				// Comprobar si el código de la autoparte coincide con el ID buscado
+				if (catalogo.get(i).getCodigo() == id) {
+					System.out.println("Precio: $" + catalogo.get(i).getPrecio());
+					// Devolver el precio de la autoparte encontrada
+					return catalogo.get(i).getPrecio();
+				}
+			}
+		}
+
+		// Devolver el valor predeterminado si no se encuentra la autoparte
+		return precio;
+	}
 
 	// modifica el stock de una autoparte mediante su codigo y se lo guarda en el
 	// catalogo
@@ -240,26 +239,25 @@ public class Administrador {
 	}
 
 	// Carga un pedido al contenedor de pedidos
-	 public void CargarPedido(Pedido p) {
-	        if (!catalogoVacio()) {
-	            // Aquí es donde revisamos el precio sin cambiarlo
-	            for (Pedido.Detalle detalle : p.getDetalles()) {
-	                int id = detalle.getArticulo();
-	                if (id >= 0 && id < catalogo.size()) {
-	                    Autoparte a = catalogo.get(id);
-	                    if (a != null) {
-	                    } else {
-	                        System.out.println("Autoparte con ID " + id + " no encontrada en el catálogo.");
-	                    }
-	                }
-	            }
-	            pedidos.add(p);
-	            System.out.println("Pedido agregado exitosamente.");
-	        } else {
-	            System.out.println("El catálogo está vacío.");
-	        }
-	    }
-
+	public void CargarPedido(Pedido p) {
+		if (!catalogoVacio()) {
+			// Aquí es donde revisamos el precio sin cambiarlo
+			for (Pedido.Detalle detalle : p.getDetalles()) {
+				int id = detalle.getArticulo();
+				if (id >= 0 && id < catalogo.size()) {
+					Autoparte a = catalogo.get(id);
+					if (a != null) {
+					} else {
+						System.out.println("Autoparte con ID " + id + " no encontrada en el catálogo.");
+					}
+				}
+			}
+			pedidos.add(p);
+			System.out.println("Pedido agregado exitosamente.");
+		} else {
+			System.out.println("El catálogo está vacío.");
+		}
+	}
 
 	// Verifica que exista el pedido, lo cancela en base al numero de pedido y
 	// devuelve el stock
@@ -299,7 +297,7 @@ public class Administrador {
 			}
 		}
 	}
-	
+
 	public void listarVentas() {
 		if (cantVentas.isEmpty()) {
 			System.out.println("No hay ventas registradas en el sistema.");
@@ -339,38 +337,36 @@ public class Administrador {
 	}
 
 	// Realiza una venta de un autoparte para un cliente SIN un pedido previo
-		public void RegistrarVentaSinPedido(Pedido detalleVenta, Venta v) {
-			//buscamos la autoparte
-			if (!catalogoVacio()) {
-	            // Aquí es donde revisamos el precio sin cambiarlo
-	            for (Pedido.Detalle detalle : detalleVenta.getDetalles()) {
-	                int id = detalle.getArticulo();
-	                if (id >= 0 && id < catalogo.size()) {
-	                    Autoparte a = catalogo.get(id);
-	                    if (a != null) {
-	                    } else {
-	                        System.out.println("Autoparte con ID " + id + " no encontrada en el catálogo.");
-	                    }
-	                }
-	            }
-	            pedidos.add(detalleVenta);
-	        } else {
-	            System.out.println("El catálogo está vacío.");
-	        }
-			
-			//se añaden los datos faltantes a la venta
-			v.setDetalleVenta(detalleVenta);
-			v.setProvincia("Buenos Aires"); //autodefino xq son de la sucursal
-			v.setLocalidad("Monserrat");	//autodefino xq son de la sucursal
-			v.setTelefono(1122334455);		//autodefino xq son de la sucursal
-					
-			//se añade la venta al registro
-			cantVentas.add(v);
-					
-			System.out.println("Operación exitosa!");
+	public void RegistrarVentaSinPedido(Pedido detalleVenta, Venta v) {
+		// buscamos la autoparte
+		if (!catalogoVacio()) {
+			// Aquí es donde revisamos el precio sin cambiarlo
+			for (Pedido.Detalle detalle : detalleVenta.getDetalles()) {
+				int id = detalle.getArticulo();
+				if (id >= 0 && id < catalogo.size()) {
+					Autoparte a = catalogo.get(id);
+					if (a != null) {
+					} else {
+						System.out.println("Autoparte con ID " + id + " no encontrada en el catálogo.");
+					}
+				}
+			}
+			pedidos.add(detalleVenta);
+		} else {
+			System.out.println("El catálogo está vacío.");
 		}
-		
 
+		// se añaden los datos faltantes a la venta
+		v.setDetalleVenta(detalleVenta);
+		v.setProvincia("Buenos Aires"); // autodefino xq son de la sucursal
+		v.setLocalidad("Monserrat"); // autodefino xq son de la sucursal
+		v.setTelefono(1122334455); // autodefino xq son de la sucursal
+
+		// se añade la venta al registro
+		cantVentas.add(v);
+
+		System.out.println("Operación exitosa!");
+	}
 
 	// Verifica la disponibilidad y la cantidad de stock de un autoparte y devuelve
 	// el stock disponible
@@ -431,6 +427,26 @@ public class Administrador {
 		} else {
 			return false;
 		}
+	}
+
+	public String getNombreAutoparte(int id) {
+		// Inicializar con un valor predeterminado
+		String nombre ="";
+
+		// Comprobar si el catálogo no está vacío
+		if (!catalogoVacio()) {
+			// Recorrer el catálogo
+			for (int i = 0; i < catalogo.size(); i++) {
+				// Comprobar si el código de la autoparte coincide con el ID buscado
+				if (catalogo.get(i).getCodigo() == id) {
+					// Devolver el precio de la autoparte encontrada
+					return catalogo.get(i).getDenominacion();
+				}
+			}
+		}
+
+		// Devolver el valor predeterminado si no se encuentra la autoparte
+		return nombre;
 	}
 
 	// Verifica si el catálogo no dispone de autopartes y devuelve true en caso de
