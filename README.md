@@ -6,4 +6,4 @@ Integrantes: Giorgetta, Agustina; Bottinelli, Rocío; Mazzei, Gianfranco
 - Diagrama de Clases (Realizado)
 - Diagrama de Secuencias (revisar)
 - Diagrama de Comunicaciones (revisar)
-- Programa (proceso...)(siguiente paso: desarrollar métodos RegistrarMedioDePago, GenerarFactura y completar RegistrarVentaSinPedido [Que permita la carga de multiples autopartes] )
+- Programa (proceso...)(siguiente paso: realizar excepciones)
