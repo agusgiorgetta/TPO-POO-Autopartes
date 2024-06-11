@@ -399,9 +399,43 @@ public class Administrador {
 	}
 
 	// Genera la factura de la venta de un autoparte relacionada con un cliente
-	public void GenerarFactura(Venta v) {
+	public void GeneradorDeFacturas(Venta venta) {
+	    Cliente cliente = venta.getCliente();
+	    Pedido pedido = venta.getDetalleVenta();
+	    double totalVenta = venta.getMontoFinal();
+	    String medioPago = venta.getMedioDePago();
+	    int cantCuotas = venta.getCantCuotas();
 
+	    System.out.println("**********************************************************");
+	    System.out.println("                         FACTURA                          ");
+	    System.out.println("**********************************************************");
+	    System.out.println("Fecha de venta: " + pedido.getFecha());
+	    System.out.println("DATOS DEL NEGOCIO                 DATOS DEL CLIENTE");
+	    System.out.println("Nombre: TUTTA LA MACCHINA         ID: " + cliente.getCodigo());
+	    System.out.println("Dirección: Avenida Corrientes 123 Nombre: " + cliente.getNombre());
+	    System.out.println("Localidad: Monserrat              Dirección: " + cliente.getDireccion());
+	    System.out.println("Provincia: Buenos Aires           Localidad: " + cliente.getLocalidad());
+	    System.out.println("Teléfono: 1122334455              Provincia: " + cliente.getProvincia());
+	    System.out.println("                                  Correo: " + cliente.getCorreo());
+	    System.out.println("                                  Teléfono: " + cliente.getTelefono());
+	    System.out.println("*************************************************************************");
+	    System.out.println("Detalles de la Venta:");
+	    System.out.printf("%-10s %-20s %-10s %-15s %-10s\n", "ID", "Autoparte", "Cantidad", "Precio Unitario", "Subtotal");
+	    System.out.println("----------------------------------------------------------");
+	    for (Pedido.Detalle detalle : pedido.getDetalles()) {
+	        String nombreAutoparte = getNombreAutoparte(detalle.getArticulo());
+	        System.out.printf("%-10s %-20s %-10d %-15.2f %-10.2f\n", detalle.getArticulo(), nombreAutoparte, detalle.getCantidad(), detalle.getPrecio(), (detalle.getCantidad() * detalle.getPrecio()));
+	    }
+	    System.out.println("----------------------------------------------------------");
+	    System.out.printf("%-55s %-10.2f\n", "Total Venta:", pedido.getMontoTotal());
+	    System.out.println("*************************************************************************");
+	    System.out.println("Medio de pago: " + medioPago);
+	    System.out.println("Cantidad de Cuotas: " + cantCuotas);
+	    System.out.printf("%-55s %-10.2f\n", "Monto Total a Pagar:", totalVenta);
+	    System.out.println("*************************************************************************");
+	    System.out.println("Gracias por su compra!");
 	}
+
 
 	public void StockMinimo(int stock, int minimo) {
 		if (stock < minimo) {

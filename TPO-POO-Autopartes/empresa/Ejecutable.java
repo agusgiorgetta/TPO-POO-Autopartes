@@ -53,8 +53,6 @@ public class Ejecutable {
 						registrarVentaConPedido();
 					}else if(opcion == 10) {
 						registrarVentaSinPedido();
-					}else if(opcion == 11) {
-						//generarFactura();
 					}else if(opcion == 0) {
 						if(admin.CerrarSesion() == true) {
 							System.out.println("Se ha finalizado la sesión exitosamente!\n");
@@ -452,46 +450,9 @@ public class Ejecutable {
         System.out.println("|");
         System.out.println("|");
         System.out.println("|");
-        GeneradorDeFacturas(venta);
+        admin.GeneradorDeFacturas(venta);
     }
 	
-	
-		 public static void GeneradorDeFacturas(Venta venta) {
-			    Cliente cliente = venta.getCliente();
-			    Pedido pedido = venta.getDetalleVenta();
-			    double totalVenta = venta.getMontoFinal();
-			    String medioPago = venta.getMedioDePago();
-			    int cantCuotas = venta.getCantCuotas();
-
-			    System.out.println("**********************************************************");
-			    System.out.println("                         FACTURA                          ");
-			    System.out.println("**********************************************************");
-			    System.out.println("Fecha de venta:" + pedido.getFecha());
-			    System.out.println("DATOS DEL NEGOCIO                 DATOS DEL CLIENTE");
-			    System.out.println("Nombre: TUTTA LA MACCHINA         ID: " + cliente.getCodigo());
-			    System.out.println("Dirección: Avenida Corrientes 123 Nombre: " + cliente.getNombre());
-			    System.out.println("Localidad: Monserrat              Dirección: " + cliente.getDireccion());
-			    System.out.println("Provincia: Buenos Aires           Localidad: " + cliente.getLocalidad());
-			    System.out.println("Teléfono: 1122334455              Provincia: " + cliente.getProvincia());
-			    System.out.println("                                  Correo: " + cliente.getCorreo());
-			    System.out.println("                                  Teléfono: " + cliente.getTelefono());
-			    System.out.println("**********************************************************");
-			    System.out.println("Detalles de la Venta:");
-			    for (Pedido.Detalle detalle : pedido.getDetalles()) {
-			        System.out.println("Autoparte: ID " + detalle.getArticulo() + " - " + admin.getNombreAutoparte(detalle.getArticulo()));
-			        System.out.println("Cantidad: " + detalle.getCantidad());
-			        System.out.println("Precio Unitario: " + detalle.getPrecio());
-			        System.out.println("Subtotal: " + (detalle.getCantidad() * detalle.getPrecio()));
-			        System.out.println("----------------------------");
-			    }
-			    System.out.println("Total Venta: " + pedido.getMontoTotal());
-			    System.out.println("**********************************************************");
-			    System.out.println("Medio de pago: " + medioPago);
-			    System.out.println("Cantidad de Cuotas: " + cantCuotas);
-			    System.out.println("Monto Total a Pagar: " + totalVenta);
-			    System.out.println("**********************************************************");
-			    System.out.println("Gracias por su compra!");
-			}
 
 }
 
