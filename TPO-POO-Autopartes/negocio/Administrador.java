@@ -299,6 +299,20 @@ public class Administrador {
 			}
 		}
 	}
+	
+	public void listarVentas() {
+		if (cantVentas.isEmpty()) {
+			System.out.println("No hay ventas registradas en el sistema.");
+		} else {
+			System.out.println("Listado de Ventas:");
+			for (Venta venta : cantVentas) {
+				System.out.println("ID Venta: " + venta.getCodigo());
+				System.out.println("Nombre Cliente: " + venta.getCliente().getNombre());
+				System.out.println("Monto total Venta: " + venta.getDetalleVenta().getMontoTotal());
+				System.out.println("--------------------");
+			}
+		}
+	}
 
 	// Realiza una venta de un autoparte CON pedido para un cliente
 	public void RegistrarVentaConPedido(int numPedido, Venta v) {
@@ -325,25 +339,37 @@ public class Administrador {
 	}
 
 	// Realiza una venta de un autoparte para un cliente SIN un pedido previo
-	/*
-	 * public void RegistrarVentaSinPedido(Pedido detalleVenta, Venta v) {
-	 * //buscamos la autoparte if(catalogoVacio() == false) { for(int i = 0; i <
-	 * catalogo.size(); i++) { if(catalogo.get(i).getCodigo() ==
-	 * detalleVenta.getCodigo()) { Autoparte a = catalogo.get(i);
-	 * detalleVenta.setDetalles("Artículo: " + a.getDenominacion()); //guarda en
-	 * detalle el nombre de la autoparte
-	 * detalleVenta.setMontoTotal(a.getPrecio()*detalleVenta.getCantidad());
-	 * //guarda el monto total -> precio * cantidad pedida } } }
-	 * 
-	 * //se añaden los datos faltantes a la venta v.setDetalleVenta(detalleVenta);
-	 * v.setProvincia("Buenos Aires"); //autodefino xq son de la sucursal
-	 * v.setLocalidad("Monserrat"); //autodefino xq son de la sucursal
-	 * v.setTelefono(1122334455); //autodefino xq son de la sucursal
-	 * 
-	 * //se añade la venta al registro cantVentas.add(v);
-	 * 
-	 * System.out.println("Operación exitosa!"); }/
-	 */
+		public void RegistrarVentaSinPedido(Pedido detalleVenta, Venta v) {
+			//buscamos la autoparte
+			if (!catalogoVacio()) {
+	            // Aquí es donde revisamos el precio sin cambiarlo
+	            for (Pedido.Detalle detalle : detalleVenta.getDetalles()) {
+	                int id = detalle.getArticulo();
+	                if (id >= 0 && id < catalogo.size()) {
+	                    Autoparte a = catalogo.get(id);
+	                    if (a != null) {
+	                    } else {
+	                        System.out.println("Autoparte con ID " + id + " no encontrada en el catálogo.");
+	                    }
+	                }
+	            }
+	            pedidos.add(detalleVenta);
+	        } else {
+	            System.out.println("El catálogo está vacío.");
+	        }
+			
+			//se añaden los datos faltantes a la venta
+			v.setDetalleVenta(detalleVenta);
+			v.setProvincia("Buenos Aires"); //autodefino xq son de la sucursal
+			v.setLocalidad("Monserrat");	//autodefino xq son de la sucursal
+			v.setTelefono(1122334455);		//autodefino xq son de la sucursal
+					
+			//se añade la venta al registro
+			cantVentas.add(v);
+					
+			System.out.println("Operación exitosa!");
+		}
+
 
 	// Verifica la disponibilidad y la cantidad de stock de un autoparte y devuelve
 	// el stock disponible

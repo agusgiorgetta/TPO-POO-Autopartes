@@ -52,7 +52,7 @@ public class Ejecutable {
 					}else if(opcion == 9) {
 						registrarVentaConPedido();
 					}else if(opcion == 10) {
-						//registrarVentaSinPedido();
+						registrarVentaSinPedido();
 					}else if(opcion == 11) {
 						//generarFactura();
 					}else if(opcion == 0) {
@@ -221,7 +221,6 @@ public class Ejecutable {
 	            if (cantidad <= stock) {
 	                admin.ModificarStock(id, cantidad, 0); // Reducir el stock de la autoparte
 					double precio = admin.getPrecioAutoparte(id);
-					System.out.println("EL PRECIO" + precio);
 	                // Agregar el detalle al pedido actual
 	                pedido.agregarDetalle(id, precio, cantidad);
 
@@ -295,7 +294,96 @@ public class Ejecutable {
 		}
 	}
 	
-	/*public static void registrarVentaSinPedido() {
+	public static void registrarVentaSinPedido() {
+	    Venta venta = new Venta();
+	    Cliente cliente = new Cliente();
+	    Pedido detalleVenta = new Pedido();
+	    int stock = 0;
+	    boolean pedir = true;
+	    boolean verificar = true;
+	    
+	    System.out.print("Introduzca el código de la venta: ");
+	    int numero = leer.nextInt();
+	    venta.setCodigo(numero);
+	    
+	    // Datos del cliente
+	    System.out.print("Introduzca el ID del cliente: ");
+	    cliente.setCodigo(leer.nextInt());
+	    
+	    leer.nextLine(); // Consumir la nueva línea
+	    System.out.print("Introduzca el nombre del cliente: ");
+	    cliente.setNombre(leer.nextLine());
+	    
+	    System.out.print("Introduzca la dirección del cliente: ");
+	    cliente.setDireccion(leer.nextLine());
+	    
+	    System.out.print("Introduzca la localidad del cliente: ");
+	    cliente.setLocalidad(leer.nextLine());
+	    
+	    System.out.print("Introduzca la provincia del cliente: ");
+	    cliente.setProvincia(leer.nextLine());
+	    
+	    System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
+	    cliente.setCorreo(leer.nextLine());
+	    
+	    System.out.print("Introduzca el teléfono del cliente: ");
+	    cliente.setTelefono(leer.nextLine());
+	    
+	    venta.setCliente(cliente);
+
+	    System.out.print("Introduzca la fecha de la venta: ");
+	    String fecha = leer.next();
+	    detalleVenta.setFecha(fecha);
+	    
+	    // Pide "x" veces la cantidad de autopartes necesitadas
+	    while (pedir) {
+	        System.out.print("Introduzca el ID de la autoparte: ");
+	        int codigo = leer.nextInt();
+	        verificar = true;
+	        // Verifica que existe la autoparte y que el catálogo no esté vacío
+	        if (admin.existeAutoparte(codigo)) {
+	            stock = admin.DisponibilidadStock(codigo); // Devuelve el stock disponible de dicha autoparte
+	            if (stock == 0) {
+	                System.out.println("No hay stock disponible para esta autoparte.");
+	                return;
+	            } else {
+	                // En caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
+	                // necesidad de realizar nuevamente el proceso
+	                while (verificar) {
+	                    System.out.print("\nIntroduzca la cantidad necesitada: ");
+	                    int cantidad = leer.nextInt();
+	                    // Verifica que la cantidad requerida sea igual o menor al stock existente
+	                    if (cantidad <= stock) {
+	                    	admin.ModificarStock(codigo, cantidad, 0); // Reducir el stock de la autoparte
+	    					double precio = admin.getPrecioAutoparte(codigo);
+	    	                // Agregar el detalle al pedido actual
+	    	                detalleVenta.agregarDetalle(codigo, precio, cantidad);
+	                        verificar = false;
+	       
+	                        
+	                        System.out.print("\nDesea cargar más autopartes? [1] Si | [2] No \nOPCION: ");
+	                        int elegir = leer.nextInt();
+	                        
+	                        if (elegir == 2) {
+	                            admin.RegistrarVentaSinPedido(detalleVenta, venta); // Carga todos los datos del cliente incluyendo los detalles de las autopartes
+	                            System.out.println("\nVenta cargada exitosamente!");
+	                            admin.listarVentas();
+	                            pedir = false;
+	                        }
+	                    } else {
+	                        System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
+	                    }
+	                }
+	            }
+	        } else { // Si la autoparte no existe, informa al usuario
+	            System.out.println("La autoparte no existe.");
+	            return;
+	        }
+	    }
+	}
+
+	
+/*public static void registrarVentaSinPedido() {
 		Venta venta = new Venta();
 		Cliente cliente = new Cliente();
 		Pedido detalleVenta = new Pedido();
@@ -378,7 +466,7 @@ public class Ejecutable {
 			}else { //Si el catalogo esta vacio, corta
 				break;
 			}
-		}/*/
-/*	}*/
+		}
+	}/*/
 }
 
