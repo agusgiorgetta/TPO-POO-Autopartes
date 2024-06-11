@@ -2,8 +2,8 @@
 
 Integrantes: Giorgetta, Agustina; Bottinelli, Rocío; Mazzei, Gianfranco
 
-- Diagrama Caso de Uso (Realizado)
-- Diagrama de Clases (Realizado)
-- Diagrama de Secuencias (revisar)
-- Diagrama de Comunicaciones (revisar)
-- Programa (proceso...)(siguiente paso: desarrollar métodos RegistrarMedioDePago, GenerarFactura y completar RegistrarVentaSinPedido [Que permita la carga de multiples autopartes] )
+- Diagrama Caso de Uso (Modificar...)
+- Diagrama de Clases (Modificar...)
+- Diagrama de Secuencias (Modificar...)
+- Diagrama de Comunicaciones (Modificar...)
+- Programa (proceso...)(siguiente paso: realizar excepciones)
