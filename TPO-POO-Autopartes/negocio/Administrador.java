@@ -369,6 +369,7 @@ public class Administrador {
 					
 			System.out.println("Operación exitosa!");
 		}
+		
 
 
 	// Verifica la disponibilidad y la cantidad de stock de un autoparte y devuelve

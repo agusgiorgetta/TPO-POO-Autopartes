@@ -7,7 +7,8 @@ public class Venta {
 	private String provincia;		//como son datos de la sucursal los predefinimos
 	private String localidad;		//como son datos de la sucursal los predefinimos
 	private int telefono;			//como son datos de la sucursal los predefinimos
-	private Pedido detalleVenta;	//o bien almacena el pedido reservado o uno que se hace inmediatamente ante una venta
+	private Pedido detalleVenta;
+	//o bien almacena el pedido reservado o uno que se hace inmediatamente ante una venta
 	
 	public int getCodigo() {
 		return codigo;

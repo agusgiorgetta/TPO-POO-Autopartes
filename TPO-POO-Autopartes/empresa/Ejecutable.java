@@ -291,6 +291,7 @@ public class Ejecutable {
 			venta.setCliente(cliente);
 			
 			admin.RegistrarVentaConPedido(numPedido, venta);
+			RegistrarMedioDePago(venta);
 		}
 	}
 	
@@ -369,6 +370,7 @@ public class Ejecutable {
 	                            System.out.println("\nVenta cargada exitosamente!");
 	                            admin.listarVentas();
 	                            pedir = false;
+	                            RegistrarMedioDePago(venta);
 	                        }
 	                    } else {
 	                        System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
@@ -383,90 +385,57 @@ public class Ejecutable {
 	}
 
 	
-/*public static void registrarVentaSinPedido() {
-		Venta venta = new Venta();
-		Cliente cliente = new Cliente();
-		Pedido detalleVenta = new Pedido();
-		int stock = 0;
-		boolean pedir = true;
-		boolean verificar = true;
-		
-		System.out.print("Introduzca el código de la venta: ");
-		int numero = leer.nextInt();
-		venta.setCodigo(numero);
-		
-		//datos del cliente
-		System.out.print("Introduzca el ID del cliente: ");
-		cliente.setCodigo(leer.nextInt());
-		
-		leer.nextLine();
-		System.out.print("Introduzca el nombre del cliente: ");
-		cliente.setNombre(leer.nextLine());
-		
-		System.out.print("Introduzca la dirección del cliente: ");
-		cliente.setDireccion(leer.nextLine());
-		
-		System.out.print("Introduzca la localidad del cliente: ");
-		cliente.setLocalidad(leer.nextLine());
-		
-		System.out.print("Introduzca la provincia del cliente: ");
-		cliente.setProvincia(leer.nextLine());
-		
-		System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
-		cliente.setCorreo(leer.nextLine());
-		
-		System.out.print("Introduzca el teléfono del cliente: ");
-		cliente.setTelefono(leer.nextLine());
-		
-		venta.setCliente(cliente);
+	public static void RegistrarMedioDePago(Venta venta) {
+        double totalVenta = venta.getDetalleVenta().getMontoTotal();
+        double montoFinal = 0.0;
 
-		System.out.print("Introduzca la fecha de la venta: ");
-		String fecha = leer.next();
-		detalleVenta.setFecha(fecha);
-		
-		//Pide "x" veces la cantidad de autopartes necesitadas
-		while(pedir) {
-			System.out.print("Introduzca el ID de la autoparte: ");
-			int codigo = leer.nextInt();
-			verificar = true;
-			//Verifica que existe la autoparte y que el catalogo no este vacio
-			if(admin.existeAutoparte(codigo) == true) { 
-				stock = admin.DisponibilidadStock(codigo); //devuelve el stock disponible de dicha autoparte
-				if(stock == 0) {
-					return;
-				}else {
-					//En caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
-					//necesidad de realizar nuevamente el proceso
-					while(verificar) {
-						System.out.print("\nIntroduzca la cantidad necesitada: ");
-						int cantidad = leer.nextInt();
-						//Verifica que la cantidad requerida sea igual o menor al stock existente
-						if(cantidad <= stock) {
-							detalleVenta.setCantidad(cantidad); //carga la cantidad de "x" autoparte
-							verificar = false;
-							admin.ModificarStock(codigo, cantidad, 0); //reduce el stock de la autoparte
-							
-							System.out.print("\nDesea cargar más autopartes? [1] Si | [2] No \nOPCION: ");
-							int elegir = leer.nextInt();
-							
-							if(elegir == 2) {
-								System.out.println("\nVenta cargada exitosamente!");
-								detalleVenta.setId(codigo);
-								admin.RegistrarVentaSinPedido(detalleVenta, venta); //carga todos los datos del cliente incluyendo los detalles de las autopartes
-								pedir = false;
-							}else if(elegir == 1){
-								detalleVenta.setId(codigo);
-								admin.RegistrarVentaSinPedido(detalleVenta, venta); //idem
-							}
-						}else {
-							System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
-						}
-					}
-				}
-			}else { //Si el catalogo esta vacio, corta
-				break;
-			}
-		}
-	}/*/
+        System.out.println("Seleccione el medio de pago:");
+        System.out.println("1. Tarjeta de débito");
+        System.out.println("2. Tarjeta de crédito");
+        System.out.println("3. Efectivo");
+        System.out.print("Opción: ");
+        int opcionMedioPago = leer.nextInt();
+        leer.nextLine(); // Consumir la nueva línea
+
+        switch (opcionMedioPago) {
+            case 1:
+                // Si el cliente paga con débito, se cobra el valor total de la venta
+                montoFinal = totalVenta;
+                break;
+            case 2:
+                // Si el cliente paga con tarjeta de crédito, se solicita la cantidad de cuotas
+                System.out.println("Ingrese la cantidad de cuotas (2, 3 o 6):");
+                int cantidadCuotas = leer.nextInt();
+                leer.nextLine(); // Consumir la nueva línea
+                
+                // Si la cantidad de cuotas es 2, 3 o 6, se aplica el recargo correspondiente
+                switch (cantidadCuotas) {
+                    case 2:
+                        montoFinal = totalVenta * 1.06;
+                        break;
+                    case 3:
+                        montoFinal = totalVenta * 1.12;
+                        break;
+                    case 6:
+                        montoFinal = totalVenta * 1.20;
+                        break;
+                    default:
+                        System.out.println("Cantidad de cuotas no válida. Solo se permiten 2, 3 o 6 cuotas.");
+                        return;
+                }
+                break;
+            case 3:
+                // Si el cliente paga en efectivo, recibe un descuento del 10% del valor total de la venta
+                montoFinal = totalVenta * 0.9;
+                break;
+            default:
+                // Si se proporciona un medio de pago no válido, se informa al usuario
+                System.out.println("Medio de pago no válido. Seleccione una opción válida.");
+                return;
+        }
+
+        System.out.println("Monto a abonar (según el medio de pago seleccionado): " + montoFinal);
+    }
 }
+
 
