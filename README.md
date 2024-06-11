@@ -3,7 +3,7 @@
 Integrantes: Giorgetta, Agustina; Bottinelli, Rocío; Mazzei, Gianfranco
 
 - Diagrama Caso de Uso (Modificar...)
-- Diagrama de Clases (Realizado)
+- Diagrama de Clases (Modificar...)
 - Diagrama de Secuencias (Modificar...)
 - Diagrama de Comunicaciones (Modificar...)
 - Programa (proceso...)(siguiente paso: realizar excepciones)
