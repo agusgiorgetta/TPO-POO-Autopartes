@@ -8,12 +8,13 @@ public class Pedido {
 	private int idPedido;
 	private String fecha;
 	private double montoTotal; // precio*cantidad de la autoparte
-	private String usuario;
+	private int cliente;
 	private List<Detalle> detalles; // denominacion
-	  public Pedido() {
-	        this.detalles = new ArrayList<>(); // Inicializar la lista de detalles
-	        this.montoTotal = 0.00;
-	    }
+	
+	public Pedido() {
+		this.detalles = new ArrayList<>(); // Inicializar la lista de detalles
+	    this.montoTotal = 0.00;
+	}
 
 	public int getIdPedido() {
 		return idPedido;
@@ -39,12 +40,12 @@ public class Pedido {
 		this.montoTotal = montoTotal;
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public int getCliente() {
+		return cliente;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setCliente(int cliente) {
+		this.cliente = cliente;
 	}
 
 	public List<Detalle> getDetalles() {
@@ -52,7 +53,7 @@ public class Pedido {
 	}
 
 	public void agregarDetalle(int articulo, double precio, int cantidad) {
-		Detalle detalle = new Detalle( articulo, precio, cantidad);
+		Detalle detalle = new Detalle(articulo, precio, cantidad);
 		this.detalles.add(detalle);
 		this.montoTotal += detalle.getPrecio() * detalle.getCantidad(); // Actualiza el monto total del pedido
 	}
@@ -96,5 +97,4 @@ public class Pedido {
 			this.cantidad = cantidad;
 		}
 	}
-
 }
