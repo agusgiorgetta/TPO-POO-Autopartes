@@ -1,5 +1,6 @@
 package empresa;
 import negocio.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Ejecutable {
@@ -20,47 +21,55 @@ public class Ejecutable {
 		while(validar) {
 			
 			System.out.print("USUARIO: ");
-			String usuario = leer.next();
+			String usuario = leer.nextLine();
 			System.out.print("CONTRASEÑA: ");
-			String contrasena = leer.next();
+			String contrasena = leer.nextLine();
 			
 			if(admin.IniciarSesion(usuario, contrasena) == true && contador != 0) {
 				
 				while(verificador) {
 					
-					System.out.println("\n--------------------------- MENÚ ---------------------------");
-					System.out.print("[1] Agregar autoparte \n[2] Listar autopartes \n[3] Eliminar autoparte del catálogo \n[4] Modificar stock autoparte \n[5] Modificar catálogo \n[6] Disponibilidad stock de una autoparte \n[7] Cargar pedido \n[8] Cancelar pedido \n[9] Registrar venta con pedido \n[10] Registrar venta sin pedido \n[11] Generar factura \n[0] Cerrar Sesión \n\nOPCION: ");
-					
-					int opcion = leer.nextInt();
-		
-					if(opcion == 1) {
-						agregarAutoparte();
-					}else if(opcion == 2) {
-						mostrarCatalogo();
-					}else if(opcion == 3) {
-						eliminarAutoparte();
-					}else if(opcion == 4) {
-						modificarStock();
-					}else if(opcion == 5) {
-						modificarCatalogo();
-					}else if(opcion == 6) {
-						stockDisponible();
-					}else if(opcion == 7) {
-						cargarPedido();
-					}else if(opcion == 8) {
-						cancelarPedido();
-					}else if(opcion == 9) {
-						registrarVentaConPedido();
-					}else if(opcion == 10) {
-						registrarVentaSinPedido();
-					}else if(opcion == 0) {
-						if(admin.CerrarSesion() == true) {
-							System.out.println("Se ha finalizado la sesión exitosamente!\n");
-							System.out.println("-------------------- TUTTA LA MACCHINA ----------------------");
-							validar = false;
-							leer.close();
-							break;
+					try {
+						
+						System.out.println("\n--------------------------- MENÚ ---------------------------");
+						System.out.print("[1] Agregar autoparte \n[2] Listar autopartes \n[3] Eliminar autoparte del catálogo \n[4] Modificar stock autoparte \n[5] Modificar catálogo \n[6] Disponibilidad stock de una autoparte \n[7] Agregar cliente \n[8] Cargar pedido \n[9] Cancelar pedido \n[10] Registrar venta con pedido \n[11] Registrar venta sin pedido \n[0] Cerrar Sesión \n\nOPCION: ");
+						
+						int opcion = leer.nextInt();
+			
+						if(opcion == 1) {
+							agregarAutoparte();
+						}else if(opcion == 2) {
+							mostrarCatalogo();
+						}else if(opcion == 3) {
+							eliminarAutoparte();
+						}else if(opcion == 4) {
+							modificarStock();
+						}else if(opcion == 5) {
+							modificarCatalogo();
+						}else if(opcion == 6) {
+							stockDisponible();
+						}else if(opcion == 7) {
+							agregarCliente();
+						}else if(opcion == 8) {
+							cargarPedido();
+						}else if(opcion == 9) {
+							cancelarPedido();
+						}else if(opcion == 10) {
+							registrarVentaConPedido();
+						}else if(opcion == 11) {
+							registrarVentaSinPedido();
+						}else if(opcion == 0) {
+							if(admin.CerrarSesion() == true) {
+								System.out.println("Se ha finalizado la sesión exitosamente!\n");
+								System.out.println("-------------------- TUTTA LA MACCHINA ----------------------");
+								validar = false;
+								leer.close();
+								break;
+							}
 						}
+					}catch (InputMismatchException ex) {
+							System.out.println("ERROR --> Solo se permite el ingreso de números, introduzca nuevamente la opción");
+							leer.nextLine();
 					}
 				}
 			}else {
@@ -76,11 +85,21 @@ public class Ejecutable {
 	public static void agregarAutoparte() {
 		
 		Autoparte autoparte = new Autoparte();
+		boolean entradaValida = false;
 		
-		System.out.print("Introduzca el código: ");
-		int codigo = leer.nextInt();
-		autoparte.setCodigo(codigo);
-
+		do {
+			try {
+				System.out.print("Introduzca el código: ");
+				int codigo = leer.nextInt();
+				autoparte.setCodigo(codigo);
+				entradaValida = true;
+			} catch (InputMismatchException ex) {
+				System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el código del autoparte\n");
+				leer.nextLine();
+			}
+		} while(!entradaValida);
+		
+		entradaValida = false;
 		
 		System.out.print("Introduzca la denominación: ");
 		String denominacion = leer.next();
@@ -108,17 +127,45 @@ public class Ejecutable {
 		String modelo = leer.nextLine();
 		autoparte.setModelo(modelo);
 		
-		System.out.print("Introduzca el precio: ");
-		double precio = leer.nextDouble();
-		autoparte.setPrecio(precio);
+		do {
+			try {
+				System.out.print("Introduzca el precio: ");
+				double precio = leer.nextDouble();
+				autoparte.setPrecio(precio);
+				entradaValida = true;
+			} catch(InputMismatchException ex) {
+				System.out.println("\nERROR --> Solo se aceptan números, introduzca nuevamente el precio \n");
+				leer.nextLine();
+			}
+		} while(!entradaValida);
 		
-		System.out.print("Introduzca el stock: ");
-		int stock = leer.nextInt();
-		autoparte.setCantStock(stock);
+		entradaValida = false;
 		
-		System.out.print("Introduzca el stock minimo: ");
-		int stockMinimo = leer.nextInt();
-		autoparte.setStockMinimo(stockMinimo);
+		do {
+			try {
+				System.out.print("Introduzca el stock: ");
+				int stock = leer.nextInt();
+				autoparte.setCantStock(stock);
+				entradaValida = true;
+			} catch(InputMismatchException ex) {
+				System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock \n");
+				leer.nextLine();			
+			}
+		} while(!entradaValida);
+
+		entradaValida = false;
+		
+		do {
+			try {
+				System.out.print("Introduzca el stock minimo: ");
+				int stockMinimo = leer.nextInt();
+				autoparte.setStockMinimo(stockMinimo);
+				entradaValida = true;
+			} catch(InputMismatchException ex) {
+				System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock mínimo\n");
+				leer.nextLine();					
+			}
+		} while(!entradaValida);
 		
 		System.out.print("Introduzca el enlace: ");
 		String enlace = leer.next();
@@ -133,28 +180,64 @@ public class Ejecutable {
 	}
 	
 	public static void eliminarAutoparte() {
-				
-		System.out.print("Introduzca el código del autoparte: ");
-		int codigo = leer.nextInt();
 		
-		if(admin.existeAutoparte(codigo) == true) {
-			admin.EliminarDelCatalogo(codigo);
-		}
+		boolean entradaValida = false;
+		
+		do {
+			try {
+				System.out.print("Introduzca el código del autoparte: ");
+				int codigo = leer.nextInt();
+				entradaValida = true;		
+				if(admin.existeAutoparte(codigo) == true) {
+					admin.EliminarDelCatalogo(codigo);
+				}
+			} catch(InputMismatchException ex) {
+				System.out.println("ERROR --> Solo se aceptan números enteros, ingrese nuevamente el código del autoparte");
+				leer.nextLine();
+			} 
+		}while(!entradaValida);
 	}
 	
 	public static void modificarStock() {
-			
-		System.out.print("Introduzca el código del autoparte para modificar su stock: ");
-		int codigo = leer.nextInt();
 		
-		if(admin.existeAutoparte(codigo) == true) {
-			System.out.print("OPCIONES: \n[1] Sumar unidades al stock actual \n[2] Reemplazar el valor del stock \nOPCION: ");
-			int opcion = leer.nextInt();
-			System.out.print("Introduzca el nuevo stock: ");
-			int stock = leer.nextInt();
-			admin.ModificarStock(codigo, stock, opcion);
-		}
-		System.out.println("Stock modificado exitosamente!");
+		boolean entradaValida = false;
+		
+		do {
+			try {
+				System.out.print("Introduzca el código del autoparte para modificar su stock: ");
+				int codigo = leer.nextInt();
+				entradaValida = true;
+				if(admin.existeAutoparte(codigo) == true) {
+					entradaValida = false;
+					do {
+						try {
+							System.out.print("OPCIONES: \n[1] Sumar unidades al stock actual \n[2] Reemplazar el valor del stock \nOPCION: ");
+							int opcion = leer.nextInt();
+							entradaValida = true;
+							do {
+								entradaValida = false;
+								try {
+									System.out.print("Introduzca el nuevo stock: ");
+									int stock = leer.nextInt();
+									admin.ModificarStock(codigo, stock, opcion);
+									System.out.println("Stock modificado exitosamente!");
+									entradaValida = true;
+								} catch (InputMismatchException ex) {
+									System.out.println("ERROR --> Solo se aceptan números enteros, ingrese nuevamente el stock");
+									leer.nextLine();									
+								} 
+							} while(!entradaValida);
+						} catch (InputMismatchException ex) {
+							System.out.println("ERROR --> Solo se aceptan números enteros, introduzca nuevamente la opción");
+							leer.nextLine();
+						}
+					} while(!entradaValida);
+				}
+			} catch(InputMismatchException ex) {
+				System.out.println("ERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock");
+				leer.nextLine();				
+			} 
+		}while(!entradaValida);
 	}
 	
 	public static void modificarCatalogo() {
@@ -181,65 +264,113 @@ public class Ejecutable {
 		}
 	}
 	
+	public static void agregarCliente() {
+		
+		Cliente nuevoCliente = new Cliente();
+		
+		System.out.print("Introduzca el ID del cliente: ");
+		int id = leer.nextInt();
+		leer.nextLine();
+		
+		if(!admin.existeCliente(id)) {
+			
+			nuevoCliente.setCodigo(id);
+			
+			System.out.print("Introduzca el nombre del cliente: ");
+			nuevoCliente.setNombre(leer.nextLine());
+			
+			System.out.print("Introduzca la dirección del cliente: ");
+			nuevoCliente.setDireccion(leer.nextLine());
+			
+			System.out.print("Introduzca la localidad del cliente: ");
+			nuevoCliente.setLocalidad(leer.nextLine());
+			
+			System.out.print("Introduzca la provincia del cliente: ");
+			nuevoCliente.setProvincia(leer.nextLine());
+			
+			System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
+			nuevoCliente.setCorreo(leer.nextLine());
+			
+			System.out.print("Introduzca el teléfono del cliente: ");
+			nuevoCliente.setTelefono(leer.nextLine());
+			
+			admin.agregarCliente(nuevoCliente);
+			
+			System.out.println("\nCliente agregado exitosamente!");
+		}
+	}
+	
 	public static void cargarPedido() {
+		
 	    Pedido pedido = new Pedido(); // Crear un nuevo pedido
-
-	    System.out.print("Introduzca el número del pedido: ");
-	    int numero = leer.nextInt();
-	    pedido.setIdPedido(numero);
-
-	    System.out.print("Introduzca la fecha del pedido: ");
-	    String fecha = leer.next();
-	    pedido.setFecha(fecha);
-
-	    leer.nextLine(); // Consumir la nueva línea
-
-	    System.out.print("Introduzca el nombre del usuario: ");
-	    String usuario = leer.nextLine();
-	    pedido.setUsuario(usuario);
-
-	    boolean pedir = true;
-
-	    while (pedir) {
-	        System.out.print("Introduzca el ID de la autoparte: ");
-	        int id = leer.nextInt();
-
-	        if (admin.existeAutoparte(id)) {
-	            int stock = admin.DisponibilidadStock(id);
-
-	            if (stock == 0) {
-	                System.out.println("No hay stock disponible para esta autoparte.");
-	                continue;
-	            }
-
-	            
-	            System.out.print("\nIntroduzca la cantidad necesitada: ");
-	            int cantidad = leer.nextInt();
-
-	            if (cantidad <= stock) {
-	                admin.ModificarStock(id, cantidad, 0); // Reducir el stock de la autoparte
-					double precio = admin.getPrecioAutoparte(id);
-	                // Agregar el detalle al pedido actual
-	                pedido.agregarDetalle(id, precio, cantidad);
-
-	                System.out.print("\nDesea cargar más autopartes al pedido? [1] Si | [2] No \nOPCION: ");
-	                int elegir = leer.nextInt();
-
-	                if (elegir == 2) {
-	                    System.out.println("\nPedido cargado exitosamente!");
-	                    admin.CargarPedido(pedido); // Agregar el pedido completo a la lista de pedidos
-	                    pedir = false;
-	                }
-	            } else {
-	                System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
-	            }
-	        } else {
-	            System.out.println("La autoparte no existe.");
-	        }
+	    
+	    if(admin.catalogoVacio() == false) {
+		    System.out.print("Introduzca el número del pedido: ");
+		    int numero = leer.nextInt();
+		    pedido.setIdPedido(numero);
+	
+		    System.out.print("Introduzca la fecha del pedido: ");
+		    String fecha = leer.next();
+		    pedido.setFecha(fecha);
+	
+		    leer.nextLine(); // Consumir la nueva línea
+	
+		    while(true) {
+		    	
+			    System.out.print("Introduzca el ID del cliente: ");
+			    int cliente = leer.nextInt();
+			    
+			    if(admin.existeCliente(cliente)) {
+			    	pedido.setCliente(cliente);
+			    	break;
+			    }else {
+			    	System.out.println("\nDicho cliente NO se encuentra registrado");
+			    	System.out.println("Ingrese los datos del cliente a registrar\n");
+			    	agregarCliente();
+			    	pedido.setCliente(cliente);
+			    	break;
+			    }
+		    }
+		    
+		    boolean pedir = true;
+	
+		    while (pedir) {
+		        System.out.print("Introduzca el ID de la autoparte: ");
+		        int id = leer.nextInt();
+	
+		        if (admin.existeAutoparte(id)) {
+		            int stock = admin.DisponibilidadStock(id);
+	
+		            if (stock == 0) {
+		                System.out.println("No hay stock disponible para esta autoparte.");
+		                continue;
+		            }
+	  
+		            System.out.print("\nIntroduzca la cantidad necesitada: ");
+		            int cantidad = leer.nextInt();
+	
+		            if (cantidad <= stock) {
+						double precioUnidad = admin.getPrecioAutoparte(id);
+						double precioTotal = precioUnidad * cantidad;
+						System.out.print("Precio total: " + precioTotal);
+		                // Agregar el detalle al pedido actual
+		                pedido.agregarDetalle(id, precioUnidad, cantidad);
+		                admin.ModificarStock(id, cantidad, 0); // Reducir el stock de la autoparte
+	
+		                System.out.print("\nDesea cargar más autopartes al pedido? [1] Si | [2] No \nOPCION: ");
+		                int elegir = leer.nextInt();
+	
+		                if (elegir == 2) {
+		                    admin.CargarPedido(pedido); // Agregar el pedido completo a la lista de pedidos
+		                    pedir = false;
+		                }
+		            } else {
+		                System.out.println("\nSolo hay " + stock + " unidades en stock, intente nuevamente");
+		            }
+		        }
+		    }
 	    }
 	}
-
-
 	
 	public static void cancelarPedido() {
 		
@@ -341,7 +472,6 @@ public class Ejecutable {
 	        if (admin.existeAutoparte(codigo)) {
 	            stock = admin.DisponibilidadStock(codigo); // Devuelve el stock disponible de dicha autoparte
 	            if (stock == 0) {
-	                System.out.println("No hay stock disponible para esta autoparte.");
 	                return;
 	            } else {
 	                // En caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato sin la 
@@ -379,7 +509,6 @@ public class Ejecutable {
 	    }
 	}
 
-	
 	public static void RegistrarMedioDePago(Venta venta) {
         double totalVenta = venta.getDetalleVenta().getMontoTotal();
         double montoFinal = 0.0;
@@ -438,22 +567,8 @@ public class Ejecutable {
         }
         venta.setMontoFinal(montoFinal);
         
-        System.out.println("Monto a abonar (según el medio de pago seleccionado): " + montoFinal);
-        System.out.println("");
-        System.out.println("");
-        System.out.println("|");
-        System.out.println("|");
-        System.out.println("|");
-        System.out.println("|");
-        System.out.println("Generando factura de venta...");
-        System.out.println("|");
-        System.out.println("|");
-        System.out.println("|");
-        System.out.println("|");
+        System.out.println("\nMonto a abonar (según el medio de pago seleccionado): $" + montoFinal);
+        System.out.println("Generando factura de venta...\n");
         admin.GeneradorDeFacturas(venta);
     }
-	
-
 }
-
-
