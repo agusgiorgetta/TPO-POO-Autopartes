@@ -1,6 +1,7 @@
 package negocio;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Administrador {
@@ -107,62 +108,109 @@ public class Administrador {
 	public void ModificarCatalogo(int codigo, int opcion) {
 
 		Scanner leer = new Scanner(System.in);
+		boolean entradaValida = false;
 
 		for (int i = 0; i < catalogo.size(); i++) {
 			if (catalogo.get(i).getCodigo() == codigo) {
-				if (opcion == 1) {
-					System.out.print("Introduzca el nuevo código: ");
-					int codigoNuevo = leer.nextInt();
-					catalogo.get(i).setCodigo(codigoNuevo);
-					System.out.println("Se ha modificado exitosamente el código del autoparte!");
-				} else if (opcion == 2) {
-					System.out.print("Introduzca la nueva denominación: ");
-					String denominacion = leer.next();
-					catalogo.get(i).setDenominacion(denominacion);
-					System.out.println("Se ha modificado exitosamente la denominacion del autoparte!");
-				} else if (opcion == 3) {
-					System.out.print("Introduzca la nueva descripción: ");
-					String descripcion = leer.next();
-					catalogo.get(i).setDescripcion(descripcion);
-					System.out.println("Se ha modificado exitosamente la descripción del autoparte!");
-				} else if (opcion == 4) {
-					System.out.print("Introduzca la nueva categoría: ");
-					String categoria = leer.next();
-					catalogo.get(i).setCategoria(categoria);
-					System.out.println("Se ha modificado exitosamente la categoría del autoparte!");
-				} else if (opcion == 5) {
-					System.out.print("Introduzca la marca: ");
-					String marca = leer.next();
-					catalogo.get(i).setMarca(marca);
-					System.out.println("Se ha modificado exitosamente la marca del autoparte!");
-				} else if (opcion == 6) {
-					System.out.print("Introduzca el modelo: ");
-					String modelo = leer.next();
-					catalogo.get(i).setModelo(modelo);
-					System.out.println("Se ha modificado exitosamente el modelo del autoparte!");
-				} else if (opcion == 7) {
-					System.out.print("Introduzca el nuevo precio: ");
-					double precio = leer.nextDouble();
-					catalogo.get(i).setPrecio(precio);
-					System.out.println("Se ha modificado exitosamente el precio del autoparte!");
-				} else if (opcion == 8) {
-					System.out.print("Introduzca el nuevo stock mínimo: ");
-					int stockMinimo = leer.nextInt();
-					catalogo.get(i).setStockMinimo(stockMinimo);
-					System.out.println("Se ha modificado exitosamente el stock mínimo del autoparte!");
-				} else if (opcion == 9) {
-					System.out.println("Introduzca el nuevo enlace: ");
-					String enlace = leer.next();
-					catalogo.get(i).setEnlace(enlace);
-					System.out.println("Se ha modificado exitosamente el enlace del autoparte!");
-				} else if (opcion == 10) {
-					System.out.println("Introduzca el nuevo stock: ");
-					int stock = leer.nextInt();
-					catalogo.get(i).setCantStock(stock);
-					System.out.println("Se ha modificado exitosamente el stock del autoparte!");
-				} else {
-					return;
-				}
+				do {
+					try {
+						if (opcion == 1) {
+							System.out.print("Introduzca el nuevo código: ");
+							int codigoNuevo = leer.nextInt();
+							entradaValida = true;
+							catalogo.get(i).setCodigo(codigoNuevo);
+							System.out.println("Se ha modificado exitosamente el código del autoparte!");
+						} 
+						entradaValida = true;
+						if (opcion == 2) {
+							System.out.print("Introduzca la nueva denominación: ");
+							String denominacion = leer.next();
+							catalogo.get(i).setDenominacion(denominacion);
+							System.out.println("Se ha modificado exitosamente la denominacion del autoparte!");
+						} else if (opcion == 3) {
+							System.out.print("Introduzca la nueva descripción: ");
+							String descripcion = leer.next();
+							catalogo.get(i).setDescripcion(descripcion);
+							System.out.println("Se ha modificado exitosamente la descripción del autoparte!");
+						} else if (opcion == 4) {
+							System.out.print("Introduzca la nueva categoría: ");
+							String categoria = leer.next();
+							catalogo.get(i).setCategoria(categoria);
+							System.out.println("Se ha modificado exitosamente la categoría del autoparte!");
+						} else if (opcion == 5) {
+							System.out.print("Introduzca la marca: ");
+							String marca = leer.next();
+							catalogo.get(i).setMarca(marca);
+							System.out.println("Se ha modificado exitosamente la marca del autoparte!");
+						} else if (opcion == 6) {
+							System.out.print("Introduzca el modelo: ");
+							String modelo = leer.next();
+							catalogo.get(i).setModelo(modelo);
+							System.out.println("Se ha modificado exitosamente el modelo del autoparte!");
+						} 
+						do {
+							entradaValida = false;
+								try {
+									if (opcion == 7) {
+										System.out.print("Introduzca el nuevo precio: ");
+										double precio = leer.nextDouble();
+										catalogo.get(i).setPrecio(precio);
+										entradaValida = true;
+										System.out.println("Se ha modificado exitosamente el precio del autoparte!");
+									}
+									entradaValida = true;
+								} catch (InputMismatchException ex) {
+									System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el precio\n");
+									leer.nextLine();
+								}
+						} while (!entradaValida);
+							
+						do {
+							entradaValida = false;
+							try {
+								if (opcion == 8) {
+									System.out.print("Introduzca el nuevo stock mínimo: ");
+									int stockMinimo = leer.nextInt();
+									catalogo.get(i).setStockMinimo(stockMinimo);
+									entradaValida = true;
+									System.out.println("Se ha modificado exitosamente el stock mínimo del autoparte!");
+								} 
+								entradaValida = true;
+							} catch (InputMismatchException ex) {
+								System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock mínimo\n");
+								leer.nextLine();
+							}
+						} while (!entradaValida);
+							
+						if (opcion == 9) {
+							System.out.print("Introduzca el nuevo enlace: ");
+							String enlace = leer.next();
+							catalogo.get(i).setEnlace(enlace);
+							System.out.println("Se ha modificado exitosamente el enlace del autoparte!");
+						}
+						
+						do {
+							entradaValida = false;
+							try {
+								if (opcion == 10) {
+									System.out.print("Introduzca el nuevo stock: ");
+									int stock = leer.nextInt();
+									entradaValida = true;
+									catalogo.get(i).setCantStock(stock);
+									System.out.println("Se ha modificado exitosamente el stock del autoparte!");
+								} else {
+									return;
+								} 																
+							} catch (InputMismatchException ex) {
+								System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock\n");
+								leer.nextLine();
+							}
+						} while (!entradaValida);
+					} catch (InputMismatchException ex) {
+						System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el codigo\n");
+						leer.nextLine();
+					}
+				} while (!entradaValida);
 			}
 		}
 	}
