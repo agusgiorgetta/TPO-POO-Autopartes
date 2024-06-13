@@ -6,4 +6,4 @@ Integrantes: Giorgetta, Agustina; Bottinelli, Rocío; Mazzei, Gianfranco
 - Diagrama de Clases (Modificar...)
 - Diagrama de Secuencias (Modificar...)
 - Diagrama de Comunicaciones (Modificar...)
-- Programa (proceso...)(siguiente paso: realizar excepciones)
+- Programa (proceso...)(último paso...hacer que los datos del cliente de la factura se busquen en la array cliente)
