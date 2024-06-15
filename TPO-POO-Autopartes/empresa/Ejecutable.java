@@ -723,86 +723,80 @@ public class Ejecutable {
 	}
 
 	public static void RegistrarMedioDePago(Venta venta) {
-		double totalVenta = venta.getDetalleVenta().getMontoTotal();
-		double montoFinal = 0.0;
-		boolean entradaValida = false;
+	    double totalVenta = venta.getDetalleVenta().getMontoTotal();
+	    double montoFinal = 0.0;
+	    boolean entradaValida = false;
 
-		System.out.println("Seleccione el medio de pago:");
-		System.out.println("1. Tarjeta de débito");
-		System.out.println("2. Tarjeta de crédito");
-		System.out.println("3. Efectivo");
-		do {
-			try {
-				System.out.print("Opción: ");
-				int opcionMedioPago = leer.nextInt();
-				leer.nextLine(); // Consumir la nueva línea
-				entradaValida = true;
+	    System.out.println("Seleccione el medio de pago:");
+	    System.out.println("1. Tarjeta de débito");
+	    System.out.println("2. Tarjeta de crédito");
+	    System.out.println("3. Efectivo");
+	    do {
+	        try {
+	            System.out.print("Opción: ");
+	            int opcionMedioPago = leer.nextInt();
+	            leer.nextLine(); // Consumir la nueva línea
+	            entradaValida = true;
 
-				switch (opcionMedioPago) {
-				case 1:
-					// Si el cliente paga con débito, se cobra el valor total de la venta
-					montoFinal = totalVenta;
-					venta.setMedioDePago("Tarjeta de débito");
-					venta.setCantCuotas(0);
-					break;
-				case 2:
-					// Si el cliente paga con tarjeta de crédito, se solicita la cantidad de cuotas
-					venta.setMedioDePago("Tarjeta de crédito");
-					entradaValida = false;
-					do {
-						try {
-							System.out.print("Ingrese la cantidad de cuotas (2, 3 o 6):");
-							int cantidadCuotas = leer.nextInt();
-							leer.nextLine(); // Consumir la nueva línea
-							entradaValida = true;
+	            if (opcionMedioPago == 1) {
+	                // Si el cliente paga con débito, se cobra el valor total de la venta
+	                montoFinal = totalVenta;
+	                venta.setMedioDePago("Tarjeta de débito");
+	                venta.setCantCuotas(0);
+	            } else if (opcionMedioPago == 2) {
+	                // Si el cliente paga con tarjeta de crédito, se solicita la cantidad de cuotas
+	                venta.setMedioDePago("Tarjeta de crédito");
+	                boolean cuotasValida = false;
+	                do {
+	                    try {
+	                        System.out.print("Ingrese la cantidad de cuotas (2, 3 o 6): ");
+	                        int cantidadCuotas = leer.nextInt();
+	                        if (cantidadCuotas == 2 || cantidadCuotas == 3 || cantidadCuotas == 6) {
+	                            leer.nextLine(); // Consumir la nueva línea
+	                            cuotasValida = true;
 
-							// Si la cantidad de cuotas es 2, 3 o 6, se aplica el recargo correspondiente
-							switch (cantidadCuotas) {
-							case 2:
-								montoFinal = totalVenta * 1.06;
-								venta.setCantCuotas(2);
-								break;
-							case 3:
-								montoFinal = totalVenta * 1.12;
-								venta.setCantCuotas(3);
-								break;
-							case 6:
-								montoFinal = totalVenta * 1.20;
-								venta.setCantCuotas(6);
-								break;
-							default:
-								System.out.println("Cantidad de cuotas no válida. Solo se permiten 2, 3 o 6 cuotas.");
-								return;
-							}
-							break;
-						} catch (InputMismatchException ex) {
-							System.out.println(
-									"\nERROR --> Solo se aceptan números enteros, introduzca nuevamente la cantidad de cuotas\n");
-							leer.nextLine();
-						}
-					} while (!entradaValida);
+	                            // Si la cantidad de cuotas es 2, 3 o 6, se aplica el recargo correspondiente
+	                            if (cantidadCuotas == 2) {
+	                                montoFinal = totalVenta * 1.06;
+	                                venta.setCantCuotas(2);
+	                            } else if (cantidadCuotas == 3) {
+	                                montoFinal = totalVenta * 1.12;
+	                                venta.setCantCuotas(3);
+	                            } else if (cantidadCuotas == 6) {
+	                                montoFinal = totalVenta * 1.20;
+	                                venta.setCantCuotas(6);
+	                            }
+	                        } else {
+	                            System.out.println("Cantidad de cuotas no válida. Solo se permiten 2, 3 o 6 cuotas.");
+	                        }
+	                    } catch (InputMismatchException ex) {
+	                        System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente la cantidad de cuotas\n");
+	                        leer.nextLine(); // Consumir la nueva línea en caso de error
+	                    }
+	                } while (!cuotasValida);
+	            } else if (opcionMedioPago == 3) {
+	                // Si el cliente paga en efectivo, recibe un descuento del 10% del valor total de la venta
+	                montoFinal = totalVenta * 0.9;
+	                venta.setMedioDePago("Efectivo");
+	                venta.setCantCuotas(0);
+	            } else {
+	                // Si se proporciona un medio de pago no válido, se informa al usuario
+	                System.out.println("Medio de pago no válido. Seleccione una opción válida.");
+	                entradaValida = false;
+	            }
 
-				case 3:
-					// Si el cliente paga en efectivo, recibe un descuento del 10% del valor total
-					// de la venta
-					montoFinal = totalVenta * 0.9;
-					venta.setMedioDePago("Efectivo");
-					venta.setCantCuotas(0);
-					break;
-				default:
-					// Si se proporciona un medio de pago no válido, se informa al usuario
-					System.out.println("Medio de pago no válido. Seleccione una opción válida.");
-					return;
-				}
-				venta.setMontoFinal(montoFinal);
-
-				System.out.println("\nMonto a abonar (según el medio de pago seleccionado): $" + montoFinal);
-				System.out.println("Generando factura de venta...\n");
-				admin.GeneradorDeFacturas(venta);
-			} catch (InputMismatchException ex) {
-				System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente la opción\n");
-				leer.nextLine();
-			}
-		} while (!entradaValida);
+	            // Establecer el monto final solo si se ha seleccionado una opción válida
+	            if (entradaValida) {
+	                venta.setMontoFinal(montoFinal);
+	                System.out.println("\nMonto a abonar (según el medio de pago seleccionado): $" + montoFinal);
+	                System.out.println("Generando factura de venta...\n");
+	                admin.GeneradorDeFacturas(venta);
+	            }
+	        } catch (InputMismatchException ex) {
+	            System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente la opción\n");
+	            leer.nextLine(); // Consumir la nueva línea en caso de error
+	        }
+	    } while (!entradaValida);
 	}
+
 }
