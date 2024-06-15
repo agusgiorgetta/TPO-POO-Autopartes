@@ -15,13 +15,13 @@ public class Administrador {
 	private ArrayList<Autoparte> catalogo;
 	private ArrayList<Pedido> pedidos;
 	private ArrayList<Venta> cantVentas;
-	private ArrayList<Cliente> cliente;
+	private ArrayList<Cliente> clientes;
 
 	public Administrador() {
 		catalogo = new ArrayList<Autoparte>(); // lista que contiene todas las autopartes
 		pedidos = new ArrayList<Pedido>(); // lista que contiene todos los pedidos
 		cantVentas = new ArrayList<Venta>(); // lista que contiene todas las ventas --> guarda numero factura
-		cliente = new ArrayList<Cliente>(); //lista que contiene a todos los clientes registrados
+		clientes = new ArrayList<Cliente>(); //lista que contiene a todos los clientes registrados
 	}
 
 	public int getCodigo() {
@@ -233,6 +233,46 @@ public class Administrador {
 			return;
 		}
 	}
+	public int getClienteEnPedidoById(int pedidoId) {
+		int idCliente = -1;
+		// Comprobar si el catálogo no está vacío
+		if (!pedidos.isEmpty()) {
+			// Recorrer el catálogo
+			for (int i = 0; i < pedidos.size(); i++) {
+				// Comprobar si el código de la autoparte coincide con el ID buscado
+				if (pedidos.get(i).getIdPedido() == pedidoId) {
+					System.out.println("ID Cliente: " + pedidoId + "| Nombre: "+  clientes.get(i).getNombre());
+					// Devolver el precio de la autoparte encontrada
+					idCliente = pedidos.get(i).getCliente();
+					return idCliente;
+				}
+			}
+		}
+
+		// Devolver el valor predeterminado si no se encuentra la autoparte
+		return idCliente;
+	}
+
+	
+	public Cliente getClienteById(int id) {
+		// Inicializar con un valor predeterminado
+		Cliente cliente = null;
+
+		// Comprobar si el catálogo no está vacío
+		if (!clientes.isEmpty()) {
+			// Recorrer el catálogo
+			for (int i = 0; i < clientes.size(); i++) {
+				// Comprobar si el código de la autoparte coincide con el ID buscado
+				if (clientes.get(i).getCodigo() == id) {
+					// Devolver el precio de la autoparte encontrada
+					return clientes.get(i);
+				}
+			}
+		}
+
+		// Devolver el valor predeterminado si no se encuentra la autoparte
+		return cliente;
+	}
 
 	public double getPrecioAutoparte(int id) {
 		// Inicializar con un valor predeterminado
@@ -289,15 +329,28 @@ public class Administrador {
 
 	// Agrega un cliente nuevo al sistema
 	public void agregarCliente(Cliente c) {
-		cliente.add(c);
+		clientes.add(c);
 	}
 	
 	//Verifica si un cliente ya se encuentra en el sistema
 	public boolean existeCliente(int id) {
-		if(!cliente.isEmpty()) {
-			for (int i = 0; i < cliente.size(); i++) {
-				if (cliente.get(i).getCodigo() == id) {
-					System.out.print("El cliente con ID: " + id + " ya está registrado");
+		if(!clientes.isEmpty()) {
+			for (int i = 0; i < clientes.size(); i++) {
+				if (clientes.get(i).getCodigo() == id) {
+					System.out.print("El cliente con ID " + id + " ya está registrado\n");
+					return true;
+				}
+			}return false;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean idAutoparteRepetido(int id) {
+		if(!catalogo.isEmpty()) {
+			for (int i = 0; i < catalogo.size(); i++) {
+				if (catalogo.get(i).getCodigo() == id) {
+					System.out.print("La autoparte con ID: " + id + " ya está registrado");
 					return true;
 				}
 			}return false;
@@ -459,10 +512,7 @@ public class Administrador {
 		return 0;
 	}
 
-	// Verifica la opcion y los datos introducidos por el administrador
-	public void RegistrarMedioDePago(int medio) {
-
-	}
+	
 
 	// Genera la factura de la venta con o sin pedido relacionada con un cliente
 	public void GeneradorDeFacturas(Venta venta) {
