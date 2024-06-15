@@ -90,48 +90,44 @@ public class Ejecutable {
 
 		Autoparte autoparte = new Autoparte();
 		boolean entradaValida = false;
-
+		
 		do {
-			System.out.print("Introduzca el código: ");
-			int codigo = leer.nextInt();
-			try {
-				while (admin.idAutoparteRepetido(codigo)) {
-					System.out.print("\nIntroduzca otro código: ");
-					codigo = leer.nextInt();
-				}
-
-				autoparte.setCodigo(codigo);
-				entradaValida = true;
-			} catch (InputMismatchException ex) {
-				System.out.println(
+            System.out.print("Introduzca el código: ");
+            try {
+                int codigo = leer.nextInt();
+                if (admin.idAutoparteRepetido(codigo)) {
+                    System.out.print("\n");
+                    //se agrega un salto de linea y el bucle regresa a introducir codigo
+                } else {
+                    autoparte.setCodigo(codigo);
+                    entradaValida = true; // Marcar como entrada válida
+                }
+            } catch (InputMismatchException ex) {
+            	System.out.println(
 						"\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el código del autoparte\n");
-				leer.nextLine();
-			}
-		} while (!entradaValida);
-
+				leer.nextLine(); // Limpia el búfer de entrada después de un error
+            }
+        } while (!entradaValida);
+		
 		entradaValida = false;
-
-		System.out.print("Introduzca la denominación: ");
-		String denominacion = leer.next();
-		autoparte.setDenominacion(denominacion);
-
+		
 		leer.nextLine();
+		
+		System.out.print("Introduzca la denominación: ");
+		String denominacion = leer.nextLine();
+		autoparte.setDenominacion(denominacion);
 
 		System.out.print("Introduzca la descripción: ");
 		String descripcion = leer.nextLine();
 		autoparte.setDescripcion(descripcion);
 
 		System.out.print("Introduzca la categoria: ");
-		String categoria = leer.next();
+		String categoria = leer.nextLine();
 		autoparte.setCategoria(categoria);
 
-		leer.nextLine();
-
 		System.out.print("Introduzca la marca: ");
-		String marca = leer.next();
+		String marca = leer.nextLine();
 		autoparte.setMarca(marca);
-
-		leer.nextLine();
 
 		System.out.print("Introduzca el modelo: ");
 		String modelo = leer.nextLine();
@@ -178,12 +174,14 @@ public class Ejecutable {
 			}
 		} while (!entradaValida);
 
+		leer.nextLine();
+		
 		System.out.print("Introduzca el enlace: ");
-		String enlace = leer.next();
+		String enlace = leer.nextLine();
 		autoparte.setEnlace(enlace);
 
 		admin.CargarAutoparte(autoparte);
-		System.out.println("\nAutoparte cargada exitosamente!");
+		System.out.println("Autoparte cargada exitosamente!");
 	}
 
 	public static void mostrarCatalogo() {
@@ -517,6 +515,7 @@ public class Ejecutable {
 				System.out.print("Introduzca el número de pedido a cancelar: ");
 				int numero = leer.nextInt();
 				admin.CancelarPedido(numero);
+				System.out.println("Pedido cancelado exitosamente!");
 				entradaValida = true;
 			} catch (InputMismatchException ex) {
 				System.out.println(
@@ -556,6 +555,7 @@ public class Ejecutable {
 
 							admin.RegistrarVentaConPedido(numPedido, venta);
 							RegistrarMedioDePago(venta);
+							admin.CancelarPedido(numPedido);
 						}
 						entradaValida = true;
 					} catch (InputMismatchException ex) {

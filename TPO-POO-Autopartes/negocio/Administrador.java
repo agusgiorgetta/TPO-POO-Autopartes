@@ -246,7 +246,7 @@ public class Administrador {
 			for (int i = 0; i < pedidos.size(); i++) {
 				// Comprobar si el código de la autoparte coincide con el ID buscado
 				if (pedidos.get(i).getIdPedido() == pedidoId) {
-					System.out.println("ID Cliente: " + pedidoId + "| Nombre: " + clientes.get(i).getNombre());
+					System.out.println("ID Cliente: " + pedidoId + "\nNombre: " + clientes.get(i).getNombre());
 					// Devolver el precio de la autoparte encontrada
 					idCliente = pedidos.get(i).getCliente();
 					return idCliente;
@@ -391,7 +391,6 @@ public class Administrador {
 			for (int i = 0; i < pedidos.size(); i++) {
 				if (pedidos.get(i).getIdPedido() == codigo) {
 					pedidos.remove(i);
-					System.out.println("Pedido cancelado exitosamente!");
 					return;
 				}
 			}
@@ -457,7 +456,6 @@ public class Administrador {
 			// se añade la venta al registro
 			cantVentas.add(v);
 
-			System.out.println("Operación exitosa!");
 		}
 	}
 
@@ -490,7 +488,6 @@ public class Administrador {
 		// se añade la venta al registro
 		cantVentas.add(v);
 
-		System.out.println("Operación exitosa!");
 	}
 
 	// Verifica la disponibilidad y la cantidad de stock de un autoparte y devuelve
@@ -542,7 +539,7 @@ public class Administrador {
 		System.out.println("**********************************************************************************");
 		System.out.println("Detalles de la Venta:");
 		System.out.printf("%-10s %-20s %-15s %-20s %-10s\n", "ID", "Autoparte", "Cantidad", "Precio Unitario",
-				"Subtotal");
+				"  Total");
 		System.out.println("----------------------------------------------------------------------------------");
 		for (Pedido.Detalle detalle : pedido.getDetalles()) {
 			String nombreAutoparte = getNombreAutoparte(detalle.getArticulo());
@@ -550,10 +547,13 @@ public class Administrador {
 					detalle.getCantidad(), detalle.getPrecio(), (detalle.getCantidad() * detalle.getPrecio()));
 		}
 		System.out.println("----------------------------------------------------------------------------------");
-		System.out.printf("%-70s %-10.2f\n", "Total Venta:", pedido.getMontoTotal());
+		System.out.printf("%-70s %-10.2f\n", "Subtotal:", pedido.getMontoTotal());
 		System.out.println("**********************************************************************************");
 		System.out.println("Medio de pago: " + medioPago);
-		System.out.println("Cantidad de Cuotas: " + cantCuotas);
+		if (cantCuotas != 0)
+			System.out.println("Cantidad de Cuotas: " + cantCuotas);
+		if (medioPago == "Efectivo")
+			System.out.printf("%-70s %-10.2f\n", "Descuento: ", (pedido.getMontoTotal() - totalVenta) );
 		System.out.printf("%-70s %-10.2f\n", "Monto Total a Pagar:", totalVenta);
 		System.out.println("**********************************************************************************");
 		System.out.println("Gracias por su compra!");
@@ -562,7 +562,7 @@ public class Administrador {
 	// Alerta en caso de que el stock quede por debajo del minimo
 	public void StockMinimo(int stock, int minimo) {
 		if (stock < minimo) {
-			System.out.println("\nAlerta! El stock de esta autoparte se encuentra por debajo el mínimo --> " + minimo
+			System.out.println("\nAlerta! El stock de esta autoparte se encuentra por debajo del mínimo --> " + minimo
 					+ ". Contacte con proveedores.\n");
 			return;
 		} else {
