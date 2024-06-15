@@ -21,7 +21,7 @@ public class Administrador {
 		catalogo = new ArrayList<Autoparte>(); // lista que contiene todas las autopartes
 		pedidos = new ArrayList<Pedido>(); // lista que contiene todos los pedidos
 		cantVentas = new ArrayList<Venta>(); // lista que contiene todas las ventas --> guarda numero factura
-		clientes = new ArrayList<Cliente>(); //lista que contiene a todos los clientes registrados
+		clientes = new ArrayList<Cliente>(); // lista que contiene a todos los clientes registrados
 	}
 
 	public int getCodigo() {
@@ -120,7 +120,7 @@ public class Administrador {
 							entradaValida = true;
 							catalogo.get(i).setCodigo(codigoNuevo);
 							System.out.println("Se ha modificado exitosamente el código del autoparte!");
-						} 
+						}
 						entradaValida = true;
 						if (opcion == 2) {
 							System.out.print("Introduzca la nueva denominación: ");
@@ -147,24 +147,25 @@ public class Administrador {
 							String modelo = leer.next();
 							catalogo.get(i).setModelo(modelo);
 							System.out.println("Se ha modificado exitosamente el modelo del autoparte!");
-						} 
+						}
 						do {
 							entradaValida = false;
-								try {
-									if (opcion == 7) {
-										System.out.print("Introduzca el nuevo precio: ");
-										double precio = leer.nextDouble();
-										catalogo.get(i).setPrecio(precio);
-										entradaValida = true;
-										System.out.println("Se ha modificado exitosamente el precio del autoparte!");
-									}
+							try {
+								if (opcion == 7) {
+									System.out.print("Introduzca el nuevo precio: ");
+									double precio = leer.nextDouble();
+									catalogo.get(i).setPrecio(precio);
 									entradaValida = true;
-								} catch (InputMismatchException ex) {
-									System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el precio\n");
-									leer.nextLine();
+									System.out.println("Se ha modificado exitosamente el precio del autoparte!");
 								}
+								entradaValida = true;
+							} catch (InputMismatchException ex) {
+								System.out.println(
+										"\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el precio\n");
+								leer.nextLine();
+							}
 						} while (!entradaValida);
-							
+
 						do {
 							entradaValida = false;
 							try {
@@ -174,21 +175,22 @@ public class Administrador {
 									catalogo.get(i).setStockMinimo(stockMinimo);
 									entradaValida = true;
 									System.out.println("Se ha modificado exitosamente el stock mínimo del autoparte!");
-								} 
+								}
 								entradaValida = true;
 							} catch (InputMismatchException ex) {
-								System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock mínimo\n");
+								System.out.println(
+										"\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock mínimo\n");
 								leer.nextLine();
 							}
 						} while (!entradaValida);
-							
+
 						if (opcion == 9) {
 							System.out.print("Introduzca el nuevo enlace: ");
 							String enlace = leer.next();
 							catalogo.get(i).setEnlace(enlace);
 							System.out.println("Se ha modificado exitosamente el enlace del autoparte!");
 						}
-						
+
 						do {
 							entradaValida = false;
 							try {
@@ -200,14 +202,16 @@ public class Administrador {
 									System.out.println("Se ha modificado exitosamente el stock del autoparte!");
 								} else {
 									return;
-								} 																
+								}
 							} catch (InputMismatchException ex) {
-								System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock\n");
+								System.out.println(
+										"\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el stock\n");
 								leer.nextLine();
 							}
 						} while (!entradaValida);
 					} catch (InputMismatchException ex) {
-						System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el codigo\n");
+						System.out.println(
+								"\nERROR --> Solo se aceptan números enteros, introduzca nuevamente el codigo\n");
 						leer.nextLine();
 					}
 				} while (!entradaValida);
@@ -233,6 +237,7 @@ public class Administrador {
 			return;
 		}
 	}
+
 	public int getClienteEnPedidoById(int pedidoId) {
 		int idCliente = -1;
 		// Comprobar si el catálogo no está vacío
@@ -241,7 +246,7 @@ public class Administrador {
 			for (int i = 0; i < pedidos.size(); i++) {
 				// Comprobar si el código de la autoparte coincide con el ID buscado
 				if (pedidos.get(i).getIdPedido() == pedidoId) {
-					System.out.println("ID Cliente: " + pedidoId + "| Nombre: "+  clientes.get(i).getNombre());
+					System.out.println("ID Cliente: " + pedidoId + "| Nombre: " + clientes.get(i).getNombre());
 					// Devolver el precio de la autoparte encontrada
 					idCliente = pedidos.get(i).getCliente();
 					return idCliente;
@@ -253,7 +258,6 @@ public class Administrador {
 		return idCliente;
 	}
 
-	
 	public Cliente getClienteById(int id) {
 		// Inicializar con un valor predeterminado
 		Cliente cliente = null;
@@ -331,34 +335,36 @@ public class Administrador {
 	public void agregarCliente(Cliente c) {
 		clientes.add(c);
 	}
-	
-	//Verifica si un cliente ya se encuentra en el sistema
+
+	// Verifica si un cliente ya se encuentra en el sistema
 	public boolean existeCliente(int id) {
-		if(!clientes.isEmpty()) {
+		if (!clientes.isEmpty()) {
 			for (int i = 0; i < clientes.size(); i++) {
 				if (clientes.get(i).getCodigo() == id) {
 					System.out.print("El cliente con ID " + id + " ya está registrado\n");
 					return true;
 				}
-			}return false;
-		}else {
+			}
+			return false;
+		} else {
 			return false;
 		}
 	}
-	
+
 	public boolean idAutoparteRepetido(int id) {
-		if(!catalogo.isEmpty()) {
+		if (!catalogo.isEmpty()) {
 			for (int i = 0; i < catalogo.size(); i++) {
 				if (catalogo.get(i).getCodigo() == id) {
 					System.out.print("La autoparte con ID: " + id + " ya está registrado");
 					return true;
 				}
-			}return false;
-		}else {
+			}
+			return false;
+		} else {
 			return false;
 		}
 	}
-	
+
 	// Carga un pedido al contenedor de pedidos
 	public void CargarPedido(Pedido p) {
 		if (!catalogoVacio()) {
@@ -512,48 +518,48 @@ public class Administrador {
 		return 0;
 	}
 
-	
-
 	// Genera la factura de la venta con o sin pedido relacionada con un cliente
 	public void GeneradorDeFacturas(Venta venta) {
-		
-	    Cliente cliente = venta.getCliente();
-	    Pedido pedido = venta.getDetalleVenta();
-	    double totalVenta = venta.getMontoFinal();
-	    String medioPago = venta.getMedioDePago();
-	    int cantCuotas = venta.getCantCuotas();
-	    
-	    System.out.println("**********************************************************************************");
-	    System.out.println("                         FACTURA                          ");
-	    System.out.println("**********************************************************************************");
-	    System.out.println("Fecha de venta: " + pedido.getFecha());
-	    System.out.println("\nDATOS DEL NEGOCIO                       	DATOS DEL CLIENTE");
-	    System.out.println("Nombre: TUTTA LA MACCHINA               	ID: " + cliente.getCodigo());
-	    System.out.println("Dirección: Avenida Corrientes 123       	Nombre: " + cliente.getNombre());
-	    System.out.println("Localidad: Monserrat                    	Dirección: " + cliente.getDireccion());
-	    System.out.println("Provincia: Buenos Aires                 	Localidad: " + cliente.getLocalidad());
-	    System.out.println("Teléfono: 1122334455                    	Provincia: " + cliente.getProvincia());
-	    System.out.println("                                        	Correo: " + cliente.getCorreo());
-	    System.out.println("                                        	Teléfono: " + cliente.getTelefono());
-	    System.out.println("**********************************************************************************");
-	    System.out.println("Detalles de la Venta:");
-	    System.out.printf("%-10s %-20s %-15s %-20s %-10s\n", "ID", "Autoparte", "Cantidad", "Precio Unitario", "Subtotal");
-	    System.out.println("----------------------------------------------------------------------------------");
-	    for (Pedido.Detalle detalle : pedido.getDetalles()) {
-	        String nombreAutoparte = getNombreAutoparte(detalle.getArticulo());
-	        System.out.printf("%-10s %-24s %-15d %-18.2f %-18.2f\n", detalle.getArticulo(), nombreAutoparte, detalle.getCantidad(), detalle.getPrecio(), (detalle.getCantidad() * detalle.getPrecio()));
-	    }
-	    System.out.println("----------------------------------------------------------------------------------");
-	    System.out.printf("%-70s %-10.2f\n", "Total Venta:", pedido.getMontoTotal());
-	    System.out.println("**********************************************************************************");
-	    System.out.println("Medio de pago: " + medioPago);
-	    System.out.println("Cantidad de Cuotas: " + cantCuotas);
-	    System.out.printf("%-70s %-10.2f\n", "Monto Total a Pagar:", totalVenta);
-	    System.out.println("**********************************************************************************");
-	    System.out.println("Gracias por su compra!");
+
+		Cliente cliente = venta.getCliente();
+		Pedido pedido = venta.getDetalleVenta();
+		double totalVenta = venta.getMontoFinal();
+		String medioPago = venta.getMedioDePago();
+		int cantCuotas = venta.getCantCuotas();
+
+		System.out.println("**********************************************************************************");
+		System.out.println("                         FACTURA                          ");
+		System.out.println("**********************************************************************************");
+		System.out.println("Fecha de venta: " + pedido.getFecha());
+		System.out.println("\nDATOS DEL NEGOCIO                       	DATOS DEL CLIENTE");
+		System.out.println("Nombre: TUTTA LA MACCHINA               	ID: " + cliente.getCodigo());
+		System.out.println("Dirección: Avenida Corrientes 123       	Nombre: " + cliente.getNombre());
+		System.out.println("Localidad: Monserrat                    	Dirección: " + cliente.getDireccion());
+		System.out.println("Provincia: Buenos Aires                 	Localidad: " + cliente.getLocalidad());
+		System.out.println("Teléfono: 1122334455                    	Provincia: " + cliente.getProvincia());
+		System.out.println("                                        	Correo: " + cliente.getCorreo());
+		System.out.println("                                        	Teléfono: " + cliente.getTelefono());
+		System.out.println("**********************************************************************************");
+		System.out.println("Detalles de la Venta:");
+		System.out.printf("%-10s %-20s %-15s %-20s %-10s\n", "ID", "Autoparte", "Cantidad", "Precio Unitario",
+				"Subtotal");
+		System.out.println("----------------------------------------------------------------------------------");
+		for (Pedido.Detalle detalle : pedido.getDetalles()) {
+			String nombreAutoparte = getNombreAutoparte(detalle.getArticulo());
+			System.out.printf("%-10s %-24s %-15d %-18.2f %-18.2f\n", detalle.getArticulo(), nombreAutoparte,
+					detalle.getCantidad(), detalle.getPrecio(), (detalle.getCantidad() * detalle.getPrecio()));
+		}
+		System.out.println("----------------------------------------------------------------------------------");
+		System.out.printf("%-70s %-10.2f\n", "Total Venta:", pedido.getMontoTotal());
+		System.out.println("**********************************************************************************");
+		System.out.println("Medio de pago: " + medioPago);
+		System.out.println("Cantidad de Cuotas: " + cantCuotas);
+		System.out.printf("%-70s %-10.2f\n", "Monto Total a Pagar:", totalVenta);
+		System.out.println("**********************************************************************************");
+		System.out.println("Gracias por su compra!");
 	}
-	
-	//Alerta en caso de que el stock quede por debajo del minimo
+
+	// Alerta en caso de que el stock quede por debajo del minimo
 	public void StockMinimo(int stock, int minimo) {
 		if (stock < minimo) {
 			System.out.println("\nAlerta! El stock de esta autoparte se encuentra por debajo el mínimo --> " + minimo
@@ -580,10 +586,39 @@ public class Administrador {
 		}
 	}
 
-	//Devuelve la denominacion del autoparte necesitado
+	public boolean existePedidoConId(int codigo) {
+		if (catalogoVacio() == false) {
+			for (int i = 0; i < pedidos.size(); i++) {
+				if (pedidos.get(i).getIdPedido() == codigo) {
+					System.out.println("El pedido con código " + codigo + "  existe, intente cargando otro código");
+					return true;
+				}
+			}
+
+			return false;
+		} else {
+			return false;
+		}
+	}
+	public boolean existeVentaConId(int codigo) {
+		if (catalogoVacio() == false) {
+			for (int i = 0; i < cantVentas.size(); i++) {
+				if (cantVentas.get(i).getCodigo() == codigo) {
+					System.out.println("La operación de venta con código " + codigo + " ya existe en el sistema, intente utilizando otro código");
+					return true;
+				}
+			}
+
+			return false;
+		} else {
+			return false;
+		}
+	}
+
+	// Devuelve la denominacion del autoparte necesitado
 	public String getNombreAutoparte(int id) {
 		// Inicializar con un valor predeterminado
-		String nombre ="";
+		String nombre = "";
 
 		// Comprobar si el catálogo no está vacío
 		if (!catalogoVacio()) {

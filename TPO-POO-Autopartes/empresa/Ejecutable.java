@@ -378,9 +378,16 @@ public class Ejecutable {
 		do {
 			try {
 				if (admin.catalogoVacio() == false) {
+
 					System.out.print("Introduzca el número del pedido: ");
-					int numero = leer.nextInt();
-					pedido.setIdPedido(numero);
+					int numeroPedido = leer.nextInt();
+
+					while (admin.existePedidoConId(numeroPedido)) {
+						System.out.print("Introduzca otro número del pedido: ");
+						numeroPedido = leer.nextInt();
+					}
+
+					pedido.setIdPedido(numeroPedido);
 
 					entradaValida = true;
 
@@ -388,7 +395,7 @@ public class Ejecutable {
 					String fecha = leer.next();
 					pedido.setFecha(fecha);
 
-					leer.nextLine(); // Consumir la nueva línea
+					leer.nextLine(); 
 
 					do {
 						entradaValida = false;
@@ -401,7 +408,6 @@ public class Ejecutable {
 
 								if (admin.existeCliente(cliente)) {
 									pedido.setCliente(cliente);
-									/* leer.nextLine(); */
 									break;
 								} else {
 									System.out.println("\nDicho cliente NO se encuentra registrado");
@@ -424,6 +430,7 @@ public class Ejecutable {
 					do {
 						try {
 							while (pedir) {
+								System.out.println("-----PEDIDO DE AUTOPARTES-----");
 								System.out.print("Introduzca el ID de la autoparte: ");
 								int id = leer.nextInt();
 								entradaValida = true;
@@ -528,6 +535,10 @@ public class Ejecutable {
 			try {
 				System.out.print("Introduzca un código de venta: ");
 				int numero = leer.nextInt();
+				while (admin.existeVentaConId(numero)) {
+					System.out.print("Introduzca otro número para esta venta: ");
+					numero = leer.nextInt();
+				}
 				venta.setCodigo(numero);
 				entradaValida = true;
 
@@ -569,12 +580,14 @@ public class Ejecutable {
 		boolean pedir = true;
 		boolean verificar = true;
 		boolean entradaValida = false;
-
 		do {
 			try {
-				
-				System.out.print("Introduzca el código de la venta: ");
+				System.out.print("Introduzca un código de la venta: ");
 				int numero = leer.nextInt();
+				while (admin.existeVentaConId(numero)) {
+					System.out.print("Introduzca otro número para esta venta: ");
+					numero = leer.nextInt();
+				}
 				venta.setCodigo(numero);
 				entradaValida = true;
 
@@ -591,7 +604,6 @@ public class Ejecutable {
 							if (admin.existeCliente(clienteId)) {
 								Cliente clienteVenta = admin.getClienteById(clienteId);
 								venta.setCliente(clienteVenta);
-								/* leer.nextLine(); */
 								break;
 							} else {
 								System.out.println("\nDicho cliente NO se encuentra registrado");
@@ -611,6 +623,7 @@ public class Ejecutable {
 							entradaValida = false;
 							do {
 								try {
+									System.out.println("-----PEDIDO DE AUTOPARTES-----");
 									System.out.print("Introduzca el ID de la autoparte: ");
 									int codigo = leer.nextInt();
 									verificar = true;
