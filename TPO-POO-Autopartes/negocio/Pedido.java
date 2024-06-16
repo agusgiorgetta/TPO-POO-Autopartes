@@ -9,10 +9,10 @@ public class Pedido {
 	private String fecha;
 	private double montoTotal; // precio*cantidad de la autoparte
 	private int cliente;
-	private List<Detalle> detalles; // denominacion
+	private List<Detalle> detalles; // Denominacion
 	
 	public Pedido() {
-		this.detalles = new ArrayList<>(); // Inicializar la lista de detalles
+		this.detalles = new ArrayList<>(); // Inicializa la lista de detalles
 	    this.montoTotal = 0.00;
 	}
 
@@ -52,6 +52,7 @@ public class Pedido {
 		return detalles;
 	}
 
+	// Agrega los detalles del pedido
 	public void agregarDetalle(int articulo, double precio, int cantidad) {
 		Detalle detalle = new Detalle(articulo, precio, cantidad);
 		this.detalles.add(detalle);

@@ -100,29 +100,25 @@ public class Administrador {
 		}
 	}
 
-	// Utilicé el scanner acá también ya que no puede recibir otro dato debido que
-	// hay opciones
-	// que son Strings y otras Int, por ende, recibe la opción elegida por el
-	// usuario y se recorre
-	// el catalogo y se modifica la autoparte de acuerdo a lo seleccionado
+	// Permite modificar varios datos de una autoparte
 	public void ModificarCatalogo(int codigo, int opcion) {
 
 		Scanner leer = new Scanner(System.in);
-		boolean entradaValida = false;
+		boolean entradaValida = false; // Inicializa la variable entradaValida
 
 		for (int i = 0; i < catalogo.size(); i++) {
-			if (catalogo.get(i).getCodigo() == codigo) {
+			if (catalogo.get(i).getCodigo() == codigo) { // Busca la autoparte que coincida con el ID ingresado
 				do {
 					try {
-						if (opcion == 1) {
+						if (opcion == 1) { // Modifica el codigo de la autoparte
 							boolean codigoInvalido = true;
-							while (codigoInvalido) {
+							while (codigoInvalido) { // Verifica que el codigo sea valido, si no lo es, corta
 								System.out.print("Introduzca el nuevo código: ");
 								int codigoNuevo = leer.nextInt();
-								if (codigoNuevo >= 0) {
+								if (codigoNuevo >= 0) { // Comprueba que el numero ingresado sea positivo
 									entradaValida = true;
 									codigoInvalido = false;
-									catalogo.get(i).setCodigo(codigoNuevo);
+									catalogo.get(i).setCodigo(codigoNuevo); // Guarda el nuevo codigo de la autoparte en el catalogo
 									System.out.println("Se ha modificado exitosamente el código del autoparte!");										
 								} else {
 									System.out.println("\nNo se permite que el código sea inferior a 0, introduzca nuevamente\n");
@@ -130,42 +126,42 @@ public class Administrador {
 							}
 						}
 						entradaValida = true;
-						if (opcion == 2) {
+						if (opcion == 2) { // Modifica la denominacion de la autoparte 
 							System.out.print("Introduzca la nueva denominación: ");
 							String denominacion = leer.next();
-							catalogo.get(i).setDenominacion(denominacion);
+							catalogo.get(i).setDenominacion(denominacion); // Guarda la nueva denominacion de la autoparte en el catalogo
 							System.out.println("Se ha modificado exitosamente la denominacion del autoparte!");
-						} else if (opcion == 3) {
+						} else if (opcion == 3) { // Modifica la descripcion de la autoparte
 							System.out.print("Introduzca la nueva descripción: ");
 							String descripcion = leer.next();
-							catalogo.get(i).setDescripcion(descripcion);
+							catalogo.get(i).setDescripcion(descripcion); // Guarda la nueva descripcion de la autoparte en el catalogo
 							System.out.println("Se ha modificado exitosamente la descripción del autoparte!");
-						} else if (opcion == 4) {
+						} else if (opcion == 4) { // Modifica la categoria de la autoparte
 							System.out.print("Introduzca la nueva categoría: ");
 							String categoria = leer.next();
-							catalogo.get(i).setCategoria(categoria);
+							catalogo.get(i).setCategoria(categoria); // Guarda la nueva categoria de la autoparte en el catalogo
 							System.out.println("Se ha modificado exitosamente la categoría del autoparte!");
-						} else if (opcion == 5) {
+						} else if (opcion == 5) { // Modifica la marca de la autoparte
 							System.out.print("Introduzca la marca: ");
 							String marca = leer.next();
-							catalogo.get(i).setMarca(marca);
+							catalogo.get(i).setMarca(marca); // Guarda la nueva marca de la autoparte en el catalogo
 							System.out.println("Se ha modificado exitosamente la marca del autoparte!");
-						} else if (opcion == 6) {
+						} else if (opcion == 6) { // Modifica el modelo de la autoparte
 							System.out.print("Introduzca el modelo: ");
 							String modelo = leer.next();
-							catalogo.get(i).setModelo(modelo);
+							catalogo.get(i).setModelo(modelo); // Guarda el nuevo modelo de la autoparte en el catalogo
 							System.out.println("Se ha modificado exitosamente el modelo del autoparte!");
 						}
 						do {
 							entradaValida = false;
 							try {
-								if (opcion == 7) {
-									boolean precioInvalido = true;
-									while (precioInvalido) {
+								if (opcion == 7) { // Modifica el precio de la autoparte
+									boolean precioInvalido = true; // Inicializa la variable precioInvalido
+									while (precioInvalido) { // Verifica que el pedido sea valido, si no lo es, corta
 										System.out.print("Introduzca el nuevo precio: ");
 										double precio = leer.nextDouble();
-										if (precio >= 0) {
-											catalogo.get(i).setPrecio(precio);
+										if (precio >= 0) { // Comprueba que el precio sea un numero positivo
+											catalogo.get(i).setPrecio(precio); // Guarda el nuevo precio de la autoparte en el catalogo
 											entradaValida = true;
 											precioInvalido = false;
 											System.out.println("Se ha modificado exitosamente el precio del autoparte!");
@@ -185,13 +181,13 @@ public class Administrador {
 						do {
 							entradaValida = false;
 							try {
-								if (opcion == 8) {
-									boolean stockMinimoInvalido = true;
-									while (stockMinimoInvalido) {
+								if (opcion == 8) { // Modifica el stock minimo de la autoparte
+									boolean stockMinimoInvalido = true; // Inicializa la variable stockMinimoInvalido
+									while (stockMinimoInvalido) { // Verifica que el stock minimo sea valido, si no lo es, corta
 										System.out.print("Introduzca el nuevo stock mínimo: ");
 										int stockMinimo = leer.nextInt();
-										if (stockMinimo >= 0) {
-											catalogo.get(i).setStockMinimo(stockMinimo);
+										if (stockMinimo >= 0) { // Comprueba que el stock minimo sea un numero positivo
+											catalogo.get(i).setStockMinimo(stockMinimo); // Guarda el nuevo stock minimo de la autoparte en el catalogo
 											entradaValida = true;
 											stockMinimoInvalido = false;
 											System.out.println("Se ha modificado exitosamente el stock mínimo del autoparte!");													
@@ -208,25 +204,25 @@ public class Administrador {
 							}
 						} while (!entradaValida);
 
-						if (opcion == 9) {
+						if (opcion == 9) { // Modifica el enlace de la autoparte
 							System.out.print("Introduzca el nuevo enlace: ");
 							String enlace = leer.next();
-							catalogo.get(i).setEnlace(enlace);
+							catalogo.get(i).setEnlace(enlace); // Guarda el nuevo enlace de la autoparte en el catalogo
 							System.out.println("Se ha modificado exitosamente el enlace del autoparte!");
 						}
 
 						do {
 							entradaValida = false;
 							try {
-								if (opcion == 10) {
-									boolean stockInvalido = true;
+								if (opcion == 10) { // Modifica el stock de la autoparte
+									boolean stockInvalido = true; // Inicializa la variable stockInvalido
 									while (stockInvalido) {
 										System.out.print("Introduzca el nuevo stock: ");
 										int stock = leer.nextInt();
-										if (stock >= 0) {
+										if (stock >= 0) { // Comprueba que el stock sea un numero positivo
 											entradaValida = true;
 											stockInvalido = false;
-											catalogo.get(i).setCantStock(stock);
+											catalogo.get(i).setCantStock(stock); // Guarda el nuevo stock de la autoparte en el catalogo
 											System.out.println("Se ha modificado exitosamente el stock del autoparte!");											
 										} else {
 											System.out.println("\nNo se permite que el stock sea inferior a 0, introduzca nuevamente\n");
@@ -251,17 +247,17 @@ public class Administrador {
 		}
 	}
 
-	// carga la autoparte al catalogo
+	// Carga la autoparte al catalogo
 	public void CargarAutoparte(Autoparte a) {
 		catalogo.add(a);
 	}
 
-	// elimina la autoparte mediante el código de la misma
+	// Elimina la autoparte mediante el código de la misma
 	public void EliminarDelCatalogo(int codigo) {
-		if (catalogoVacio() == false) {
+		if (catalogoVacio() == false) { // Verifica que el catalogo no este vacio
 			for (int i = 0; i < catalogo.size(); i++) {
-				if (catalogo.get(i).getCodigo() == codigo) {
-					catalogo.remove(i);
+				if (catalogo.get(i).getCodigo() == codigo) { // Busca la autoparte que coincida con el ID ingresado
+					catalogo.remove(i); // Elimina la autoparte del catalogo
 				}
 			}
 			System.out.println("Autoparte eliminada exitosamente!");
@@ -270,88 +266,70 @@ public class Administrador {
 		}
 	}
 
+	// Obtiene y devuelve el numero de cliente por medio de un pedido
 	public int getClienteEnPedidoById(int pedidoId) {
-		int idCliente = -1;
-		// Comprobar si el catálogo no está vacío
-		if (!pedidos.isEmpty()) {
-			// Recorrer el catálogo
+		int idCliente = -1; // Inicializa la variable idCliente
+		if (!pedidos.isEmpty()) { // Verifica que el contenedor de pedidos no este vacio
 			for (int i = 0; i < pedidos.size(); i++) {
-				// Comprobar si el código de la autoparte coincide con el ID buscado
-				if (pedidos.get(i).getIdPedido() == pedidoId) {
+				if (pedidos.get(i).getIdPedido() == pedidoId) { // Busca el pedido que coincida con el ID ingresado
 					System.out.println("ID Cliente: " + pedidoId + "\nNombre: " + clientes.get(i).getNombre());
-					// Devolver el precio de la autoparte encontrada
-					idCliente = pedidos.get(i).getCliente();
-					return idCliente;
+					idCliente = pedidos.get(i).getCliente(); // Obtiene el numero de cliente
+					return idCliente; // Devuelve el numero de cliente
 				}
 			}
 		}
-
-		// Devolver el valor predeterminado si no se encuentra la autoparte
-		return idCliente;
+		return idCliente; // Devuelve el valor predeterminado si no encuentra el ID del cliente
 	}
 
+	// Obtiene y devuelve el cliente ingresado por ID
 	public Cliente getClienteById(int id) {
-		// Inicializar con un valor predeterminado
-		Cliente cliente = null;
+		Cliente cliente = null; // Inicializa con un valor predeterminado
 
-		// Comprobar si el catálogo no está vacío
-		if (!clientes.isEmpty()) {
-			// Recorrer el catálogo
+		if (!clientes.isEmpty()) { // Comprueba que el contenedor de clientes no este vacio
 			for (int i = 0; i < clientes.size(); i++) {
-				// Comprobar si el código de la autoparte coincide con el ID buscado
-				if (clientes.get(i).getCodigo() == id) {
-					// Devolver el precio de la autoparte encontrada
-					return clientes.get(i);
+				if (clientes.get(i).getCodigo() == id) { // Busca el cliente que coincida con el ID ingresado
+					return clientes.get(i); // Devuelve el cliente encontrado
 				}
 			}
 		}
-
-		// Devolver el valor predeterminado si no se encuentra la autoparte
-		return cliente;
+		return cliente; // Devuelve el valor predeterminado si no encuentra el cliente
 	}
 
+	// Obtiene y devuelve el precio de la autoparte ingresada por ID
 	public double getPrecioAutoparte(int id) {
-		// Inicializar con un valor predeterminado
-		double precio = 0.0;
+		double precio = 0.0; // Inicializa la variable precio
 
-		// Comprobar si el catálogo no está vacío
-		if (!catalogoVacio()) {
-			// Recorrer el catálogo
+		if (!catalogoVacio()) { // Comprueba que el catalogo no este vacio
 			for (int i = 0; i < catalogo.size(); i++) {
-				// Comprobar si el código de la autoparte coincide con el ID buscado
-				if (catalogo.get(i).getCodigo() == id) {
+				if (catalogo.get(i).getCodigo() == id) { // Busca la autoparte que coincida con el ID ingresado
 					System.out.println("Precio unidad: $" + catalogo.get(i).getPrecio());
-					// Devolver el precio de la autoparte encontrada
-					return catalogo.get(i).getPrecio();
+					return catalogo.get(i).getPrecio(); // Devuelve el precio de la autoparte encontrada
 				}
 			}
 		}
-
-		// Devolver el valor predeterminado si no se encuentra la autoparte
-		return precio;
+		return precio; // Devuelve el precio predeterminado si no encuentra la autoparte
 	}
 
-	// modifica el stock de una autoparte mediante su codigo y se lo guarda en el
-	// catalogo
+	// Modifica el stock de una autoparte mediante su codigo y lo guarda en el catalogo
 	public void ModificarStock(int codigo, int nuevoStock, int opcion) {
-		if (catalogoVacio() == false) {
-			if (existeAutoparte(codigo) == true) {
+		if (catalogoVacio() == false) { // Verifica que el catalogo no este vacio
+			if (existeAutoparte(codigo) == true) { // Verifica si existe la autoparte con dicho ID
 				for (int i = 0; i < catalogo.size(); i++) {
-					if (catalogo.get(i).getCodigo() == codigo) {
+					if (catalogo.get(i).getCodigo() == codigo) { // Busca la autoparte que coincida con el ID ingresado
 
-						int stockAntiguo = catalogo.get(i).getCantStock();
-						int stockMinimo = catalogo.get(i).getStockMinimo();
-						int stockFinal = 0;
+						int stockAntiguo = catalogo.get(i).getCantStock(); // Obtiene el stock inicial de la autoparte
+						int stockMinimo = catalogo.get(i).getStockMinimo(); // Obtiene el stock minimo inicial de la autoparte
+						int stockFinal = 0; // Inicializa stockFinal
 
-						if (opcion == 1) { // sumar el stock
-							stockFinal = stockAntiguo + nuevoStock;
-						} else if (opcion == 2) { // modificar stock
-							stockFinal = nuevoStock;
-						} else { // restar, en caso de reservas
-							stockFinal = stockAntiguo - nuevoStock;
+						if (opcion == 1) { 
+							stockFinal = stockAntiguo + nuevoStock; // Suma el stock
+						} else if (opcion == 2) { 
+							stockFinal = nuevoStock; // Modifica el stock
+						} else { 
+							stockFinal = stockAntiguo - nuevoStock; // Resta el stock
 						}
-						catalogo.get(i).setCantStock(stockFinal);
-						StockMinimo(stockFinal, stockMinimo);
+						catalogo.get(i).setCantStock(stockFinal); // Guarda el nuevo stock de la autoparte en el catalogo
+						StockMinimo(stockFinal, stockMinimo); // Devuelve el stock final y minimo de la autoparte
 						return;
 					}
 				}
@@ -370,37 +348,38 @@ public class Administrador {
 
 	// Verifica si un cliente ya se encuentra en el sistema
 	public boolean existeCliente(int id) {
-		if (!clientes.isEmpty()) {
+		if (!clientes.isEmpty()) { // Verifica si el contenedor de clientes no esta vacio
 			for (int i = 0; i < clientes.size(); i++) {
-				if (clientes.get(i).getCodigo() == id) {
+				if (clientes.get(i).getCodigo() == id) { // Busca el cliente que concuerde con el ID ingresado
 					System.out.print("El cliente con ID " + id + " ya está registrado\n");
-					return true;
+					return true; // Devuelve true si el cliente ya esta registrado en el sistema
 				}
 			}
-			return false;
+			return false; // Devuelve false si el cliente no esta registrado
 		} else {
-			return false;
+			return false; // Devuelve false si el contenedor de clientes esta vacio
 		}
 	}
 
+	// Verifica si dicha autoparte ya existe en el sistema
 	public boolean idAutoparteRepetido(int id) {
-		if (!catalogo.isEmpty()) {
+		if (catalogo.isEmpty()) { // Verifica si el catalogo no esta vacio
 			for (int i = 0; i < catalogo.size(); i++) {
-				if (catalogo.get(i).getCodigo() == id) {
+				if (catalogo.get(i).getCodigo() == id) { // Busca la autoparte que concuerde con el ID ingresado
 					System.out.print("La autoparte con ID: " + id + " ya está registrado");
-					return true;
+					return true; // Devuelve true si dicha autoparte existe en el sistema
 				}
 			}
-			return false;
+			return false; // Devuelve false si la autoparte no existe 
 		} else {
-			return false;
+			return false; // Devuelve false si el catalogo esta vacio
 		}
 	}
 
 	// Carga un pedido al contenedor de pedidos
 	public void CargarPedido(Pedido p) {
-		if (!catalogoVacio()) {
-			// Aquí es donde revisamos el precio sin cambiarlo
+		if (!catalogoVacio()) { // Verifica que el catalogo no este vacio
+			// Revisa el precio sin modificarlo
 			for (Pedido.Detalle detalle : p.getDetalles()) {
 				int id = detalle.getArticulo();
 				if (id >= 0 && id < catalogo.size()) {
@@ -416,21 +395,21 @@ public class Administrador {
 		}
 	}
 
-	// Verifica que exista el pedido, lo cancela en base al numero de pedido y
-	// devuelve el stock
+	// Cancela un pedido por medio de su ID
 	public void CancelarPedido(int codigo) {
-		if (existePedido(codigo) == true) {
+		if (existePedido(codigo) == true) { // Verifica que exista dicho pedido en el sistema
 			for (int i = 0; i < pedidos.size(); i++) {
-				if (pedidos.get(i).getIdPedido() == codigo) {
-					pedidos.remove(i);
+				if (pedidos.get(i).getIdPedido() == codigo) { // Busca el pedido que concuerde con el ID ingresado
+					pedidos.remove(i); // Elimina el pedido
 					return;
 				}
 			}
 		}
 	}
-
+	
+	// Muestra por consola el detalle del pedido
 	public void listarPedidos() {
-		if (pedidos.isEmpty()) {
+		if (pedidos.isEmpty()) { // Verifica si no existen pedidos en el sistema
 			System.out.println("No hay pedidos registrados en el sistema.");
 		} else {
 			System.out.println("Listado de Pedidos:");
@@ -448,14 +427,14 @@ public class Administrador {
 					System.out.println("  Cantidad: " + detalle.getCantidad());
 					System.out.println("-----");
 				}
-
 				System.out.println("--------------------");
 			}
 		}
 	}
 
+	// Muestra por consola el detalle de la venta
 	public void listarVentas() {
-		if (cantVentas.isEmpty()) {
+		if (cantVentas.isEmpty()) { // Verifica si no existen ventas en el sistema
 			System.out.println("No hay ventas registradas en el sistema.");
 		} else {
 			System.out.println("Listado de Ventas:");
@@ -471,21 +450,21 @@ public class Administrador {
 	// Realiza una venta de un autoparte CON pedido para un cliente
 	public void RegistrarVentaConPedido(int numPedido, Venta v) {
 		Pedido p = null;
-		if (existePedido(numPedido) == true) {
+		if (existePedido(numPedido) == true) { // Verifica que el pedido existe
 			for (int i = 0; i < pedidos.size(); i++) {
 				if (pedidos.get(i).getIdPedido() == numPedido) {
-					p = pedidos.get(i);
+					p = pedidos.get(i); // Obtengo el pedido
 				}
 			}
-			// se añade el detalle del producto a la venta
+			// Añade el detalle del producto a la venta
 			v.setDetalleVenta(p);
 
-			// se añaden los datos faltantes a la venta
-			v.setProvincia("Buenos Aires"); // autodefino xq son de la sucursal
-			v.setLocalidad("Monserrat"); // autodefino xq son de la sucursal
-			v.setTelefono(1122334455); // autodefino xq son de la sucursal
+			// Añade los datos faltantes a la venta
+			v.setProvincia("Buenos Aires"); // Autodefino ya que es informacion de la sucursal
+			v.setLocalidad("Monserrat"); // Autodefino ya que es informacion de la sucursal
+			v.setTelefono(1122334455); // Autodefino ya que es informacion de la sucursal
 
-			// se añade la venta al registro
+			// Añade la venta al registro
 			cantVentas.add(v);
 
 		}
@@ -493,9 +472,9 @@ public class Administrador {
 
 	// Realiza una venta de un autoparte para un cliente SIN un pedido previo
 	public void RegistrarVentaSinPedido(Pedido detalleVenta, Venta v) {
-		// buscamos la autoparte
-		if (!catalogoVacio()) {
-			// Aquí es donde revisamos el precio sin cambiarlo
+		// Busca la autoparte
+		if (!catalogoVacio()) { // Verifica que el catalogo no este vacio
+			// Se revisa el precio sin modificarlo
 			for (Pedido.Detalle detalle : detalleVenta.getDetalles()) {
 				int id = detalle.getArticulo();
 				if (id >= 0 && id < catalogo.size()) {
@@ -506,41 +485,41 @@ public class Administrador {
 					}
 				}
 			}
-			pedidos.add(detalleVenta);
+			pedidos.add(detalleVenta); // Añade a la venta los detalles del pedido
 		} else {
 			System.out.println("El catálogo está vacío.");
 		}
 
-		// se añaden los datos faltantes a la venta
+		// Añade los datos faltantes a la venta
 		v.setDetalleVenta(detalleVenta);
-		v.setProvincia("Buenos Aires"); // autodefino xq son de la sucursal
-		v.setLocalidad("Monserrat"); // autodefino xq son de la sucursal
-		v.setTelefono(1122334455); // autodefino xq son de la sucursal
+		v.setProvincia("Buenos Aires"); // Autodefino ya que es informacion de la sucursal
+		v.setLocalidad("Monserrat"); // Autodefino ya que es informacion de la sucursal
+		v.setTelefono(1122334455); // Autodefino ya que es informacion de la sucursal
 
-		// se añade la venta al registro
+		// Añade la venta al registro
 		cantVentas.add(v);
 
 	}
 
-	// Verifica la disponibilidad y la cantidad de stock de un autoparte y devuelve
-	// el stock disponible
+	// Verifica la disponibilidad y la cantidad de stock de un autoparte 
+	// Devuelve el stock disponible de dicha autoparte
 	public int DisponibilidadStock(int codigo) {
 		int stock;
-		if (catalogoVacio() == false) {
+		if (catalogoVacio() == false) { // Verifica que el catalogo no este vacio
 			for (int i = 0; i < catalogo.size(); i++) {
 				if (catalogo.get(i).getCodigo() == codigo) {
-					stock = catalogo.get(i).getCantStock();
+					stock = catalogo.get(i).getCantStock(); //Obtiene el stock de la autoparte con dicha ID
 					if (stock == 1) {
 						System.out.println("La autoparte " + codigo + " dispone de un stock de " + stock + " unidad");
-						return stock;
+						return stock; // Devuelve el stock ya modificado de la autoparte
 					} else if (stock > 1) {
 						System.out.println("La autoparte " + codigo + " dispone de un stock de " + stock + " unidades");
-						return stock;
+						return stock; // Devuelve el stock ya modificado de la autoparte
 					} else {
 						System.out.println("La autoparte " + codigo + " no posee stock disponible");
 					}
 				} else {
-					existeAutoparte(codigo);
+					existeAutoparte(codigo); // Verifica que exista en el catalogo dicha autoparte
 				}
 			}
 		}
@@ -602,48 +581,48 @@ public class Administrador {
 		}
 	}
 
-	// Verifica si existe "x" autoparte dentro del catálogo. Si no existe devuelve
-	// false, caso contrario true
+	// Verifica si existe "x" autoparte dentro del catalogo.
 	public boolean existeAutoparte(int codigo) {
-		if (catalogoVacio() == false) {
+		if (catalogoVacio() == false) { // Verifica que el catalogo no este vacio
 			for (int i = 0; i < catalogo.size(); i++) {
 				if (catalogo.get(i).getCodigo() == codigo) {
-					return true;
+					return true; // Devuelve true en caso de existir
 				}
 			}
 			System.out.println("La autoparte con código " + codigo + " no existe, intente nuevamente");
-			return false;
+			return false; // Devuelve false si la autoparte con dicho ID no existe
 		} else {
-			return false;
+			return false; // Devuelve false si el catalogo esta vacio
 		}
 	}
-
+	
+	// Verifica sin existe un pedido con un determinado ID
 	public boolean existePedidoConId(int codigo) {
-		if (catalogoVacio() == false) {
+		if (catalogoVacio() == false) { // Verifica que el catalogo no este vacio
 			for (int i = 0; i < pedidos.size(); i++) {
 				if (pedidos.get(i).getIdPedido() == codigo) {
 					System.out.println("El pedido con código " + codigo + "  existe, intente cargando otro código");
-					return true;
+					return true; // Devuelve true en caso de existir
 				}
 			}
-
-			return false;
+			return false; // Devuelve false si no existe un pedido con dicho ID
 		} else {
-			return false;
+			return false; // Devuelve false si el catalogo esta vacio
 		}
 	}
+	
+	// Verifica si existe una venta por medio del ID
 	public boolean existeVentaConId(int codigo) {
-		if (catalogoVacio() == false) {
+		if (catalogoVacio() == false) { // Verifica que el catalogo no este vacio
 			for (int i = 0; i < cantVentas.size(); i++) {
 				if (cantVentas.get(i).getCodigo() == codigo) {
 					System.out.println("La operación de venta con código " + codigo + " ya existe en el sistema, intente utilizando otro código");
-					return true;
+					return true; // Devuelve true en caso de existir
 				}
 			}
-
-			return false;
+			return false; // Devuelve false si no existe la venta con dicho ID
 		} else {
-			return false;
+			return false; // Devuelve false si el catalogo esta vacio
 		}
 	}
 
@@ -652,40 +631,38 @@ public class Administrador {
 		// Inicializar con un valor predeterminado
 		String nombre = "";
 
-		// Comprobar si el catálogo no está vacío
+		// Comprueba si el catálogo no está vacío
 		if (!catalogoVacio()) {
-			// Recorrer el catálogo
+			// Recorre el catálogo
 			for (int i = 0; i < catalogo.size(); i++) {
-				// Comprobar si el código de la autoparte coincide con el ID buscado
+				// Comprobora si el código de la autoparte coincide con el ID buscado
 				if (catalogo.get(i).getCodigo() == id) {
-					// Devolver el precio de la autoparte encontrada
+					// Devuelve el precio de la autoparte encontrada
 					return catalogo.get(i).getDenominacion();
 				}
 			}
 		}
-
-		// Devolver el valor predeterminado si no se encuentra la autoparte
+		// Devuelve el valor predeterminado si no se encuentra la autoparte
 		return nombre;
 	}
 
-	// Verifica si el catálogo no dispone de autopartes y devuelve true en caso de
-	// serlo. Caso contrario devuelve false
+	// Verifica si el catálogo no dispone de autopartes
 	public boolean catalogoVacio() {
 		if (catalogo.isEmpty()) {
 			System.out.println("El catálogo está vacío, se necesita al menos 1 autoparte");
-			return true;
+			return true; // Devuelve true si esta vacio
 		}
-		return false;
+		return false; // Devuelve false en caso de que haya al menos una autoparte 
 	}
 
 	// Verifica si existe un pedido mediante el ingreso del número del mismo.
 	public boolean existePedido(int numero) {
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i).getIdPedido() == numero) {
-				return true;
+				return true; // Devuelve true si existe un pedido con dicho numero
 			}
 		}
 		System.out.println("No existe un pedido con ID: " + numero + ", intente nuevamente!");
-		return false;
+		return false; // Devuelve false si no existe un pedido con dicho numero
 	}
 }
