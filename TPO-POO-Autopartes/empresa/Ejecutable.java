@@ -95,7 +95,7 @@ public class Ejecutable {
 		do {
             try {
             	boolean codigoInvalido = true; // Inicializa la variable codigoInvalido
-            	while (codigoInvalido) { // Verifica que el codigo sea valido, si no lo es, corta
+            	while (codigoInvalido) { // Verifica que el codigo sea valido, si lo es, corta
             		System.out.print("Introduzca el código: ");
 	                int codigo = leer.nextInt();
 	                if (codigo >= 0) { // Comprueba que el codigo sea un numero positivo
@@ -145,7 +145,7 @@ public class Ejecutable {
 		do {
 			try {
 				boolean precioInvalido = true; // Inicializa la variable precioInvalido
-				while (precioInvalido) { // Verifica que el precio sea valido, si no lo es, corta
+				while (precioInvalido) { // Verifica que el precio sea valido, si lo es, corta
 					System.out.print("Introduzca el precio: ");
 					double precio = leer.nextDouble();
 					if (precio >= 0) { // Comprueba que el precio es un numero positivo
@@ -167,7 +167,7 @@ public class Ejecutable {
 		do {
 			try {
 				boolean stockInvalido = true; // Inicializa la variable stockInvalido
-				while(stockInvalido) { // Verifica que el stock sea valido, si no lo es, corta
+				while(stockInvalido) { // Verifica que el stock sea valido, si lo es, corta
 					System.out.print("Introduzca el stock: ");
 					int stock = leer.nextInt();
 					if (stock >= 0) { // Comprueba que el stock es un numero positivo
@@ -189,7 +189,7 @@ public class Ejecutable {
 		do {
 			try {
 				boolean stockMinimoInvalido = true; // Inicializa la variable stockMinimoInvalido
-				while(stockMinimoInvalido) { // Verifica que el stock minimo sea valido, si no lo es, corta
+				while(stockMinimoInvalido) { // Verifica que el stock minimo sea valido, si lo es, corta
 					System.out.print("Introduzca el stock minimo: ");
 					int stockMinimo = leer.nextInt();
 					if(stockMinimo >= 0) { // Comprueba que el stock minimo sea un numero positivo
@@ -232,8 +232,8 @@ public class Ejecutable {
 				System.out.print("Introduzca el código del autoparte: ");
 				int codigo = leer.nextInt();
 				entradaValida = true;
-				if (admin.existeAutoparte(codigo) == true) {
-					admin.EliminarDelCatalogo(codigo);
+				if (admin.existeAutoparte(codigo) == true) { // Verifica que exista la autoparte
+					admin.EliminarDelCatalogo(codigo); // Elimina del catalogo la autoparte
 				}
 			} catch (InputMismatchException ex) {
 				System.out.println(
@@ -243,6 +243,7 @@ public class Ejecutable {
 		} while (!entradaValida);
 	}
 
+	// Modifica el stock de una autoparte 
 	public static void modificarStock() {
 
 		boolean entradaValida = false;
@@ -252,7 +253,7 @@ public class Ejecutable {
 				System.out.print("Introduzca el código del autoparte para modificar su stock: ");
 				int codigo = leer.nextInt();
 				entradaValida = true;
-				if (admin.existeAutoparte(codigo) == true) {
+				if (admin.existeAutoparte(codigo) == true) { // Verifica que exista la autoparte
 					entradaValida = false;
 					do {
 						try {
@@ -263,14 +264,14 @@ public class Ejecutable {
 							do {
 								entradaValida = false;
 								try {
-									boolean stockValido = true;
-									while (stockValido) {
+									boolean stockInvalido = true;
+									while (stockInvalido) { // // Verifica que el stock sea valido, si lo es, corta
 										System.out.print("Introduzca el nuevo stock: ");
 										int stock = leer.nextInt();
-										if (stock >= 0) {
-											admin.ModificarStock(codigo, stock, opcion);
+										if (stock >= 0) { // Comprueba que el stock sea un numero positivo
+											admin.ModificarStock(codigo, stock, opcion); // Modifica el stock de la autoparte de acuerdo a la opcion elegida
 											System.out.println("Stock modificado exitosamente!");
-											stockValido = false;
+											stockInvalido = false;
 											entradaValida = true;													
 										} else {
 											System.out.println("\nNo se permite que el stock sea inferior a 0, introduzca nuevamente\n");
@@ -296,6 +297,7 @@ public class Ejecutable {
 		} while (!entradaValida);
 	}
 
+	// Modifica los datos de una autoparte
 	public static void modificarCatalogo() {
 
 		boolean entradaValida = false;
@@ -308,14 +310,14 @@ public class Ejecutable {
 				do {
 					entradaValida = false;
 					try {
-						if (admin.existeAutoparte(codigo) == true) {
+						if (admin.existeAutoparte(codigo) == true) { // Verifica que exista la autoparte
 							System.out.println("Que desea modificar del autoparte?");
 							System.out.print(
 									"OPCIONES: \n[1] Código \n[2] Denominación \n[3] Descripción \n[4] Categoría \n[5] Marca \n[6] Modelo \n[7] Precio \n[8] Stock Mínimo \n[9] Enlace \n[10] Stock \n[0] Salir \nOPCION: ");
 							int opcion = leer.nextInt();
 							entradaValida = true;
 
-							admin.ModificarCatalogo(codigo, opcion);
+							admin.ModificarCatalogo(codigo, opcion); // Modifica el dato de la autoparte de acuerdo a lo elegido
 						}
 						entradaValida = true;
 					} catch (InputMismatchException ex) {
@@ -332,6 +334,7 @@ public class Ejecutable {
 		} while (!entradaValida);
 	}
 
+	// Verifica que exista stock de una autoparte
 	public static void stockDisponible() {
 
 		boolean entradaValida = false;
@@ -343,8 +346,8 @@ public class Ejecutable {
 
 				entradaValida = true;
 
-				if (admin.existeAutoparte(codigo) == true) {
-					admin.DisponibilidadStock(codigo);
+				if (admin.existeAutoparte(codigo) == true) { // Verifica que exista la autoparte 
+					admin.DisponibilidadStock(codigo); // Comprueba la existencia de stock de la autoparte
 				}
 				entradaValida = true;
 			} catch (InputMismatchException ex) {
@@ -363,18 +366,18 @@ public class Ejecutable {
 
 		do {
 			try {
-				boolean idClienteInvalido = true;
-				int idCliente = 0;
-				while (idClienteInvalido) {
+				boolean idClienteInvalido = true; // Inicializa la variable idClienteInvalido
+				int idCliente = 0; // Inicializa la variable idCliente
+				while (idClienteInvalido) { // Verifica que el ID del cliente sea valido, si lo es, corta
 					System.out.print("Introduzca el ID del cliente: ");
 					int id = leer.nextInt();
-					if (id >= 0) {
+					if (id >= 0) { // Comprueba que el ID sea un numero positivo
 						leer.nextLine();
 		
 						entradaValida = true;
 						idClienteInvalido = false;
-						idCliente = id;
-						while (admin.existeCliente(id)) {
+						idCliente = id; // Guarda en la variable idCliente el ID
+						while (admin.existeCliente(id)) { // Verifica que exista un cliente con dicho ID, si existe, pide otro
 							System.out.print("\nIntroduzca otro ID: ");
 							id = leer.nextInt();
 							leer.nextLine();
@@ -383,29 +386,29 @@ public class Ejecutable {
 						System.out.println("\nNo se permite que el ID del cliente sea inferior a 0, introduzca nuevamente\n");
 					}
 				}
-					if (!admin.existeCliente(idCliente)) {
+					if (!admin.existeCliente(idCliente)) { // Verifica si existe un cliente con dicho ID, si no existe, lo carga en el sistema
 	
-						nuevoCliente.setCodigo(idCliente);
+						nuevoCliente.setCodigo(idCliente); // Guarda el codigo del cliente
 	
 						System.out.print("Introduzca el nombre del cliente: ");
-						nuevoCliente.setNombre(leer.nextLine());
+						nuevoCliente.setNombre(leer.nextLine()); // Guarda el nombre del cliente
 	
 						System.out.print("Introduzca la dirección del cliente: ");
-						nuevoCliente.setDireccion(leer.nextLine());
+						nuevoCliente.setDireccion(leer.nextLine()); // Guarda la direccion del cliente
 	
 						System.out.print("Introduzca la localidad del cliente: ");
-						nuevoCliente.setLocalidad(leer.nextLine());
+						nuevoCliente.setLocalidad(leer.nextLine()); // Guarda la localidad del cliente
 	
 						System.out.print("Introduzca la provincia del cliente: ");
-						nuevoCliente.setProvincia(leer.nextLine());
+						nuevoCliente.setProvincia(leer.nextLine()); // Guarda la provincia del cliente
 	
 						System.out.print("Introduzca el correo del cliente (ej. nombre@dom.ext): ");
-						nuevoCliente.setCorreo(leer.nextLine());
+						nuevoCliente.setCorreo(leer.nextLine()); // Guarda el correo del cliente
 	
 						System.out.print("Introduzca el teléfono del cliente: ");
-						nuevoCliente.setTelefono(leer.nextLine());
+						nuevoCliente.setTelefono(leer.nextLine()); // Guarda el telefono del cliente
 	
-						admin.agregarCliente(nuevoCliente);
+						admin.agregarCliente(nuevoCliente); // Guarda todos los datos del cliente
 	
 						System.out.println("\nCliente agregado exitosamente!");
 						idUsuario = idCliente;
@@ -420,28 +423,29 @@ public class Ejecutable {
 		return idUsuario;
 	}
 
+	// Permite la carga de un pedido en el sistema
 	public static void cargarPedido() {
 
 		Pedido pedido = new Pedido(); // Crear un nuevo pedido
-		boolean entradaValida = false;
-		boolean exit = false;
+		boolean entradaValida = false; // Inicializa la variable entradaValida
+		boolean exit = false; // Inicializa la variable exit
 
 		do {
 			try {
-				boolean numeroPedidoInvalido = true;
-				if (admin.catalogoVacio() == false) {
-					while (numeroPedidoInvalido) {
+				boolean numeroPedidoInvalido = true; // Inicializa la variable numeroPedidoInvalido
+				if (admin.catalogoVacio() == false) { // Verifica que el catalogo no este vacio
+					while (numeroPedidoInvalido) { // Verifica que el pedido sea valido, si lo es, corta
 						System.out.print("Introduzca el número del pedido: ");
 						int numeroPedido = leer.nextInt();
 						
-						if (numeroPedido >= 0) {
+						if (numeroPedido >= 0) { // Comprueba que el numero ingresado es un numero positivo
 							
-							while (admin.existePedidoConId(numeroPedido)) {
+							while (admin.existePedidoConId(numeroPedido)) { // Comprueba que la existencia de un pedido con dicho id
 								System.out.print("Introduzca otro número del pedido: ");
 								numeroPedido = leer.nextInt();
 							}
 							numeroPedidoInvalido = false;
-							pedido.setIdPedido(numeroPedido);
+							pedido.setIdPedido(numeroPedido); // Si no existe, guarda el ID del pedido
 						} else {
 							System.out.println("\nNo se permite que el número de pedido sea inferior a 0, introduzca nuevamente\n");
 						}
@@ -451,29 +455,29 @@ public class Ejecutable {
 
 					System.out.print("Introduzca la fecha del pedido: ");
 					String fecha = leer.next();
-					pedido.setFecha(fecha);
+					pedido.setFecha(fecha); // Guarda la fecha del pedido
 
 					leer.nextLine(); 
 
 					do {
 						entradaValida = false;
 						try {
-							boolean idClienteInvalido = true;
+							boolean idClienteInvalido = true; // Inicializa la variable idClienteInvalido
 							while (true) {
-								while (idClienteInvalido) {
+								while (idClienteInvalido) { // Verifica que el pedido sea valido, si lo es, corta
 									System.out.print("Introduzca el ID del cliente: ");
 									int cliente = leer.nextInt();
-									if (cliente >= 0) {
+									if (cliente >= 0) { // Comprueba que el ID del cliente sea un numero positivo
 										entradaValida = true;
 										idClienteInvalido = false;
-										if (admin.existeCliente(cliente)) {
-											pedido.setCliente(cliente);
+										if (admin.existeCliente(cliente)) { // Comprueba la existencia de dicho cliente
+											pedido.setCliente(cliente); // Guarda el cliente en el pedido
 											break;
 										} else {
 											System.out.println("\nDicho cliente NO se encuentra registrado");
 											System.out.println("Ingrese los datos del cliente a registrar\n");
-											agregarCliente();
-											pedido.setCliente(cliente);
+											agregarCliente(); // Llama al metodo para agregar a un nuevo cliente al sistema
+											pedido.setCliente(cliente); // Guarda el cliente en el pedido
 											break;
 										}
 									} else {
@@ -490,7 +494,7 @@ public class Ejecutable {
 						}
 					} while (!entradaValida);
 					
-					boolean pedir = true;
+					boolean pedir = true; // Inicializa la variable pedir
 				
 					do {
 						entradaValida = false;
@@ -501,11 +505,11 @@ public class Ejecutable {
 									System.out.print("Introduzca el ID de la autoparte: ");
 									int id = leer.nextInt();
 	
-									if (admin.existeAutoparte(id)) {
-										int stock = admin.DisponibilidadStock(id);
-										boolean verificar = true;
-										if (stock == 0) {
-											 while (verificar) {
+									if (admin.existeAutoparte(id)) { // Verifica la existencia de la autoparte
+										int stock = admin.DisponibilidadStock(id); // Obtiene el stock de la autoparte con dicho ID
+										boolean verificar = true; // Inicializa la variable verificar
+										if (stock == 0) { // Comprueba que no haya stock disponible
+											 while (verificar) { // Verifica que la opcion sea valido, si lo es, corta
 												 entradaValida = false;
 												 do {												 
 													 try {
@@ -513,7 +517,7 @@ public class Ejecutable {
 			                                            int seguir = leer.nextInt();
 			                                            if (seguir == 2) {
 			                                            	verificar = false;
-			                                            	admin.CargarPedido(pedido);
+			                                            	admin.CargarPedido(pedido); // Guarda los datos en el pedido, corta el ciclo
 			                                                return;
 			                                            } else if (seguir == 1) {
 			                                            	verificar = false;
@@ -535,21 +539,20 @@ public class Ejecutable {
 										do {
 											entradaValida = false;
 											try {
-												boolean cantInvalida = true;
+												boolean cantInvalida = true; // Inicializa la variable cantInvalida
 												while (cantInvalida) {
 													System.out.print("\nIntroduzca la cantidad necesitada: ");
 													int cantidad = leer.nextInt();
-													if (cantidad >= 0) {
+													if (cantidad >= 0) { // Comprueba que la cantidad sea un numero positivo
 														entradaValida = true;
 														cantInvalida = false;
-														if (cantidad <= stock) {
-															double precioUnidad = admin.getPrecioAutoparte(id);
-															double precioTotal = precioUnidad * cantidad;
+														if (cantidad <= stock) { // Verifica que la cantidad necesitada sea inferior o igual al stock disponible
+															double precioUnidad = admin.getPrecioAutoparte(id); // Obtiene el precio de la autoparte con dicho ID
+															double precioTotal = precioUnidad * cantidad; // Obtiene el monto total
 															System.out.print("Precio total: $" + precioTotal);
 															// Agregar el detalle al pedido actual
-															pedido.agregarDetalle(id, precioUnidad, cantidad);
-															admin.ModificarStock(id, cantidad, 0); // Reducir el stock de la
-																									// autoparte
+															pedido.agregarDetalle(id, precioUnidad, cantidad); // Agrega al pedido el detalle
+															admin.ModificarStock(id, cantidad, 0); // Reduce el stock de la autoparte																									
 															do {
 																entradaValida = false;
 																try {
@@ -559,8 +562,8 @@ public class Ejecutable {
 																	entradaValida = true;
 			
 																	if (elegir == 2) {
-																		admin.CargarPedido(pedido); // Agregar el pedido completo a
-																		exit = true;						// la lista de pedidos
+																		admin.CargarPedido(pedido); // Agrega el pedido al contenedor de pedidos, corta el bucle
+																		exit = true;						
 																		pedir = false;
 																	}
 																	entradaValida = true;
@@ -609,15 +612,16 @@ public class Ejecutable {
 		} while (!entradaValida);
 	}
 
+	// Permite cancelar un pedido de acuerdo a su ID
 	public static void cancelarPedido() {
 
-		boolean entradaValida = false;
+		boolean entradaValida = false; // Inicializa la variable entradaValida
 
 		do {
 			try {
 				System.out.print("Introduzca el número de pedido a cancelar: ");
 				int numero = leer.nextInt();
-				admin.CancelarPedido(numero);
+				admin.CancelarPedido(numero); // Cancela un pedido por medio de su ID
 				System.out.println("Pedido cancelado exitosamente!");
 				entradaValida = true;
 			} catch (InputMismatchException ex) {
@@ -628,24 +632,25 @@ public class Ejecutable {
 		} while (!entradaValida);
 	}
 
+	// Permite registrar una venta CON pedido
 	public static void registrarVentaConPedido() {
 		Venta venta = new Venta();
 		Cliente cliente = new Cliente();
-		boolean entradaValida = false;
+		boolean entradaValida = false; // Inicializa la variable entradaValida
 
 		do {
 			try {
-				boolean numeroInvalido = true;
+				boolean numeroInvalido = true; // Inicializa la variable numeroInvalido
 				while (numeroInvalido) {
 					System.out.print("Introduzca un código de venta: ");
 					int numero = leer.nextInt();
-					if (numero >= 0) {
+					if (numero >= 0) { // Comprueba que el numero ingresado sea un numero positivo
 						numeroInvalido = false;
-						while (admin.existeVentaConId(numero)) {
-						System.out.print("Introduzca otro número para esta venta: ");
-						numero = leer.nextInt();
+						while (admin.existeVentaConId(numero)) { // Verifica la existencia de la venta con dicho ID
+							System.out.print("Introduzca otro número para esta venta: ");
+							numero = leer.nextInt();
 						}
-						venta.setCodigo(numero);
+						venta.setCodigo(numero); // Carga el ID de la venta
 						entradaValida = true;
 					} else {
 						System.out.println("\nNo se permite que el código de venta sea inferior a 0, introduzca nuevamente\n");
@@ -658,14 +663,14 @@ public class Ejecutable {
 						int numPedido = leer.nextInt();
 						entradaValida = true;
 
-						if (admin.existePedido(numPedido) == true) {
+						if (admin.existePedido(numPedido) == true) { // Verifica la existencia de un pedido con dicho ID
 
-							int idClientePedido = admin.getClienteEnPedidoById(numPedido);
-							venta.setCliente(admin.getClienteById(idClientePedido));
+							int idClientePedido = admin.getClienteEnPedidoById(numPedido); // Obtiene el ID de un cliente de acuerdo al ID del pedido
+							venta.setCliente(admin.getClienteById(idClientePedido)); // Carga el cliente por medio de el ID del pedido
 
-							admin.RegistrarVentaConPedido(numPedido, venta);
-							RegistrarMedioDePago(venta);
-							admin.CancelarPedido(numPedido);
+							admin.RegistrarVentaConPedido(numPedido, venta); // Registra la venta con pedido
+							RegistrarMedioDePago(venta); // Registra el medio de pago
+							admin.CancelarPedido(numPedido); // Elimina el pedido para efectualizarlo como una venta
 						}
 						entradaValida = true;
 					} catch (InputMismatchException ex) {
@@ -682,27 +687,28 @@ public class Ejecutable {
 		} while (!entradaValida);
 	}
 
+	// Permite registrar una venta SIN pedido
 	public static void registrarVentaSinPedido() {
 		Venta venta = new Venta();
 		Cliente cliente = new Cliente();
 		Pedido detalleVenta = new Pedido();
-		int stock = 0;
-		boolean pedir = true;
-		boolean verificar = true;
-		boolean entradaValida = false;
+		int stock = 0; // Inicializa la variable stock
+		boolean pedir = true; // Inicializa la variable pedir
+		boolean verificar = true; // Inicializa la variable verificar
+		boolean entradaValida = false; // Inicializa la variable entradaValida
 		do {
 			try {
-				boolean codigoInvalido = true;
-				while (codigoInvalido) {
+				boolean codigoInvalido = true; // Inicializa la variable codigoInvalido
+				while (codigoInvalido) { // Verifica que el codigo sea valido, si lo es, corta
 					System.out.print("Introduzca un código de la venta: ");
 					int numero = leer.nextInt();
-					if (numero >= 0) {
+					if (numero >= 0) { // Comprueba que el numero sea un numero positivo
 						codigoInvalido = false;
-						while (admin.existeVentaConId(numero)) {
+						while (admin.existeVentaConId(numero)) { // Verifica que existe una venta con dicho ID
 							System.out.print("Introduzca otro número para esta venta: ");
 							numero = leer.nextInt();
 						}
-						venta.setCodigo(numero);
+						venta.setCodigo(numero); // Carga el codigo de la venta
 						entradaValida = true;
 					} else {
 						System.out.println("\nNo se permite que el código de venta sea inferior a 0, introduzca nuevamente\n");
@@ -712,13 +718,13 @@ public class Ejecutable {
 				do {
 					entradaValida = false;
 					try {
-						int codigoCliente = 0;
+						int codigoCliente = 0; // Inicializa la variable codigoCliente
 						while (true) {
 							boolean idClienteInvalido = true;
-							while (idClienteInvalido) {
+							while (idClienteInvalido) { // Verifica que el ID del cliente sea valido, si lo es, corta
 								System.out.print("Introduzca el ID del cliente: ");
 								int clienteId = leer.nextInt();
-								if (clienteId >= 0) {
+								if (clienteId >= 0) { // Comprueba que el ID del cliente es un numero positivo
 									codigoCliente = clienteId;
 									idClienteInvalido = false;
 									entradaValida = true;
@@ -726,22 +732,22 @@ public class Ejecutable {
 									System.out.println("\nNo se permite que el ID del cliente sea inferior a 0, introduzca nuevamente\n");
 								}
 							}
-							if (admin.existeCliente(codigoCliente)) {
-								Cliente clienteVenta = admin.getClienteById(codigoCliente);
-								venta.setCliente(clienteVenta);
+							if (admin.existeCliente(codigoCliente)) { // Verifica que existe un cliente con dicho ID
+								Cliente clienteVenta = admin.getClienteById(codigoCliente); 
+								venta.setCliente(clienteVenta); // Carga el cliente en la venta
 								break;
 							} else {
 								System.out.println("\nDicho cliente NO se encuentra registrado");
 								System.out.println("Ingrese los datos del cliente a registrar\n");
-								int clienteID = agregarCliente();
-								venta.setCliente(admin.getClienteById(clienteID));
+								int clienteID = agregarCliente(); 
+								venta.setCliente(admin.getClienteById(clienteID)); // Carga el cliente a la venta
 								break;
 							}
 						}
 
 						System.out.print("Introduzca la fecha de la venta: ");
 						String fecha = leer.next();
-						detalleVenta.setFecha(fecha);
+						detalleVenta.setFecha(fecha); // Carga la fecha de la venta
 
 						// Pide "x" veces la cantidad de autopartes necesitadas
 						while (pedir) {
@@ -755,14 +761,13 @@ public class Ejecutable {
 									entradaValida = true;
 									// Verifica que existe la autoparte y que el catálogo no esté vacío
 									if (admin.existeAutoparte(codigo)) {
-										stock = admin.DisponibilidadStock(codigo); // Devuelve el stock disponible de
-																					// dicha autoparte
-										if (stock == 0) {
+										stock = admin.DisponibilidadStock(codigo); // Devuelve el stock disponible de dicha autoparte																					
+										if (stock == 0) { // Comprueba que no haya stock disponible
 											while (true) {
 												try {
-												    System.out.print("¿Desea tratar con otra?[1-si][2-no]: ");
+												    System.out.print("¿Desea tratar con otra? \n[1] Si \n[2] No \nOPCION: ");
 												    int seguir = leer.nextInt();
-													if (seguir == 2) {
+													if (seguir == 2) { // Corta el bucle si no se desea cargar otra autoparte a la venta
 													    return;
 													} else if (seguir == 1) {
 													    entradaValida = true;
@@ -781,9 +786,7 @@ public class Ejecutable {
 											}
 
 										} else {
-											// En caso de ingresar una cantidad superior al stock permite pedir
-											// nuevamente el dato sin la
-											// necesidad de realizar nuevamente el proceso
+											// En caso de ingresar una cantidad superior al stock permite pedir nuevamente el dato											
 											while (verificar) {
 												do {
 													entradaValida = false;
@@ -795,16 +798,13 @@ public class Ejecutable {
 															if (cantidad >= 0) {
 																entradaValida = true;
 																cantInvalida = false;
-																// Verifica que la cantidad requerida sea igual o menor al stock
-																// existente
+																// Verifica que la cantidad requerida sea igual o menor al stock existente																
 																if (cantidad <= stock) {
-																	admin.ModificarStock(codigo, cantidad, 0); // Reducir el
-																												// stock de la
-																												// autoparte
+																	admin.ModificarStock(codigo, cantidad, 0); // Reduce el stock de la autoparte																												
 																	double precioUnidad = admin.getPrecioAutoparte(codigo);
 																	double precioTotal = precioUnidad * cantidad;
 																	System.out.print("Precio total: $" + precioTotal);
-																	// Agregar el detalle al pedido actual
+																	// Agrega el detalle al pedido actual
 																	detalleVenta.agregarDetalle(codigo, precioUnidad, cantidad);
 																	verificar = false;
 																	entradaValida = true;
