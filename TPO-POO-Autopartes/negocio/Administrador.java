@@ -16,7 +16,7 @@ public class Administrador {
 	private ArrayList<Pedido> pedidos;
 	private ArrayList<Venta> cantVentas;
 	private ArrayList<Cliente> clientes;
-
+	
 	public Administrador() {
 		catalogo = new ArrayList<Autoparte>(); // lista que contiene todas las autopartes
 		pedidos = new ArrayList<Pedido>(); // lista que contiene todos los pedidos
@@ -245,6 +245,7 @@ public class Administrador {
 				} while (!entradaValida);
 			}
 		}
+		leer.close();
 	}
 
 	// Carga la autoparte al catalogo
