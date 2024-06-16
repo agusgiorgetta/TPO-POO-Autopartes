@@ -115,11 +115,19 @@ public class Administrador {
 				do {
 					try {
 						if (opcion == 1) {
-							System.out.print("Introduzca el nuevo código: ");
-							int codigoNuevo = leer.nextInt();
-							entradaValida = true;
-							catalogo.get(i).setCodigo(codigoNuevo);
-							System.out.println("Se ha modificado exitosamente el código del autoparte!");
+							boolean codigoInvalido = true;
+							while (codigoInvalido) {
+								System.out.print("Introduzca el nuevo código: ");
+								int codigoNuevo = leer.nextInt();
+								if (codigoNuevo >= 0) {
+									entradaValida = true;
+									codigoInvalido = false;
+									catalogo.get(i).setCodigo(codigoNuevo);
+									System.out.println("Se ha modificado exitosamente el código del autoparte!");										
+								} else {
+									System.out.println("\nNo se permite que el código sea inferior a 0, introduzca nuevamente\n");
+								}
+							}
 						}
 						entradaValida = true;
 						if (opcion == 2) {
@@ -152,11 +160,19 @@ public class Administrador {
 							entradaValida = false;
 							try {
 								if (opcion == 7) {
-									System.out.print("Introduzca el nuevo precio: ");
-									double precio = leer.nextDouble();
-									catalogo.get(i).setPrecio(precio);
-									entradaValida = true;
-									System.out.println("Se ha modificado exitosamente el precio del autoparte!");
+									boolean precioInvalido = true;
+									while (precioInvalido) {
+										System.out.print("Introduzca el nuevo precio: ");
+										double precio = leer.nextDouble();
+										if (precio >= 0) {
+											catalogo.get(i).setPrecio(precio);
+											entradaValida = true;
+											precioInvalido = false;
+											System.out.println("Se ha modificado exitosamente el precio del autoparte!");
+										} else {
+											System.out.println("\nNo se permite que el precio sea inferior a 0, introduzca nuevamente\n");
+										}
+									}
 								}
 								entradaValida = true;
 							} catch (InputMismatchException ex) {
@@ -170,11 +186,19 @@ public class Administrador {
 							entradaValida = false;
 							try {
 								if (opcion == 8) {
-									System.out.print("Introduzca el nuevo stock mínimo: ");
-									int stockMinimo = leer.nextInt();
-									catalogo.get(i).setStockMinimo(stockMinimo);
-									entradaValida = true;
-									System.out.println("Se ha modificado exitosamente el stock mínimo del autoparte!");
+									boolean stockMinimoInvalido = true;
+									while (stockMinimoInvalido) {
+										System.out.print("Introduzca el nuevo stock mínimo: ");
+										int stockMinimo = leer.nextInt();
+										if (stockMinimo >= 0) {
+											catalogo.get(i).setStockMinimo(stockMinimo);
+											entradaValida = true;
+											stockMinimoInvalido = false;
+											System.out.println("Se ha modificado exitosamente el stock mínimo del autoparte!");													
+										} else {
+											System.out.println("\nNo se permite que el stock mínimo sea inferior a 0, introduzca nuevamente\n");
+										}
+									}
 								}
 								entradaValida = true;
 							} catch (InputMismatchException ex) {
@@ -195,11 +219,19 @@ public class Administrador {
 							entradaValida = false;
 							try {
 								if (opcion == 10) {
-									System.out.print("Introduzca el nuevo stock: ");
-									int stock = leer.nextInt();
-									entradaValida = true;
-									catalogo.get(i).setCantStock(stock);
-									System.out.println("Se ha modificado exitosamente el stock del autoparte!");
+									boolean stockInvalido = true;
+									while (stockInvalido) {
+										System.out.print("Introduzca el nuevo stock: ");
+										int stock = leer.nextInt();
+										if (stock >= 0) {
+											entradaValida = true;
+											stockInvalido = false;
+											catalogo.get(i).setCantStock(stock);
+											System.out.println("Se ha modificado exitosamente el stock del autoparte!");											
+										} else {
+											System.out.println("\nNo se permite que el stock sea inferior a 0, introduzca nuevamente\n");
+										}
+									}
 								} else {
 									return;
 								}
