@@ -501,7 +501,26 @@ public class Ejecutable {
 									int stock = admin.DisponibilidadStock(id);
 
 									if (stock == 0) {
-										continue;												
+										 while (true) {
+											 try {
+		                                            System.out.print("¿Desea tratar con otra?[1-si][2-no]: ");
+		                                            int seguir = leer.nextInt();
+		                                            if (seguir == 2) {
+		                                                return;
+		                                            } else if (seguir == 1) {
+		                                                entradaValida = true;
+		                                                break;
+		                                            } else {
+		                                                System.out.println("Valor inválido. Intente otra vez.\n");
+		                                            }
+		                                        } catch (InputMismatchException ex) {
+		                                            System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente la opción\n");
+		                                            leer.nextLine();
+		                                        }
+		                                    }
+			                                if (entradaValida) {
+			                                    continue;
+			                                }
 									}
 									do {
 										entradaValida = false;
@@ -725,7 +744,28 @@ public class Ejecutable {
 										stock = admin.DisponibilidadStock(codigo); // Devuelve el stock disponible de
 																					// dicha autoparte
 										if (stock == 0) {
-											return;
+											while (true) {
+												try {
+												    System.out.print("¿Desea tratar con otra?[1-si][2-no]: ");
+												    int seguir = leer.nextInt();
+													if (seguir == 2) {
+													    return;
+													} else if (seguir == 1) {
+													    entradaValida = true;
+													    break;
+													} else {
+													    System.out.println("Valor inválido. Intente otra vez.\n");
+													}
+												} 
+												catch (InputMismatchException ex) {
+												    System.out.println("\nERROR --> Solo se aceptan números enteros, introduzca nuevamente la opción\n");
+												    leer.nextLine();
+												}
+											}
+											if (entradaValida) {
+											    continue;
+											}
+
 										} else {
 											// En caso de ingresar una cantidad superior al stock permite pedir
 											// nuevamente el dato sin la

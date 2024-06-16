@@ -537,7 +537,7 @@ public class Administrador {
 						System.out.println("La autoparte " + codigo + " dispone de un stock de " + stock + " unidades");
 						return stock;
 					} else {
-						System.out.println("La autoparte " + codigo + " no dispone de stock disponible");
+						System.out.println("La autoparte " + codigo + " no posee stock disponible");
 					}
 				} else {
 					existeAutoparte(codigo);
